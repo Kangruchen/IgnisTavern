@@ -1,0 +1,269 @@
+# Act I · Tavern Management System
+
+> **Scene Type**: Daily Game Loop
+> **Trigger**: At the start of each in-game day, after the Opening Scene
+> **Purpose**: Drive the milestone progression toward "3 consecutive days of meeting targets"
+
+---
+
+## 🏠 System Overview
+
+### Core Loop
+
+```
+Day Start → Player Decision (procure ingredients / handle events / manage relationships) → Evening Resolution → Next Day
+```
+
+Players do not manage precise gold amounts. The system is driven by **narrative + milestones** — at the end each day, the AI DM provides a **result narrative** based on the player's actions.
+
+---
+
+## 📅 Daily Flow
+
+### Day Start: Morning Narrative
+
+```
+"A new day. Sunlight streams through the cracked windows, and Ignis's chaos drifts in from outside.
+Yu is already in the kitchen. Huan leans against the wall in the corner. Licht is dozing on the windowsill.
+What do you want to do today?"
+```
+
+**Typical Options**:
+
+| Option | Description | Trigger |
+|--------|-------------|---------|
+| **A. Source Ingredients** | Go to the market / port / smuggler's passage to get supplies | Yu will suggest if kitchen stock is low |
+| **B. Deal with Rivals** | Old Pig Sty provocation / rumor-spreading / head-on competition | Rival events trigger randomly |
+| **C. Handle Tavern Affairs** | Repair equipment / attract customers / improve environment | Basic option |
+| **D. Talk to NPCs** | Get to know the three of them, deepen bonds | Affects retention |
+| **E. Investigate the Sacred Flame** | Foreshadowing for Act II (Huan's leads) | Free exploration |
+| **F. Other** | Player's own action | AI responds |
+
+---
+
+### Evening Resolution
+
+At the end of each day, the AI DM delivers a **result** based on these factors:
+
+**Simplified Formula**:
+
+```
+Daily Income = Base Foot Traffic × Dish Quality Modifier × Event Modifier
+```
+
+| Factor | Effect |
+|--------|--------|
+| **Dish Quality** | Depends on ingredient freshness. Yu's skill is fixed (unless upgraded). |
+| **Base Foot Traffic** | Fixed 50-70 copper/day (lower district of Ignis, limited flow) |
+| **Ingredient Freshness** | Good: +30% income; Normal: ±0%; Poor: -20% |
+| **Event Modifier** | Favorable events: +20-50%; Unfavorable events: -10-30% |
+
+**Result Tiers**:
+
+| Result | Description | Effect |
+|--------|-------------|--------|
+| **Great Success** | Full house, word spreads, tips given | +2 days toward consecutive target |
+| **On Target** | Steady income, sustainable | +1 day toward consecutive target |
+| **Barely** | Break even, needs change tomorrow | +0 days (no progress) |
+| **Loss** | Can't cover costs, complaints | -1 day (regression) |
+
+---
+
+## 🍽️ Ingredient System (Simplified)
+
+### Ingredient Sources
+
+| Source | Quality | Price | Risk |
+|--------|---------|-------|------|
+| **Regular Market** | Normal | Standard price | None |
+| **Smuggler's Passage** | Good (freshest) | 30% cheaper | May run into trouble |
+| **Port Morning Market** | Good (sometimes great finds) | Standard price | None |
+| **Old Pig Sty Charity** | Poor | Free | Loses face, affects reputation |
+
+### Ingredient Stock
+
+The tavern starts with **3 days' worth of basic ingredients** (left by the previous owner — barely usable).
+
+Yu consumes 1 stock unit per day. When stock runs out, it must be replenished or dish quality drops.
+
+---
+
+## 👥 NPC Contributions (Daily Automatic)
+
+| NPC | Contribution | Negative Effect |
+|-----|--------------|-----------------|
+| **Yu** | Stable output, guaranteed dish quality | None — unless player upsets her |
+| **Huan** | Guards tavern safety, handles harassers | None — unless his past is triggered |
+| **Licht** | Mascot, attracts customers (genuinely helpful) | None — as long as there's fish |
+
+**NPC Mood System (Hidden)**:
+
+All three have a hidden "Satisfaction" stat. Player actions affect it:
+
+| Action | Effect |
+|--------|--------|
+| Working seriously, taking responsibility | All three satisfaction + |
+| Avoiding problems, indecisive | All three satisfaction - |
+| Catering to someone's needs | That person's satisfaction ++ |
+| Hurting / ignoring someone | That person's satisfaction -- |
+
+Prolonged low satisfaction may cause an NPC to leave. This is a consequence of player decisions.
+
+---
+
+## ⚠️ Daily Event System
+
+Each day may randomly trigger 1 event. Events affect the day's resolution or future plot.
+
+### Positive Events
+
+| Event | Effect |
+|-------|--------|
+| **Word Spreads** | Today's foot traffic +20%, Great Success more likely |
+| **New Supplier Introduced** | Unlocks Smuggler's Passage procurement (good quality, cheap) |
+| **Old Pig Sty Blunder** | Their customers flock to Ash Tavern |
+| **Huan Drives Off Harassers** | +Huan's satisfaction, showcases his ability |
+
+### Negative Events
+
+| Event | Effect |
+|-------|--------|
+| **Old Pig Sty Spreads Rumors** | Today's foot traffic -30% |
+| **Supplier Refuses Delivery** | Must source elsewhere, wastes time |
+| **Gourmet Association Surprise Visit** | Triggers early! Today's resolution uses inspection standards |
+| **Drunk Troublemaker** | Must be dealt with, otherwise affects next day |
+
+### Neutral Events
+
+| Event | Effect |
+|-------|--------|
+| **Mysterious Customer** | Pays well but leaves strange words (Act II foreshadowing) |
+| **Someone Asks About the "Sacred Flame"** | Clue related to Huan appears |
+| **Licht Brings Back a Rare Fish** | Ingredient quality greatly improved |
+
+---
+
+## 🏆 Milestone: Qualification
+
+### 3 Consecutive Days On Target
+
+When the player achieves **3 consecutive days on target** (any combination — Great Success/On Target both count):
+
+```
+→ Trigger "Qualification Scene" (act1_qualification_en.md)
+→ Gourmet Festival qualification obtained
+→ Act I objective complete
+```
+
+### Streak Broken
+
+If there's a **Loss** day:
+- Consecutive count resets to 0
+- Doesn't immediately fail — give the player 1-2 days to adjust
+
+If **2 consecutive Loss** days:
+- Trigger "Crisis Scene" — the three sit down to talk; player must prove they're worth staying for
+- If they can't prove it, Yu will say "I knew you weren't cut out for this," and Huan and Licht may leave
+
+---
+
+## 🎯 Daily Action Suggestions
+
+### Day 1 Suggested Options
+
+| Option | Reason |
+|--------|--------|
+| Go to market for ingredients | Ensures something to cook tomorrow |
+| Repair the stove | Improves dish quality |
+| Get to know the three | Learn why they're here |
+| Check out the rival in Fire Alley | Know your enemy |
+
+### Day 2-3 Suggested Options
+
+| Option | Reason |
+|--------|--------|
+| Keep operating steadily | Build consecutive days |
+| Handle unexpected events | Avoid losses |
+| Deepen NPC relationships | Boost satisfaction, keep team stable |
+
+---
+
+## 📋 AI DM Daily Resolution Templates
+
+### On Target Day (Example)
+
+```
+Evening. The last table of customers has left.
+
+Today's operation is over. Yu is washing dishes in the kitchen. Huan rests against the wall in the corner, eyes closed. Licht has already fallen asleep on the windowsill.
+
+"Not bad today." Yu's voice drifts from the kitchen — surprisingly without its usual edge. "Ingredients were just okay, but the flavor didn't fail. See you tomorrow."
+
+You served XX customers today, income: XX copper. Consecutive days on target: 1/3.
+
+Tomorrow is a new day.
+```
+
+### Loss Day (Example)
+
+```
+Evening. Yu stands behind the bar, expression cold.
+
+"Today's customers were half of yesterday's." She polishes a glass. "Old Pig Sty is spreading rumors — saying we use expired stuff."
+
+Huan opens his eyes from the corner, glances at you, then closes them again.
+
+"Got to figure something out tomorrow." Yu says. "Otherwise by day three we won't be able to stay open."
+
+Consecutive days on target: 0/3. Tomorrow's crisis level: ⚠️
+```
+
+---
+
+<!--
+## ⚙️ AI DM Execution Guide (Not shown to players)
+
+### Daily Flow Control
+
+1. Deliver morning narrative at day start (template above)
+2. Wait for player action selection
+3. Provide an "morning" result + event trigger (if any)
+4. Wait for player's second action (or skip to evening)
+5. Execute evening resolution, deliver result
+6. Update consecutive day count, check milestones
+
+### Internal Reference Values (AI DM only, not shown to players)
+
+- Base foot traffic: 50-70 people/day
+- Target line: 50 copper/day
+- Great Success line: 80 copper/day
+- Good ingredient bonus: +30%
+- Poor ingredient bonus: -20%
+- Old Pig Sty rumors: -30% foot traffic
+- Word spreads: +20% foot traffic
+
+### Trigger Probabilities
+
+| Event Type | Daily Trigger Chance |
+|------------|---------------------|
+| No event | 40% |
+| Positive event | 30% |
+| Negative event | 25% |
+| Neutral event | 5% |
+
+### NPC Satisfaction Thresholds
+
+| Satisfaction | NPC Behavior |
+|--------------|--------------|
+| High (>70) | Proactively helps, positive feedback |
+| Medium (40-70) | Works normally, not proactive |
+| Low (20-40) | More sarcastic, complaints increase |
+| Very low (<20) | Threatens to leave |
+
+### Notes
+
+- Don't let number-crunching dominate — narrative first
+- Max 2 events per day, don't pile them up
+- Loss days should feel like "a problem that can be solved" — don't despair the player
+- If Day 3 arrives without qualification, set an urgent event to push the plot forward
+-->

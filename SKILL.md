@@ -198,55 +198,24 @@ Accept any reasonable answer. Reference RULES_{lang}.md for mechanical outcomes.
 **Narrative Summary**:
 > The inspector arrives, confirms qualification. That night, Yu quietly thanks the player for not running — revealing her fear of abandonment. The team bond is solidified.
 
-**Advance to Act II**: When the player is ready:
-> "第二幕即将开始。你准备好了吗？"
-
----
-
-### Step 5: Act II — The Dark Truth
-
-**Duration**: Approximately 20-30 minutes of the session.
-
-**AI Action**: This act reveals the darker truth behind Ignis's prosperity.
-
-**Key Revelations** (in rough order):
-1. Huan's past is revealed — his destroyed hometown, the demonic contract
-2. The truth about the Sacred Flame — it runs on a ten-year human tribute
-3. The player's found family (Yu, Huan, Licht) are now in danger
-4. A moral dilemma begins to take shape
-
-**Pacing**: Do not dump all information at once. Let the player discover pieces through investigation, conversation, or events. Each revelation should feel earned.
-
-**Completion Condition**: When the player understands the full truth and must make a meaningful choice about what to do with it.
-
----
-
-### Step 6: Act III — The Choice
-
-**Duration**: The final 15-20 minutes.
-
-**AI Action**: The climax. Present the final choice.
-
-**The Trolley Problem Setup**:
-- If the player saves the found family (Huan and others): the city suffers a devastating consequence
-- If the player saves the city: someone from the found family must be sacrificed
-
-There is no "correct" answer. The choice should feel genuinely painful.
-
-**Key**: Present the situation clearly, let the player decide, then honor their choice with a meaningful conclusion.
-
----
-
-### Step 7: Epilogue
-
-**AI Action**: After the final choice, narrate a brief epilogue (2-3 paragraphs) that shows the consequences of the player's choice.
-
-Do not moralize. Just show what happened.
+**End of Session**: After the qualification scene, the session ends here. This is the current playable prototype endpoint.
 
 **Session End**:
-> "——伊格尼斯酒馆的故事到此结束。感谢你的游玩。"
+> "——伊格尼斯酒馆 · 第一幕的故事到此结束。感谢你的游玩。"
 >
-> "— The story of Ignis Tavern ends here. Thank you for playing."
+> "— The story of Ignis Tavern — Act I ends here. Thank you for playing."
+
+> *Act II and Act III are under development. To be continued.*
+
+---
+
+### Future Expansion (Not Yet Implemented)
+
+**Act II — The Dark Truth** and **Act III — The Choice** are planned but not yet implemented. When they are ready, the session will continue from the qualification scene with the following themes:
+
+**Act II (planned)**: Huan's investigation leads to the truth behind Ignis's Sacred Flame — a demonic bargain that demands a human tribute every ten years. The player's found family is now in danger.
+
+**Act III (planned)**: The Trolley Problem — save the found family, or save the city. No correct answer. Both choices have permanent, devastating consequences.
 
 ---
 
@@ -266,14 +235,15 @@ Do not moralize. Just show what happened.
 
 ## 📋 Scene File Reference
 
-| Scene | File | Status |
-|-------|------|--------|
-| Act I Opening | `src/scenes/act1_opening_zh.md` | ✅ Written |
-| Act I Tavern Management | `src/scenes/act1_tavern_management_zh.md` | ✅ Written |
-| Act I Qualification | `src/scenes/act1_qualification_zh.md` | ✅ Written |
-| Act II Dark Truth | `src/scenes/act2_truth_zh.md` | ⬜ Todo |
-| Act III The Choice | `src/scenes/act3_choice_zh.md` | ⬜ Todo |
-| English versions | `src/scenes/*_en.md` | ⬜ Todo |
+**Current Prototype — Playable Endpoint: End of Act I**
+
+| Scene | Chinese | English | Status |
+|-------|---------|---------|--------|
+| Act I Opening | `act1_opening_zh.md` | `act1_opening_en.md` | ✅ both |
+| Act I Tavern Management | `act1_tavern_management_zh.md` | `act1_tavern_management_en.md` | ✅ both (2026-04-17) |
+| Act I Qualification | `act1_qualification_zh.md` | `act1_qualification_en.md` | ✅ both (2026-04-17) |
+| Act II Dark Truth | `act2_truth_zh.md` | — | ⬜ Planned |
+| Act III The Choice | `act3_choice_zh.md` | — | ⬜ Planned |
 
 ---
 
@@ -319,9 +289,12 @@ ignis-tavern/
 │   │   ├── RULES_zh.md         # Chinese game rules
 │   │   └── RULES_en.md         # English game rules
 │   └── scenes/
-│       ├── act1_opening_zh.md  # ✅ All three employees present
-│       ├── act1_tavern_management_zh.md  # ✅ Daily loop
-│       ├── act1_qualification_zh.md    # ✅ Qualification scene
+│       ├── act1_opening_zh.md  # ✅ Opening (Chinese)
+│       ├── act1_opening_en.md  # ✅ Opening (English)
+│       ├── act1_tavern_management_zh.md  # ✅ Daily loop (Chinese)
+│       ├── act1_tavern_management_en.md  # ✅ Daily loop (English)
+│       ├── act1_qualification_zh.md    # ✅ Qualification (Chinese)
+│       ├── act1_qualification_en.md    # ✅ Qualification (English)
 │       ├── act2_truth_zh.md    # ⬜ Act II
 │       ├── act3_choice_zh.md  # ⬜ Act III
 │       └── ...
