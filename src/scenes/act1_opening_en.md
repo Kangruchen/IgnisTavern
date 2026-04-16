@@ -96,79 +96,43 @@ It's asking: *Will you give me fish?*
 
 ---
 
-## 🎮 Player Action Node #1: Taste the Food & Respond
+## 🎮 Free Action Phase
 
-**AI DM Prompt**:
-> Yu has pushed the plate toward you. Huan is watching from the corner. Licht is waiting for fish. Please:
-> 1. Taste the dish and describe your reaction.
-> 2. Make an initial response to the three people in front of you (you may speak to one of them, or take an action).
+**AI DM Principle**: Do not prescribe the player's action order. Wait for the player to act, then react based on their behavior.
 
----
+**Opening Situation**:
+- Yu has pushed a plate of food toward you, waiting to see your reaction
+- Huan is silently observing from the corner
+- Licht is waiting for fish
 
-**About Tasting** (trigger if player hesitates):
-- Intelligence (INT) + Cooking check, DC 10
-- Success: You can taste something deeper — spicy but layered, masking the stale ingredients with skill
-- Failure: All you taste is spice. Nothing more.
+**Player Actions & Responses**:
 
----
+| Player Action | Yu's Response | Huan's Response | Licht's Response |
+|---------------|---------------|-----------------|-----------------|
+| **Taste the dish** | Softens slightly | Keeps watching | Keeps waiting |
+| **Talk to Yu** | Responds normally, sharp but not rude | Keeps watching | Keeps waiting |
+| **Walk up to Huan / talk to him** | Shrugs: "That guy..." | Brief reply, doesn't share background | Keeps waiting |
+| **Crouch down to look at / pet Licht** | Rolls eyes: "Don't ask me" | Nods slightly | Eyes light up, makes "garu" sound |
+| **Ignore everyone / look around** | Gets pricklier: "Hey, new boss...?" | Keeps silent, watching | Tilts head |
+| **Claim to be the boss** | Cold laugh: "Sure. First — tell me what you plan to do" | Glances up, sizing you up | Keeps waiting |
 
-**About Responding to the Three**:
-
-| Player's Response | Yu | Huan | Licht |
-|-------------------|-----|------|-------|
-| Focus on Yu / taste the food first | Softens slightly | Keeps watching | Keeps waiting for fish |
-| Focus on Huan / ask who he is | Shrugs: 「Just a hired hand.」 | Gives brief self-intro | Keeps waiting |
-| Focus on Licht / the fish | Rolls eyes: 「Don't ask me, it just followed us in.」 | Nods slightly | Eyes light up |
-| Show warmth/kindness | Expression eases a little | Eyes soften slightly | Makes a satisfied "garu" sound |
-| Show coldness/disinterest | Gets more prickly | Keeps silent, watching | Tilts head at you |
+**Important**: Do not dump full character backstories at once. Let Yu's sharp tongue flow naturally, Huan gives only brief replies, Licht communicates through actions. Character backgrounds unlock through play, not exposition.
 
 ---
 
-## 📜 Three Characters' Backgrounds
+## 📜 NPC Attitude Overview (Opening — This Is All the Player Gets Initially)
 
-**When the player asks "Why are you all here?", each responds:**
+**Yu**: In the kitchen, wary, not smiling, testing you with barbs. Her past is not volunteered — let it emerge through dialogue.
 
----
+**Huan**: Silent observer in the corner. Golden eyes mark him as non-human, but he doesn't talk much. If the player engages, give a brief reply.
 
-**Yu** (doesn't need to be asked — she starts talking on her own):
-
-**「The previous boss hired me and...」** She glances at Huan in the corner. **「...that guy. Said it was temporary work. Then the boss ran off. Still owes me wages.」**
-
-She wipes down a pan.
-
-**「Anyway, I got nowhere else to go. So I'm waiting.」**
-
-When she says "waiting," her eyes don't leave you — as if measuring whether you're worth following.
-
----
-
-**Huan** (only speaks if directly asked):
-
-Player asks: "Why are you here?"
-
-Huan is quiet for a moment.
-
-**「...Passing through. Looking for work. Paid, then I leave.」**
-
-He doesn't mention anything else. But his golden eyes flicker — scanning the tavern, and perhaps scanning something else.
-
----
-
-**Licht** (when the player pays attention to it):
-
-The player looks at Licht. Licht looks back.
-
-**「...Garu.」**
-
-It's being honest — it doesn't quite know why it's here either. The previous boss gave it shelter, and it stayed. The tavern is near the port, and ports have ships, and ships mean it can continue its journey.
-
-It's not in a hurry. The Goddess Fragment will guide it.
+**Licht**: Waiting for fish. If the player pays attention, it responds with "garu". Do not explain its mission upfront — that's Act II material.
 
 ---
 
 ## 📋 Tavern Status Briefing
 
-**After the player interacts with the three, Yu explains the situation:**
+**After the player has interacted with the three, Yu explains the situation:**
 
 ---
 

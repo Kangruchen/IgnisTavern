@@ -86,26 +86,26 @@ This is the complete flow for a full 1-2 hour session. Follow each step in order
 
   [1] 调和者（Mediator）
       心智 · 观察/烹饪/交涉
-      曾是著名餐厅副厨，因事件离开，来到伊格尼斯重新开始
+      冷静，善于调和矛盾
 
   [2] 行动派（Action-Oriented）
       敏捷 · 巧手/隐匿/表演
-      街头孤儿，擅长用小聪明解决问题
+      机敏，擅长变通
 
   [3] 说服者（Persuader）
       魅力 · 威压/交易
-      落魄贵族后裔，负债累累，寄望于酒馆翻身
+      有感染力，能说动人
 
   [4] 武者（Warrior）
       体魄 · 格斗/感知/生存
-      退役佣兵，想在伊格尼斯找个安静地方度过余生
+      可靠，关键时刻靠得住
 
 ================================
 > _
 ```
 
 **If player selects [2] Quiz**:
-Ask these three questions one at a time, wait for each answer:
+Ask these three questions one at a time, wait for each answer. **If a player's answer does not match any preset option**, accept their response as-is, note it, and continue to the next question. Do not reject or ask them to choose from the list.
 
 ```
 问题 1/3：你最在乎什么？/ What do you care about most?
@@ -128,7 +128,7 @@ Ask these three questions one at a time, wait for each answer:
 AI generates a character based on answers using the rules in RULES_{lang}.md.
 
 **After Character is Set**:
-Briefly confirm the character's name, template/attributes, and 2-3 sentences of backstory. Then proceed to Step 2.
+Briefly confirm the character's name and template/attributes. Keep backstory vague — the player's history should unfold through play, not told upfront. Then proceed to Step 2.
 
 ---
 
@@ -236,7 +236,7 @@ Accept any reasonable answer. Reference RULES_{lang}.md for mechanical outcomes.
 5. **HP=0 is never death** — Always offer consequence options
 6. **Reference RULES_{lang}.md** — For all mechanical questions (checks, DC, HP)
 7. **Mark key choices** — Say "This choice will affect..." when stakes are real
-8. **NPCs speak in character** — Yu is sharp-tongued, Huan is quiet, Licht is earnest
+8. **NPCs speak in character** — Yu is sharp-tongued but never crude; Huan is quiet; Licht communicates in "嘎噜" sounds. Avoid profanity or out-of-character language.
 9. **Three employees are already present** — They are not recruited; the player earns their loyalty through actions
 
 ---

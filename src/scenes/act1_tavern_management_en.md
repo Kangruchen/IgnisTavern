@@ -22,13 +22,23 @@ Players do not manage precise gold amounts. The system is driven by **narrative 
 
 ### Day Start: Morning Narrative
 
+AI DM delivers a morning narrative, then — based on the day's situation — gives the player a brief hint or suggestion before presenting the options menu.
+
+**Morning Narrative Template**:
 ```
 "A new day. Sunlight streams through the cracked windows, and Ignis's chaos drifts in from outside.
 Yu is already in the kitchen. Huan leans against the wall in the corner. Licht is dozing on the windowsill.
 What do you want to do today?"
 ```
 
-**Typical Options**:
+**Narrative Lead-In Principle**: Do not just dump the options menu. First, use 1-2 sentences to set up the situation based on the day's context.
+
+Example Lead-Ins:
+- When ingredients may be running low: 「Yu pokes her head out of the kitchen: "We're running low. Need to get fresh stuff today."」
+- When rivals are stirring something: 「Huan stands up from the corner: "Old Pig Sty is moving today."」
+- When nothing special is happening: 「Yu is busy in the kitchen. Huan is in his usual spot. Looks like an ordinary day.」
+
+**Typical Options** (presented after narrative lead-in):
 
 | Option | Description | Trigger |
 |--------|-------------|---------|
