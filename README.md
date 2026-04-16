@@ -13,7 +13,7 @@
 
 ### The Story
 
-Your tavern is failing. To save it, you must recruit three eccentric employees, discover the dark truth behind the city's prosperity, and ultimately face an impossible moral dilemma that will test the bonds of friendship itself.
+Your tavern is failing. Three eccentric employees are already here — on probation, deciding whether you're worth staying for. You must earn their trust, revive the business, discover the dark truth behind the city's prosperity, and ultimately face an impossible moral dilemma that will test the bonds of friendship itself.
 
 ### Features
 
@@ -27,7 +27,7 @@ Your tavern is failing. To save it, you must recruit three eccentric employees, 
 
 | Act | Theme | Synopsis |
 |-----|-------|----------|
-| **Act I** | Comedy / Slice-of-Life | Build your team, revive your tavern, qualify for the Sacred Flame Gourmet Festival |
+| **Act I** | Comedy / Slice-of-Life | Earn your team's loyalty, revive your tavern, qualify for the Sacred Flame Gourmet Festival |
 | **Act II** | Dark Revelation | Uncover that the city's prosperity is built on a demonic bargain |
 | **Act III** | Moral Climax | Face the Trolley Problem — save your family or save the city |
 
@@ -45,7 +45,7 @@ This is a 3-person project running over 1–2 weeks. The goal is a **playable pr
 
 ### 故事简介
 
-酒馆生意惨淡，为了拯救它，你必须招募三位古怪的"员工"，挖掘城市繁荣背后的黑暗真相，并最终面对一个考验友情羁绊的艰难抉择。
+酒馆生意惨淡。三位古怪的"员工"已经在酒馆里等着——他们在试用期，正在评估你这个新老板靠不靠谱。你必须赢得他们的信任，振兴酒馆，挖掘城市繁荣背后的黑暗真相，并最终面对一个考验友情羁绊的艰难抉择。
 
 ### 核心功能
 
@@ -59,7 +59,7 @@ This is a 3-person project running over 1–2 weeks. The goal is a **playable pr
 
 | 幕 | 主题 | 简介 |
 |----|------|------|
-| **第一幕** | 喜剧 / 日常 | 招募员工、振兴酒馆、获得圣焰美食大赏参赛资格 |
+| **第一幕** | 喜剧 / 日常 | 赢得员工信任、振兴酒馆、获得圣焰美食大赏参赛资格 |
 | **第二幕** | 黑暗真相 | 发现城市繁荣建立在恶魔交易之上 |
 | **第三幕** | 道德高潮 | 面对电车难题——救家人还是救城市 |
 
@@ -143,10 +143,44 @@ Language → Character Creation → Act I Management → Qualification
 | `src/prompts/` | AI DM 系统提示、世界设定、NPC 角色描述 |
 | `src/rules/` | 游戏规则（d20 检定、属性、职业等） |
 | `src/scenes/` | 各场景脚本（开场、经营、资格确认等） |
+| `src/scenes/shared/` | Act II/III 共享场景文件 |
+| `src/npc/` | NPC 深度对话和背景文件（开发中） |
 | `assets/` | 预留：图像生成模板 |
 | `scripts/` | 预留：辅助脚本 |
 
 **支持语言 Supported Languages：** 中文（Chinese）、English
+
+---
+
+## 项目状态 / Project Status
+
+### 第一幕（Playable）✅
+- 开场（中文/English）
+- 日经营系统（中文/English）
+- 资格确认场景（中文/English）
+
+### 第二幕 & 第三幕（开发中 / In Development）🔶
+- 部分场景文件已创建
+- 完整剧本进行中
+
+---
+
+## 核心机制 / Core Mechanics
+
+| 机制 | 说明 |
+|------|------|
+| **暗骰（Hidden Rolls）** | NPC 态度/声誉变化 DM 暗投，只通过行为表现传达 |
+| **角色亮点 XP** | 精彩 RP 行为奖励 XP，DM 主动宣布 |
+| **每日检定情境** | 讨价还价、立威、处理投诉等场景触发 d20 明骰 |
+| **NPC 满意度（隐性）** | 玩家行为影响满意度，低了 NPC 可能离开 |
+
+---
+
+## 安装路径 / Installation Path
+
+> ⚠️ 本项目使用 **workspace skill** 加载方式。
+> 安装路径：`~/.openclaw/workspace/skills/ignis-tavern/`
+> 而不是：`~/.openclaw/skills/ignis-tavern/`
 
 ---
 
@@ -165,6 +199,7 @@ ignis-tavern/
 │   │   ├── world_en.md    # World setting (English)
 │   │   └── characters/    # NPC profiles (per-character, per-language)
 │   ├── scenes/            # Scene modules (per-act, per-language)
+│   ├── scenes/shared/     # Act II/III shared scenes
 │   ├── schemas/           # Data format definitions
 │   └── rules/             # Game rules (RULES_zh.md, RULES_en.md)
 ├── assets/
