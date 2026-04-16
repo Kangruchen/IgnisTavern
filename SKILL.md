@@ -301,6 +301,15 @@ Accept any reasonable answer. Reference RULES_{lang}.md for mechanical outcomes.
 - Do NOT add a hint when: options are self-explanatory / player is actively engaging / the scene is tense and a hint would break immersion
 - Hints should be brief, not explanations
 
+**Pacing: scene doesn't move forward**:
+- Ask: has the scene's core purpose been established?
+  - Yes → stop waiting for more player input, advance to next meaningful event
+  - No → identify what's missing and create pressure to resolve it
+- Player's decision solved the current problem → describe result immediately, then move on
+- At end of each day: remind player of countdown ("大赏还有X天，需连续3天达标")
+- If player lingers too long in one place: apply time pressure (someone arrives / it's getting late / Huan says "该走了" / Licht gets hungry)
+- Guideline: each scene should advance the story in 1-2 exchanges, not stall indefinitely
+
 ---
 
 ## 📁 File Structure Reference
