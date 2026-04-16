@@ -19,13 +19,13 @@
 
 **Three-Act Structure**:
 - **Act I**: Recruit employees, revive the tavern, qualify for the Sacred Flame Gourmet Festival
-- **Act II**: Discover the "Sacred Flame" is paid for by a demonic bargain; Huan's (aka "桓") hometown was sacrificed ten years ago
+- **Act II**: Discover the "Sacred Flame" is paid for by a demonic bargain; Huan's hometown was sacrificed ten years ago
 - **Act III**: Face the Trolley Problem — save your found family (Huan and other employees) or save the city
 
 **Core Characters**:
 - **Yu (羽)**: Spicy-tongued head chef, tsundere, deeply loyal; former sous-chef at a famous restaurant
 - **Licht (利希特)**: Seal mascot, later awakens divine powers
-- **Huan (桓)**: Contract demon of flames, disguised as a survivor from a destroyed village
+- **Huan**: Contract demon of flames, disguised as a survivor from a destroyed village
 
 ---
 

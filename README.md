@@ -80,12 +80,14 @@ ignis-tavern/
 ├── LICENSE                # MIT License
 ├── src/
 │   ├── prompts/           # AI prompts & world-building
-│   │   ├── system.md      # DM system prompt
-│   │   ├── world.md       # World setting
-│   │   └── characters/    # NPC profiles
-│   ├── scenes/            # Pre-written scene modules
+│   │   ├── system_zh.md   # DM system prompt (Chinese)
+│   │   ├── system_en.md   # DM system prompt (English)
+│   │   ├── world_zh.md    # World setting (Chinese)
+│   │   ├── world_en.md    # World setting (English)
+│   │   └── characters/    # NPC profiles (per-character, per-language)
+│   ├── scenes/            # Scene modules (per-act, per-language)
 │   ├── schemas/           # Data format definitions
-│   └── rules/             # Game rules & dice system
+│   └── rules/             # Game rules (RULES_zh.md, RULES_en.md)
 ├── assets/
 │   ├── prompts/           # Image generation prompt templates
 │   └── examples/          # Example outputs

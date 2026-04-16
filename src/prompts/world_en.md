@@ -62,7 +62,7 @@ To qualify, you need:
 | **Sacred Flame Plaza** | Upper | City center, location of the Sacred Flame, annual festival site |
 | **Fire Lane Night Market** | Mid | Bustling night market, food paradise |
 | **Old Pig's Den** | Mid | The hottest competitor restaurant, arrogant and aggressive |
-| **Ash Street** | Lower | Where your tavern is, poor but with a unique江湖 flavor |
+| **Ash Street** | Lower | Where your tavern is, poor but with a unique underworld flavor |
 | **Smuggler's Passage** | Lower | Secret route to outside the city, controlled by a black-market gang |
 | **Demonic Rift Ruins** | Outside City | Where the tribute sacrifice took place ten years ago, now ruins |
 
