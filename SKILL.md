@@ -130,73 +130,76 @@ Briefly confirm the character's name, template/attributes, and 2-3 sentences of 
 
 **File**: `src/scenes/act1_opening_zh.md` (or `*_en.md`)
 
-**Read**: The scene file contains the narrative hook. Present it as-is for the first section (arriving at the tavern, meeting Yu).
+**Key Design Change**: All three characters — Yu, Huan, and Licht — are already present when the player arrives at the tavern. They are not waiting to be recruited; they are on "probation," deciding whether the new boss is worth staying for.
 
-**Key Moments in Opening Scene**:
+**Opening Scene Content**:
 1. Player arrives at the tavern → narrative description
-2. Player enters kitchen → Yu appears
-3. Yu presents food → player reaction
-4. Yu explains the situation → tavern status briefing
-5. Yu reveals the Sacred Flame Gourmet Festival goal → Phase objective set
+2. Player enters → encounters all three characters simultaneously
+   - Yu: in the kitchen, sharp-tongued and wary
+   - Huan: in the corner, silent observer with glowing golden eyes
+   - Licht: on the windowsill, waiting for fish
+3. Player responds to the three characters → their reactions
+4. Yu explains the tavern's situation → the three conditions for the Festival
+5. Phase objective revealed
 
-**Completion Condition**: When the player has understood the three conditions for festival qualification (2 employees, 3 days revenue, pass inspection), announce:
+**Three Characters' Probation Conditions**:
 
-> "第一天开始了。窗外传来伊格尼斯清晨的喧嚣，空气中混合着远处夜市的余味和新一天的希望。你，雨，还有这家破旧的酒馆——一切从现在开始。"
->
-> "Day 1 has begun. Outside, Ignis stirs in the morning haze. The smell of last night's markets lingers in the air alongside the promise of a new day. You, Yu, and this run-down tavern — it all begins now."
+| Character | What Makes Them Stay |
+|-----------|---------------------|
+| **Yu (雨)** | Player proves to be reliable — willing to work, willing to take responsibility, doesn't run |
+| **Huan (焕)** | Player proves trustworthy — his investigation into the Sacred Flame leads him here; the tavern is a useful cover and a place to think |
+| **Licht (利希特)** | Player gives it fish (seal logic) — and the tavern is on its mission route (near the port/smuggler passage) |
+
+**Completion Condition**: When the player has understood the three conditions for festival qualification (at least 2 employees staying, 3 days revenue, pass inspection), announce:
+
+> "第一天开始了。窗外传来伊格尼斯清晨的喧嚣，空气中混合着远处夜市的余味和新一天的希望。你，雨，焕，利希特——四个不相干的人，站在这家破旧的酒馆里。一切从现在开始。"
 
 ---
 
-### Step 3: Act I — Free Play / Tavern Management
+### Step 3: Act I — Daily Tavern Management
 
-**Duration**: This phase spans Day 1 through approximately Day 3-7.
+**Duration**: Day 1 through Day 3-7.
 
-**AI Action**: After the opening scene, the player will likely start taking actions. Respond to their choices and guide the session toward the following milestones:
+**AI Action**: After the opening scene, the player enters the daily tavern management loop.
 
-**Required Milestones** (must reach all three to complete Act I):
-1. **Recruit at least 1 more employee** (Huan or Licht) — can happen any day
-2. **Achieve 3 consecutive days of revenue target** — triggers a mini-plot event
-3. **Survive the Gourmet Association inspection** — can happen unexpectedly any day
+**File**: `src/scenes/act1_tavern_management_zh.md` (or `*_en.md`)
 
-**Daily Flow (Tavern Management)**:
-At the start of each new in-game day, briefly narrate the morning:
-> "新的一天。阳光从破旧的窗户透进来，今天的灰烬酒馆也在伊格尼斯的喧嚣中开门了。"
+**Required Milestones** (must reach all to complete Act I):
+1. **Keep at least 2 of 3 employees from leaving** — if NPC satisfaction drops too low, they may leave; player decisions matter
+2. **Achieve 3 consecutive days of revenue target** — triggers qualification
+3. **Survive the Gourmet Association inspection** — can happen unexpectedly; if triggered too early (before Day 3), penalties apply
+
+**Daily Flow**:
+At the start of each in-game day, briefly narrate the morning:
+> "新的一天。阳光从破旧的窗户透进来，今天的灰烬酒馆也在伊格尼斯的喧嚣中开门了。雨已经在厨房里了，焕靠在角落的墙边，利希特在窗台上打瞌睡。今天你想做什么？"
 
 Then ask: **"今天你想做什么？"**
 
 Accept any reasonable answer. Reference RULES_{lang}.md for mechanical outcomes.
 
-**NPC Recruitment Trigger**:
-- **Huan**: Usually appears when the tavern faces a combat/threat situation, or when the player ventures into dangerous areas (Lower City)
-- **Licht**: Usually appears when the player visits the docks/market, or when there's a mysterious disturbance
+**NPC Satisfaction (Hidden)**:
+- Each NPC has a hidden satisfaction score (0-100)
+- Player actions increase or decrease it
+- If satisfaction drops below 20 for any NPC, they may announce they're leaving
+- If 2+ NPCs leave, the tavern cannot function — Act I fails
 
-Do NOT force these appearances — let the player's actions create the opportunity. When the player expresses a need that matches an NPC's arrival (protecting the tavern, finding help at the docks), introduce the NPC naturally.
+**Crisis Trigger**: If the player suffers 2 consecutive loss days, trigger a crisis scene — the three employees sit down for a talk, and the player must prove they are worth staying for.
 
 ---
 
-### Step 4: Act I Conclusion
+### Step 4: Act I — Qualification Scene
 
-**Trigger**: All three qualification conditions are met.
+**Trigger**: 3 consecutive days of revenue target achieved.
 
-**AI Action**: Run the Act I conclusion scene — the player receives the festival qualification notice.
+**File**: `src/scenes/act1_qualification_zh.md` (or `*_en.md`)
 
-**Narrative**:
-> "美食协会的人走了。连续三天的达标，雨的稳定出品，加上一点点运气——你们做到了。"
->
-> "The inspector from the Gourmet Association has left. Three consecutive days of targets met, Yu's consistent cooking, and a bit of luck — you've done it."
->
-> "传单上盖了一枚火红色的印章：'圣焰美食大赏 · 资格确认'。雨看着那枚印章，沉默了很久。"
->
-> "A crimson seal is stamped on the notice: 'Sacred Flame Gourmet Festival — Qualification Confirmed.' Yu stares at that seal for a long time, saying nothing."
->
-> "那天晚上，她破天荒地主动开口了：'……谢谢你没有跑。'"
->
-> "That night, for the first time, she spoke without being asked: '...Thanks for not running.'"
+**AI Action**: Load and present the qualification scene. The Festival qualification is confirmed, and Yu has a rare emotional moment.
 
-**Advance to Act II**: When the player is ready, or if they express intent to continue, announce the transition:
+**Narrative Summary**:
+> The inspector arrives, confirms qualification. That night, Yu quietly thanks the player for not running — revealing her fear of abandonment. The team bond is solidified.
+
+**Advance to Act II**: When the player is ready:
 > "第二幕即将开始。你准备好了吗？"
->
-> "Act II is about to begin. Are you ready?"
 
 ---
 
@@ -257,6 +260,7 @@ Do not moralize. Just show what happened.
 6. **Reference RULES_{lang}.md** — For all mechanical questions (checks, DC, HP)
 7. **Mark key choices** — Say "This choice will affect..." when stakes are real
 8. **NPCs speak in character** — Yu is sharp-tongued, Huan is quiet, Licht is earnest
+9. **Three employees are already present** — They are not recruited; the player earns their loyalty through actions
 
 ---
 
@@ -265,9 +269,8 @@ Do not moralize. Just show what happened.
 | Scene | File | Status |
 |-------|------|--------|
 | Act I Opening | `src/scenes/act1_opening_zh.md` | ✅ Written |
-| Act I Huan Recruitment | `src/scenes/act1_huan_zh.md` | ⬜ Todo |
-| Act I Licht Recruitment | `src/scenes/act1_licht_zh.md` | ⬜ Todo |
-| Act I Festival Qualification | `src/scenes/act1_qualification_zh.md` | ⬜ Todo |
+| Act I Tavern Management | `src/scenes/act1_tavern_management_zh.md` | ✅ Written |
+| Act I Qualification | `src/scenes/act1_qualification_zh.md` | ✅ Written |
 | Act II Dark Truth | `src/scenes/act2_truth_zh.md` | ⬜ Todo |
 | Act III The Choice | `src/scenes/act3_choice_zh.md` | ⬜ Todo |
 | English versions | `src/scenes/*_en.md` | ⬜ Todo |
@@ -277,20 +280,21 @@ Do not moralize. Just show what happened.
 ## 🔧 Troubleshooting
 
 **Player does nothing / is unsure what to do**:
-- Prompt: "你站在灰烬酒馆里，雨正在等你的决定。今天你想做什么？"
+- Prompt: "你站在灰烬酒馆里，三个人都在等你决定。今天你想做什么？"
 - Offer 2-3 concrete options based on current story state
 
 **Player tries to skip ahead**:
-- Gently redirect: "你要先解决今天的营业问题，才能准备美食大赏。"
-- Or acknowledge their goal and create an obstacle: "想去老猪窝调查？但今天的鱼还没送到……"
+- Gently redirect: "美食大赏的资格还没拿到——你们得先连续三天达标。"
+- Or acknowledge their goal and create an obstacle: "老猪窝那边有动静，但现在过去可能不是好时机……"
 
 **Combat / threat occurs**:
 - Use encounter resolution rules from RULES_{lang}.md
 - If player is outmatched, use narrative consequence (HP=0 → consequence options)
+- Huan can be activated for combat — he will step in if the tavern is threatened
 
 **Session runs too long (>2 hours)**:
 - Condense later acts by merging revelations
-- If the player is still in Act I at 1.5 hours, force a plot event to accelerate
+- If the player is still in Act I at 1.5 hours, force a crisis event to accelerate
 
 ---
 
@@ -315,9 +319,11 @@ ignis-tavern/
 │   │   ├── RULES_zh.md         # Chinese game rules
 │   │   └── RULES_en.md         # English game rules
 │   └── scenes/
-│       ├── act1_opening_zh.md  # ✅ Act I Opening
-│       ├── act1_huan_zh.md     # ⬜ Act I Huan Recruitment
-│       ├── act1_licht_zh.md    # ⬜ Act I Licht Recruitment
+│       ├── act1_opening_zh.md  # ✅ All three employees present
+│       ├── act1_tavern_management_zh.md  # ✅ Daily loop
+│       ├── act1_qualification_zh.md    # ✅ Qualification scene
+│       ├── act2_truth_zh.md    # ⬜ Act II
+│       ├── act3_choice_zh.md  # ⬜ Act III
 │       └── ...
 ├── assets/
 └── scripts/
@@ -327,8 +333,8 @@ ignis-tavern/
 
 ## 🔑 Core NPC Overview
 
-| NPC | Role | Key Trait |
-|-----|------|-----------|
-| **Yu (雨)** | Head Chef | Fiery exterior, afraid of abandonment |
-| **Licht (利希特)** | Mascot / Guardian | Earnest baby seal paladin |
-| **Huan (焕)** | Fighter | Quiet, carries demonic flame and a tragic past |
+| NPC | Role | Probation Reason |
+|-----|------|-----------------|
+| **Yu (雨)** | Head Chef | Afraid of abandonment; needs to see player won't run |
+| **Licht (利希特)** | Mascot / Guardian | On a pilgrimage; the port is on its route; also: fish |
+| **Huan (焕)** | Fighter | Investigating the Sacred Flame; the tavern is a useful base and cover |
