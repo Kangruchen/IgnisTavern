@@ -161,7 +161,7 @@ Entire scenario distributes approximately **10-12 XP points** across two phases:
 
 | Phase | Available XP | Timing |
 |-------|-------------|--------|
-| **Act I** | 4-5 XP | Tavern management, recruiting employees |
+| **Act I** | 4-5 XP | Tavern management, retaining employees |
 | **Act II/III** | 5-7 XP | Story choices, key confrontations |
 
 ### 5.2 XP Rewards
@@ -259,7 +259,7 @@ His expression shifts from polite smile to surprise, then to rapture.
 | Time | Content | Objective |
 |------|---------|-----------|
 | 0-10 min | Opening & Motivation Setup | Player understands "what am I doing" |
-| 10-40 min | Act I: Tavern Management + Recruitment | Complete 2-3 NPC interactions |
+| 10-40 min | Act I: Tavern Management + Retention | Complete 2-3 NPC interactions |
 | 40-70 min | Act II: Truth Revealed | 1-2 key choice points |
 | 70-100 min | Act III: Climactic Confrontation | 1-2 encounter resolutions |
 | 100-120 min | Epilogue | Player agency, leave them with something to ponder |

@@ -39,7 +39,7 @@ The **Sacred Flame Gourmet Festival** is Ignis's most important annual event. Re
 If The Embers can qualify, it could become famous overnight and escape its doomed fate.
 
 To qualify, you need:
-1. At least 2 recruited employees
+1. At least 2 employees staying
 2. Three consecutive days of meeting revenue targets
 3. Pass the Gourmet Association's secret inspection
 
@@ -70,9 +70,9 @@ To qualify, you need:
 
 ## 🕐 Timeline
 
-- **Day 1**: Tavern operations begin, meet Yu
-- **Day 2**: Recruit Licht and Huan, Gourmet Association secret inspection
-- **Day 3**: Festival preliminary round
+- **Day 1**: Opening — all three characters meet, tavern operations begin
+- **Day 2**: Gourmet Association inspection, Old Pig's Den confrontation
+- **Day 3**: Festival preliminary round (if targets met)
 - **Day 7** (if continued): Festival finals + Act II revelation
 - **Day 14** (if continued): Act III · The Choice
 

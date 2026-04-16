@@ -18,7 +18,7 @@
 **Ignis** — The City of Flames, a massive neutral city-state famous for its endless culinary delights, thriving night markets, and the eternal "Sacred Flame" that never goes out. Your tavern, "The Embers," is located in the city's lower district, struggling and on the brink of collapse.
 
 **Three-Act Structure**:
-- **Act I**: Recruit employees, revive the tavern, qualify for the Sacred Flame Gourmet Festival
+- **Act I**: Retain employees, revive the tavern, qualify for the Sacred Flame Gourmet Festival
 - **Act II**: Discover the "Sacred Flame" is paid for by a demonic bargain; Huan's hometown was sacrificed ten years ago
 - **Act III**: Face the Trolley Problem — save your found family (Huan and other employees) or save the city
 
