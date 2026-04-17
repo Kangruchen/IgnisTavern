@@ -1,0 +1,112 @@
+# Act III · Opening — Night of Decision
+
+> **Scene Type**: Story setup + character statements
+> **Estimated Duration**: 10-15 minutes
+> **Purpose**: Build tension for final choice, each character states their position
+
+---
+
+## Scene Overview
+
+**Time**: After Act II truth revealed, night before the sacrifice ritual
+**Location**: Inside The Embers tavern
+**Atmosphere**: Heavy, tense, but with warmth of bonds
+
+---
+
+## Late Night Meeting
+
+After closing, the four of you sit around the only intact table. The oil lamp flickers, casting shadows on each face.
+
+Outside, Ignis sleeps, but from the direction of Sacred Flame Plaza, strange red light glows.
+
+**Yu** breaks the silence:
+
+「So. The ritual is tomorrow. What... what are we going to do?」
+
+She looks at each of you, voice trembling:
+
+「I know Huan wants revenge. I know the new boss wants to protect us. But I just need to know — this time, will someone stay? Or... will I be left alone again?」
+
+---
+
+## Huan's Statement
+
+**Huan** keeps his head down, blue-green markings on his left hand glowing faintly.
+
+「...My hometown. Ten years ago. 137 people. Nobody asked if they were willing.」
+
+He looks up, golden eyes meeting yours:
+
+「But if I take revenge... you'll all be implicated. Become fugitives. Running for life.」
+
+He pauses, voice lower:
+
+「I already... don't want to lose family again.」
+
+---
+
+## Licht's Statement
+
+**Licht** holds his fish bag, unusually quiet.
+
+Then he says:
+
+「I sense the abyss. It... it's calling to me. Like returning to long ago.」
+
+He looks at you, eyes complex:
+
+「My sword can seal it. But after sealing... I don't know what will happen.」
+
+He looks down at the fish bag, then up:
+
+「But I'm bringing the fish bag. Whatever happens.」
+
+---
+
+## Player Choice Node
+
+**Yu looks at you, waiting for your decision.**
+
+**Q: What will you do?**
+
+1. **「We run. Leave Ignis, start somewhere else.」**
+   - Enter 【Save Family Route】
+   - Yu: 「...Running again. But this time, someone comes with me.」
+   - Huan: 「...Good. At least you'll survive.」
+   - Licht: 「Fish bag is already packed.」
+
+2. **「We stop the ritual. Can't let them kill again.」**
+   - Enter 【Save City Route】
+   - Huan: 「...You'll help me take revenge?」
+   - Yu: 「Too dangerous! But if this is your decision... I support it.」
+   - Licht: 「My sword will help. But don't expect me to share fish.」
+
+3. **(Hidden option, requires conditions)「There must be another way...」**
+   - Enter 【Hidden Ending Check】
+   - Licht suddenly freezes: 「...Someone is speaking.」
+
+---
+
+## Hidden Option Unlock Conditions
+
+**Auto-check**:
+- Consistent positive choices throughout ✅
+- Licht affection high ✅ (accumulated through friendly interactions)
+- Intelligence ≥ 15 ✅
+
+**Unlocked bonus dialogue**:
+
+Licht's eyes glow golden.
+
+「...Someone is speaking. It's... the Goddess?」
+
+**Supreme Goddess's Voice** (through Licht):
+
+「Child... I have been eroded by the abyss... this is my final blessing...」
+
+**New option appears**: Accept blessing, seek the fourth path.
+
+---
+
+*Last Updated: 2026-04-17*
