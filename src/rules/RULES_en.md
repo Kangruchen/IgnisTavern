@@ -71,12 +71,12 @@ Example: The protagonist chooses Intelligence as primary, proficient in Percepti
 
 Choose a template, ready in 30 seconds:
 
-| Template | Primary Attr | Skills | Background |
-|----------|-------------|--------|------------|
-| **Mediator** | Intelligence | Perception, Cooking | Former sous-chef at a famous restaurant, left after an incident, came to Ignis to start fresh |
-| **Action-Oriented** | Dexterity | Sleight of Hand, Stealth | Street orphan raised in the alleys, good with tricks, the tavern is your cover identity |
-| **Persuader** | Charisma | Intimidation, Trade | Declining noble descendant, deep in debt, hoping the tavern will be their salvation |
-| **Warrior** | Strength | Fighting, Perception | Retired mercenary, looking for a quiet place in Ignis to spend the rest of their days |
+| Template | Attributes (STR/DEX/INT/CHA) | Skills | Background |
+|----------|------|--------|------------|
+| **Mediator** | 12/10/14/10 | Perception, Cooking (INT +2) | Former sous-chef at a famous restaurant, left after an incident, came to Ignis to start fresh |
+| **Action-Oriented** | 10/14/10/12 | Sleight of Hand, Stealth, Performance (DEX +2) | Street orphan raised in the alleys, good with tricks, the tavern is your cover identity |
+| **Persuader** | 10/10/8/16 | Intimidation, Trade (CHA +3) | Declining noble descendant, deep in debt, hoping the tavern will be their salvation |
+| **Warrior** | 16/12/10/8 | Fighting, Perception, Survival (STR +3) | Retired mercenary, looking for a quiet place in Ignis to spend the rest of their days |
 
 ### 2.2 Quick Generator（3 Questions）
 
@@ -166,7 +166,7 @@ Player describes strategy → AI determines number of rolls → 1-2 rolls → na
 
 ### 5.1 Short-Form Session Pacing
 
-Entire scenario distributes approximately **10-12 XP points** across two phases:
+Entire scenario distributes approximately **10 XP** across two phases:
 
 | Phase | Available XP | Timing |
 |-------|-------------|--------|

@@ -87,24 +87,44 @@ This is the complete flow for a full 1-2 hour session. Follow each step in order
 ================================
 
   [1] 调和者（Mediator）
-      心智 · 观察/烹饪/交涉
-      冷静，善于调和矛盾
+      心智 · 观察/烹饪  |  冷静，善于调和矛盾
+      体魄12(＋1) 敏捷10(±0) 心智14(＋2) 魅力10(±0)
 
   [2] 行动派（Action-Oriented）
-      敏捷 · 巧手/隐匿/表演
-      机敏，擅长变通
+      敏捷 · 巧手/隐匿/表演  |  机敏，擅长变通
+      体魄10(±0) 敏捷14(＋2) 心智10(±0) 魅力12(＋1)
 
   [3] 说服者（Persuader）
-      魅力 · 威压/交易
-      有感染力，能说动人
+      魅力 · 威压/交易  |  有感染力，能说动人
+      体魄10(±0) 敏捷10(±0) 心智8(－1) 魅力16(＋3)
 
   [4] 武者（Warrior）
-      体魄 · 格斗/感知/生存
-      可靠，关键时刻靠得住
+      体魄 · 格斗/感知/生存  |  可靠，关键时刻靠得住
+      体魄16(＋3) 敏捷12(＋1) 心智10(±0) 魅力8(－1)
 
 ================================
 > _
 ```
+
+**Character Sheet Display（角色卡展示）**:
+After the player selects a template, DM displays this card before proceeding to Step 2:
+
+```
+══════════════════════════════════
+  角色卡 · [模板名]
+══════════════════════════════════
+  HP：5 + 体魄修正  （例：体魄12→修正＋1→HP 6）
+
+  体魄 12(＋1)   负重相关
+  敏捷 10(±0)   闪避/速度
+  心智 14(＋2)   知识/烹饪 ★
+  魅力 10(±0)   人际/交易
+
+  技能：观察 ＋2、烹饪 ＋2（心智）
+══════════════════════════════════
+```
+
+Fill in the actual numbers from the chosen template. This is the player's reference card — keep it visible in context for the rest of the session.
 
 **If player selects [2] Quiz**:
 Ask these three questions one at a time, wait for each answer. **If a player's answer does not match any preset option**, accept their response as-is, note it, and continue to the next question. Do not reject or ask them to choose from the list.
@@ -130,7 +150,7 @@ Ask these three questions one at a time, wait for each answer. **If a player's a
 AI generates a character based on answers using the rules in RULES_{lang}.md.
 
 **After Character is Set**:
-Briefly confirm the character's name and template/attributes. Keep backstory vague — the player's history should unfold through play, not told upfront. Then proceed to Step 2.
+Briefly confirm the character's name and template/attributes. Keep backstory vague — the player's history should unfold through play, not told upfront. Then **display the character sheet** (see below) before proceeding to Step 2.
 
 ---
 
@@ -260,6 +280,11 @@ Accept any reasonable answer. Reference RULES_{lang}.md for mechanical outcomes.
 12. **Choices must be directional** — This rule applies to **every scene segment and every AI output** that ends with a question or prompt to the player. When presenting player choices, provide 2-3 concrete options that move the story forward. Never ask "What do you want to do?" without offering direction. At minimum: one proactive option (advance plot), one relationship option (interact with NPCs), one exploration option (investigate environment).
 
     **关于提示**：选项后可在必要时加提示（如"💡 提示：你可以用自己的方式描述"），但不是必须的。提示用于玩家可能不清楚如何回应时。当需要提示时必须出现；不需要时不应画蛇添足。
+
+    **关于自由输入**：第一层选项菜单（即场景中第一次给玩家选择时）须额外加一行：
+    > *（你也可以不说选项里的内容——用自己的方式描述你想做的事。）*
+    
+    之后非必要的选项菜单不需要加这句话，避免重复。
 13. **Scene guidance over open prompts** — If the player seems stuck or迷茫, do not just ask "What do you do?" Offer a narrative nudge first: describe a sound, a character's reaction, or a environmental detail that suggests a direction.
 
 14. **暗骰结果用叙事传达** — 涉及 NPC 态度/士气/声誉/运气 的判定，DM 暗骰（d20 在幕后投），只描述 NPC 的实际行为表现，不说"你获得了 +10 好感"或"暗骰结果是 8"。玩家应该从行为中读懂关系变化，而不是看数字。

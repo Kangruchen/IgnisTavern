@@ -18,17 +18,23 @@ Players do not manage precise gold amounts. The system is driven by **narrative 
 
 ---
 
-## 📅 Daily Flow
+## 📅 Daily Flow (Three Phases)
 
-### Day Start: Morning Narrative
+### Phase 1: Morning (Player's First Major Decision)
 
 AI DM delivers a morning narrative, then — based on the day's situation — gives the player a brief hint or suggestion before presenting the options menu.
 
-**Morning Narrative Template**:
+**Morning Narrative Template** (Day 1, use descriptive titles):
 ```
 "A new day. Sunlight streams through the cracked windows, and Ignis's chaos drifts in from outside.
-Yu is already in the kitchen. Huan leans against the wall in the corner. Licht is dozing on the windowsill.
-What do you want to do today?"
+The one in the kitchen is already at the stove. A silent figure leans against the wall in the corner.
+Something on the windowsill is dozing. What do you want to do today?"
+```
+
+**Morning Narrative Template** (Day 2+, use names):
+```
+"A new day. Yu is already in the kitchen. Huan leans against the wall in the corner, dozing.
+Licht has curled up on the windowsill. What do you want to do today?"
 ```
 
 **Narrative Lead-In Principle**: Do not just dump the options menu. First, use 1-2 sentences to set up the situation based on the day's context.
@@ -38,7 +44,7 @@ Example Lead-Ins:
 - When rivals are stirring something: 「Huan stands up from the corner: "Old Pig Sty is moving today."」
 - When nothing special is happening: 「Yu is busy in the kitchen. Huan is in his usual spot. Looks like an ordinary day.」
 
-**Typical Options** (presented after narrative lead-in):
+**Typical Options** (presented after narrative lead-in; first-phase options must include free input hint):
 
 | Option | Description | Trigger |
 |--------|-------------|---------|
@@ -48,6 +54,42 @@ Example Lead-Ins:
 | **D. Talk to NPCs** | Get to know the three of them, deepen bonds | Affects retention |
 | **E. Investigate the Sacred Flame** | Foreshadowing for Act II (Huan's leads) | Free exploration |
 | **F. Other** | Player's own action | AI responds |
+
+> *（You can also do something not listed — describe your own action freely.）*
+
+---
+
+### Phase 2: Afternoon (Optional — Player's Second Decision or Skip)
+
+After the morning action resolves, transition to afternoon:
+```
+"Time moves fast. The sun is already tilting westward, and the tavern hasn't opened for business yet.
+Afternoon light filters through the windows. Yu is checking the ingredients.
+Huan stepped out earlier and hasn't come back yet."
+```
+
+**Afternoon Options**:
+- If the morning action was something worth pursuing further → follow that thread
+- If there's something from the morning left undone → handle it now
+- If the player wants to skip → jump to evening
+
+```
+> What do you want to do in the afternoon?
+>
+> [1] Continue the morning's business (go deeper)
+> [2] Do something else
+> [3] Skip — get the tavern ready for the evening
+>
+> *（You can also do something not listed — describe your own action.）*
+```
+
+**Skip Rule**: If the player selects [3] or describes "open for business," DM advances directly to evening resolution. Two decisions per day are not required.
+
+---
+
+### Phase 3: Evening — Night Resolution
+
+The tavern opens for business. DM briefly describes the evening (1-2 sentences), then delivers the resolution result.
 
 ---
 
@@ -123,7 +165,12 @@ Prolonged low satisfaction may cause an NPC to leave. This is a consequence of p
 
 ## ⚠️ Daily Event System
 
-Each day may randomly trigger 1 event. Events affect the day's resolution or future plot.
+Each day, the DM decides subjectively whether to trigger an event (0-1 per day). Do not roll on a probability table.
+
+**DM Decision Guidelines**:
+- Player did something worthy of reward/punishment → add an event
+- The day feels too quiet / nothing happened for a while → add a neutral/positive event to mix things up
+- Player has had two quiet days in a row → add an event on day three
 
 ### Positive Events
 
@@ -251,15 +298,6 @@ Consecutive days on target: 0/3. Tomorrow's crisis level: ⚠️
 - Poor ingredient bonus: -20%
 - Old Pig Sty rumors: -30% foot traffic
 - Word spreads: +20% foot traffic
-
-### Trigger Probabilities
-
-| Event Type | Daily Trigger Chance |
-|------------|---------------------|
-| No event | 40% |
-| Positive event | 30% |
-| Negative event | 25% |
-| Neutral event | 5% |
 
 ### NPC Satisfaction Thresholds
 

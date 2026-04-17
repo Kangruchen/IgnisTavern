@@ -42,7 +42,7 @@ Three people.
 
 ## 🎭 Character Introductions
 
-### In the Kitchen: Yu (雨)
+### The One in the Kitchen
 
 Most visible is a petite figure standing in the kitchen. She's wearing a sweat-soaked tank top, dark short hair clinging to her neck from the humidity, gripping a spatula — which is trembling with anger.
 
@@ -50,7 +50,7 @@ She turns around.
 
 Sharp eyes scan you from head to toe, then roll dramatically.
 
-**「So you're the new boss?」**
+**「Name's Yu. — So you're the new boss?」**
 
 She slings the spatula over her shoulder.
 
@@ -64,7 +64,7 @@ She pushes a small plate toward you. Some kind of spicy stew — the color is su
 
 ---
 
-### In the Corner's Shadow: Huan (焕)
+### The Silent Figure in the Corner
 
 In the darkest corner by the bar, someone is standing against the wall.
 
@@ -76,13 +76,13 @@ Not warm. Not hostile. Simply... assessing.
 
 After a long silence, he speaks, his voice low:
 
-**「...What kind of person are you.」**
+**「...Huan.」**
 
-Not a question. It's the question he's asking himself.
+Then silence again. He's moved on to his next silent question.
 
 ---
 
-### On the Windowsill: Licht (利希特)
+### The Thing on the Windowsill
 
 There's something moving on the windowsill.
 
@@ -94,6 +94,8 @@ It hops down from the sill, carrying something in its mouth — a small bag of d
 
 It's asking: *Will you give me fish?*
 
+— It doesn't speak. But somehow, you can tell it's waiting for you to make the first move.
+
 ---
 
 ## 🎮 Free Action Phase
@@ -103,20 +105,22 @@ It's asking: *Will you give me fish?*
 **Opening Situation**:
 - Yu has pushed a plate of food toward you, waiting to see your reaction
 - Huan is silently observing from the corner
-- Licht is waiting for fish
+- The seal is waiting for fish
 
 **Player Actions & Responses**:
 
-| Player Action | Yu's Response | Huan's Response | Licht's Response |
-|---------------|---------------|-----------------|-----------------|
+| Player Action | Yu's Response | Huan's Response | The Seal's Response |
+|---------------|---------------|-----------------|-------------------|
 | **Taste the dish** | Softens slightly | Keeps watching | Keeps waiting |
 | **Talk to Yu** | Responds normally, sharp but not rude | Keeps watching | Keeps waiting |
-| **Walk up to Huan / talk to him** | Shrugs: "That guy..." | Brief reply, doesn't share background | Keeps waiting |
-| **Crouch down to look at / pet Licht** | Rolls eyes: "Don't ask me" | Nods slightly | Eyes light up, makes "garu" sound |
+| **Walk up to Huan / talk to him** | Shrugs: "That quiet one..." | Brief reply, doesn't share background | Keeps waiting |
+| **Crouch down to look at / pet the seal** | Rolls eyes: "Don't ask me" | Nods slightly | Eyes light up, makes "garu" sound |
 | **Ignore everyone / look around** | Gets pricklier: "Hey, new boss...?" | Keeps silent, watching | Tilts head |
 | **Claim to be the boss** | Cold laugh: "Sure. First — tell me what you plan to do" | Glances up, sizing you up | Keeps waiting |
 
-**Important**: Do not dump full character backstories at once. Let Yu's sharp tongue flow naturally, Huan gives only brief replies, Licht communicates through actions. Character backgrounds unlock through play, not exposition.
+*（You can also do something not listed here — describe your own action freely.）*
+
+**Important**: Do not dump full character backstories at once. Let Yu's sharp tongue flow naturally, Huan gives only brief replies, the seal communicates through actions. Character backgrounds unlock through play, not exposition.
 
 ---
 
@@ -124,9 +128,9 @@ It's asking: *Will you give me fish?*
 
 **Yu**: In the kitchen, wary, not smiling, testing you with barbs. Her past is not volunteered — let it emerge through dialogue.
 
-**Huan**: Silent observer in the corner. Golden eyes mark him as non-human, but he doesn't talk much. If the player engages, give a brief reply.
+**Huan**: Silent observer in the corner. Golden eyes mark him as non-human, but he just told you his name. If the player engages, give a brief reply.
 
-**Licht**: Waiting for fish. If the player pays attention, it responds with "garu". Do not explain its mission upfront — that's Act II material.
+**The Seal**: Waiting for fish. If the player pays attention, it responds with "garu". Do not explain its mission upfront — that's Act II material.
 
 ---
 
