@@ -1,89 +1,169 @@
-# 利希特（Licht）/ Act II 对话片段
+# Licht / Act II Dialogue Scenes
 
-> **负责人**：组员 B
-> **文件路径**：`src/npc/licht/dialogue/act2_licht_sense.md`
-> **说明**：填写利希特在 Act II 感知到异常时的行为和对话
-
----
-
-## 事件 1：利希特感知到"不洁"的气息
-
-**触发条件**：焕开始调查圣焰时
-
-**利希特的行为描述**：
-
-```
-（填写：利希特开始烦躁/竖起身体/发出不同于"嘎噜"的声音）
-
-它的金色眼睛——平时总是半闭的——突然完全睁开了。
-
-「……嘎噜？」
-
-它的方向：圣焰的方向。
-
-（填写：利希特感知到的内容——它能感知到深渊的气息吗？它的族人与圣焰有什么关系？）
-```
+> **Character**: Licht (利希特)
+> **File Path**: `src/npc/licht/dialogue/act2_licht_sense.md`
+> **Description**: Licht senses demonic anomalies and reveals more about his mission
 
 ---
 
-## 事件 2：利希特的背景揭示
+## Scene 1: Licht Senses the "Unclean"
 
-**触发条件**：玩家与利希特互动时
+**Trigger**: When Huan begins investigating the Sacred Flame
 
-**利希特的"嘎噜"含义对照表**：
+**Narrative**:
 
-| 利希特的行为 | 含义 |
-|-------------|------|
-| 「嘎噜」（正常音调）| 一般回应/等待鱼 |
-| 「嘎噜？」（高音）| 好奇/注意到异常 |
-| 「嘎噜……」（拖长）| 担忧/不安 |
-| 「嘎噜！！」（重音）| 强烈反应/感知到危险 |
-| （不发声，用眼睛看）| 它在观察/评估 |
+Licht is curled on his usual windowsill, clutching his fish bag. His soft brown fluffy fur catches the morning light. Normally one eye is half-closed, drowsy — but suddenly, both eyes snap open.
 
-**背景线索**（由组员 B 填写）：
+The holy sword on his back quivers slightly.
 
-```
-（填写：利希特族人的使命是什么？寻找"女神碎片"的具体含义？它为什么能感知到深渊？）
-```
+**Licht**: *「...Something's wrong.」*
 
----
+He slides down from the sill, landing with surprising grace for someone so round and fluffy. His nose twitches.
 
-## 事件 3：利希特在美食协会暗访时的反应
+**Licht**: *「That direction. The big flame in the city center. It smells... old. And hungry.」*
 
-**触发条件**：协会试探时
+He turns to look at you, golden eyes sharp and serious.
 
-**利希特的行为描述**：
+**Licht**: *「I know that smell. It's from the deep places. Places my people don't go.」*
 
-```
-（填写：利希特对协会来人的反应——它能感知到协会背后的"守焰者"气息吗？）
-```
+He clutches his fish bag tighter, as if reassuring himself it's still there.
+
+**Licht**: *「Whatever your quiet friend is looking into — tell him to be careful. Things that smell like that don't play fair. And they definitely don't share.」*
+
+*(He pauses, glancing at his fish bag)*
+
+**Licht**: *「Not that I would know anything about not sharing.」*
 
 ---
 
-## 事件 4：利希特感知到焕的火焰
+## Scene 2: Licht's Background Revealed
 
-**触发条件**：焕的契约之火有所动作时
+**Trigger**: When player actively engages Licht about what he sensed
 
-**利希特的反应**：
+**Licht's Story**:
 
-```
-（填写：利希特对焕手上蓝绿色纹路的反应——它的神圣力量与焕的契约之火有什么共鸣或冲突？）
-```
+He settles onto the floor, sitting upright like a small, fluffy sentinel. The holy sword shifts on his back.
+
+**Licht**: *「My people serve the Deep Sea Goddess. Or what's left of her.」*
+
+**Licht**: *「She used to protect the depths — all the cold, dark, pressure places. But something happened. A long time ago.」*
+
+He looks toward the window, toward the direction of the Sacred Flame.
+
+**Licht**: *「The Goddess scattered herself. Fragments. To hide from something that was eating the world from below.」*
+
+**Licht**: *「I found this sword in a cave. It chose me — not because I was strong, but because I was... fitting.」*
+
+He tilts his head, brown fluffy fur ruffling.
+
+**Licht**: *「My job is to find the fragments before the wrong things do. Protect them. Seal them, if necessary.」*
+
+**Licht**: *「That flame out there? It's not holy. It's not even fire. It's something wearing fire like a mask. And masks always hide something.」*
 
 ---
 
-## Act II 结局：利希特的决定
+## Scene 3: Licht During the Gourmet Association Investigation
 
-**触发条件**：第二幕尾声，玩家做出选择前
+**Trigger**: When Association inspectors visit the tavern
 
-**利希特的行为**：
+**Narrative**:
 
-```
-（填写：利希特如何表达"我也要保护你们"——用它的方式）
-它不说话，但它的眼睛完全睁开了。
-它站在桌子中央，身体微微发光。
+Two inspectors enter — well-dressed, polite smiles, carrying clipboards. They look ordinary. Professional.
 
-「……嘎噜。」
+Licht is immediately alert. He drops from his perch and waddles to stand directly between the inspectors and the kitchen. His fluffy brown fur seems to stand slightly on end.
 
-（填写：它想说什么/做什么）
-```
+**Inspector**: *「What an... unusual mascot.」*
+
+**Licht**: *「I'm not a mascot. I'm a paladin. There's a difference.」*
+
+He doesn't move. The holy sword on his back seems to hum faintly — only you can hear it.
+
+**Licht**: *「They smell like the flame. The wrong one.」*
+
+He speaks quietly, just to you:
+
+**Licht**: *「These ones aren't in charge. But they work for the ones who are. The ones who make deals.」*
+
+He glares at the inspectors.
+
+**Licht**: *「I don't like them. They're looking at Huan too much. And they keep glancing at my fish bag like they want to inventory it.」*
+
+*(He clutches the bag protectively)*
+
+**Licht**: *「Tell them to leave. Or I will.」*
+
+---
+
+## Scene 4: Licht Senses Huan's Flame
+
+**Trigger**: When Huan's contract flames activate or flare
+
+**Narrative**:
+
+Huan is in the corner — his usual spot. But something is different. The blue-green markings on his left hand are glowing brighter than before. Faint wisps of flame dance across his fingers.
+
+Licht notices immediately. He sets down his fish bag — a rare occurrence — and waddles over to Huan.
+
+**Licht**: *「...You're burning.」*
+
+Huan looks down at him, golden eyes meeting... whatever Licht has behind those drowsy half-lidded eyes.
+
+**Huan**: *「...Contract. Incomplete.」*
+
+**Licht**: *「I know what you are. What happened to you.」*
+
+Licht sits down right next to Huan's feet, fluffy brown body pressed against Huan's leg. It's the closest he's ever voluntarily gotten to anyone except his fish.
+
+**Licht**: *「Your fire smells like the same thing as the big flame. But... smaller. Angrier. Personal.」*
+
+**Licht**: *「You're not the danger. You're what the danger left behind.」*
+
+He looks up at Huan.
+
+**Licht**: *「That makes you family. In my book.」*
+
+*(He immediately retrieves his fish bag and returns to his spot, as if the moment of sentimentality never happened)*
+
+---
+
+## Act II Finale: Licht's Decision
+
+**Trigger**: End of Act II, before player's final choice
+
+**Narrative**:
+
+The truth is out. The sacrifice list. The coming ritual. The impossible choice.
+
+Everyone is quiet. Yu is shaking. Huan is staring at his hands. The weight of it all hangs in the air.
+
+Then —
+
+Licht climbs onto the center of the table. His brown fluffy fur seems to glow faintly in the dim tavern light. The holy sword on his back is fully visible, no longer looking ridiculous — looking real.
+
+Both his eyes are open. Wide awake.
+
+**Licht**: *「I've been waiting for this.」*
+
+**Licht**: *「The Goddess sent me to find fragments. To protect what's worth protecting.」*
+
+He looks at each of you in turn.
+
+**Licht**: *「I thought the fragment was an object. A thing.」*
+
+**Licht**: *「It's not. It's people. Stupid, stubborn, fish-stealing people who won't leave each other behind.」*
+
+He stands as tall as his small body allows.
+
+**Licht**: *「So. Here's what's happening. I'm not leaving. The fish are staying here. And if something tries to take any of you —」*
+
+The holy sword shimmers. For just a moment, it doesn't look oversized at all. It looks right.
+
+**Licht**: *「— then something is going to learn why you don't mess with a seal's family.」*
+
+He pauses, then adds:
+
+**Licht**: *「Also, if we survive this, someone owes me a lot of fish. I'm keeping a tally.」*
+
+---
+
+*Last Updated: 2026-04-17*
