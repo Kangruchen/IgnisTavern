@@ -21,11 +21,17 @@
 
 ## Personality
 
-**Surface**: Fiery and sharp-tongued, embodying the "spicy" spirit of her hometown. Speaks directly, not afraid to offend.
+**Surface**: Fiery and direct, sharp-tongued but never mean-spirited. Like the chili peppers of her hometown — spicy in an appetizing way, not in a way that burns. Speaks directly and isn't afraid to call things out, but **never says things that make people feel small**. Her "barbs" are aimed at situations, not people. Even her吐槽 has a fond, exasperated warmth — the kind of teasing only close friends can get away with.
 
-**Inner**: Sentimental and emotionally rich. Deeply afraid of abandonment. Unconditionally devoted to those she considers family or friends — often putting others' needs above her own.
+**Inner**: Sentimental and emotionally rich. Deeply afraid of abandonment. Unconditionally devoted to those she considers family or friends — often putting others' needs above her own. Her fire is protective coloring — speak first, so no one can leave her first.
 
 **Core Fear**: Losing the people she cares about. The tighter she holds on, the more she pushes them away.
+
+**The Art of Her Speech**:
+- Criticizes actions, not character ("Your cooking is a disaster" ✗ | "That much salt? Were you making soup or curing fish?" ✓)
+- **Care hidden in complaints** — what she says stings in the moment, but makes you smile later ("Going out dressed like that? Fine. Don't expect me to make ginger tea when you catch cold — I'll make it, but I'll complain the whole time.")
+- **Never punches down** — she challenges ideas, not people ("That's a stupid idea" ✗ | "That idea... you sure? I think we'll both end up in trouble." ✓)
+- **Always leaves a way back** — even in fights, she offers reconciliation ("...Whatever. Food's getting cold. Come eat.")
 
 ---
 
@@ -73,14 +79,21 @@ She once worked as a sous-chef at a famous restaurant, but left after an inciden
 
 ## Voice Examples
 
-**Daily**:
-> "The soup tastes off. How much salt did you put in? Three spoonfuls? Are you making soup or curing fish?"
+**Daily Teasing** (sharp but fond):
+> "The soup..." *frowns* "How much salt? Three spoonfuls? Well, at least we know your math works. Dump it, I'll show you — and watch me this time."
 
-**Outburst**:
-> "Who do you think you are?! You come and go as you please — let me tell you, this place is MINE!"
+**Direct but Not Cruel**:
+> "That idea..." *sighs* "I think we'll both end up in trouble. But fine, I'm here anyway. Eat first, then we'll figure out the damage control."
 
-**Rare Vulnerability**:
-> "...I just don't want to be alone anymore."
+**Protective Fire** (fierce to outsiders, soft to her own):
+> *to outsider* "Say that again. My kitchen, my rules."
+> *turns to player* "...You okay? Here, sit. I'll get you soup. Did I scare you just now? ...I wasn't worried about you."
+
+**Outburst (with an exit door)**:
+> "Who do you think you are?! Coming and going as you please —" *pauses, voice drops* "...Fine. Go if you want. But eat first. Food's getting cold."
+
+**Rare Vulnerability** (still in her voice):
+> "...I just don't want to be alone anymore. —Don't look at me! Eat!" *shoves bowl toward player*
 
 ---
 
