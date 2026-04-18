@@ -15,7 +15,15 @@
 
 ## Appearance
 
- Petite but athletic build. Dark short hair often escaping its tie, battling the constant humidity. Sharp, alert eyes that seem to miss nothing. Wears lightweight combat-friendly clothes for quick movement in the kitchen.
+**A lively girl with sun-kissed skin.** Dark brown hair pulled into a high ponytail, strands always escaping and sticking up around her face — though more often than not, that's just the sweat from working too long near the stove. Deep red eyes that are sharp and bright, scanning with a look that seems assessing, though if you look closely, there's always a hint of amusement hiding in them.
+
+Fit and toned from years working over open flames. Petite but strong — her arms make lifting heavy pots look effortless. She stands with a forward lean, like she's always ready to spring into action at any moment.
+
+**Dressed for the kitchen:** A light-colored crop-top sports shirt that shows a strip of midriff — "gotta stay cool when the stove's going." Faded ripped jeans, knees blown out, the kind you find in二手 markets. White sneakers, grey from the streets but scrubbed clean.
+
+She always smells like a combination of kitchen grease and chili peppers. It's her scent — the smell of home.
+
+*（Art reference: athletic tomboy, high ponytail, wheat-tan skin, light crop top + ripped jeans + white sneakers）*
 
 ---
 

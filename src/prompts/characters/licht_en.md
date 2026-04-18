@@ -15,7 +15,13 @@
 
 ## Appearance
 
-A small harp seal pup. Soft brown fluffy fur that looks incredibly huggable. A holy sword is strapped to its back — ridiculously oversized for its tiny body. A small fish-bag hangs at its side, clutched protectively. One eye is always slightly open, looking drowsy, but it turns razor-sharp at critical moments. Its flippers are slightly clumsy but surprisingly steady when needed.
+**A small seal pup with soft brown fur.** Light brown short fur all over, cream-colored belly, a wet nose and big eyes that always carry a sleepy, dazed expression. Four short flippers paddle along the ground as it waddles, tail hidden beneath the furry coat.
+
+**Strapped to its back** is a holy sword disproportionately large for its tiny body, secured with a leather harness. At its side hangs a small cloth bag — always stuffed with dried fish, its most prized possession and the only scale of value it recognizes.
+
+One eye is always slightly open, looking half-asleep, but it turns razor-sharp at critical moments. Its flippers are slightly clumsy but surprisingly steady when needed.
+
+*（Art reference: seal pup, brown fur, cream belly, leather sword harness, sleepy big eyes, quadruped stance, short flippers）*
 
 ---
 

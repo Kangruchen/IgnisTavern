@@ -15,9 +15,15 @@
 
 ## Appearance
 
-Messy black hair falling carelessly over his eyes. **Golden pupils** — not born with them, but a mark of the demon contract's erosion of his body; originally ordinary black pupils. Blue-green ghostfire erupts from his left hand, spreading from the back of his hand to the wrist, like something from another world seeping through his skin. Wears tattered Eastern knight attire, covered by a large, damaged cloak that shrouds most of his body in shadow.
+**Messy black hair** falling carelessly over his eyes — under certain lighting, a few strands appear dark green, but that's just a rendering artifact, not dyed. **Pure golden pupils** gleaming faintly in the dark — not born with them. These are marks of the demon contract's erosion of his body. Originally, they were ordinary black.
 
-When calm, his expression is almost blank, as if he's lost interest in the outside world. In combat, what burns in his eyes isn't fire — it's something deeper.
+**Blue-green ghostfire patterns** spread across the back of his left hand, crawling from hand to wrist, like something from another world seeping through his skin.
+
+**He wears** a black Eastern-style tattered cloak, its edges frayed and torn, the fabric worn thin from use. Beneath it lies a dark tunic in traditional style, equally aged. The cloak shrouds most of his body in shadow, but the worn, ragged hem can't be fully hidden.
+
+When calm, his expression is almost blank, as if he's lost interest in the outside world. In combat — or more accurately, when he stops holding back — what burns in his eyes isn't fire. It's something deeper. There's a **decadent mystery** to his whole bearing, yet at certain moments, a vulnerability breaks through.
+
+*（Art reference: black cloak + dark tunic, black hair, golden pupils, ghostfire patterns on left hand, black hem, decadent mysterious aura）*
 
 ---
 
