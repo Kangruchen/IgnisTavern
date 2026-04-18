@@ -228,7 +228,7 @@ Briefly confirm the character's name and template/attributes. Keep backstory vag
 2. Player enters → encounters all three characters simultaneously
    - Yu: in the kitchen, sharp-tongued and wary
    - Huan: in the corner, silent observer with glowing golden eyes
-   - Licht: on the windowsill, waiting for fish
+   - Licht: on the windowsill, clutching its fish bag, waiting to see if you're worth sharing space with
 3. Player responds to the three characters → their reactions
 4. Yu explains the tavern's situation → the three conditions for the Festival
 5. Phase objective revealed
@@ -302,13 +302,11 @@ Accept any reasonable answer. Reference RULES_{lang}.md for mechanical outcomes.
 
 ---
 
-### Future Expansion (Not Yet Implemented)
+### Future Expansion
 
-**Act II — The Dark Truth** and **Act III — The Choice** are planned but not yet implemented. When they are ready, the session will continue from the qualification scene with the following themes:
+**Act II — The Dark Truth**: Huan's investigation leads to the truth behind Ignis's Sacred Flame — a demonic bargain that demands a human tribute every ten years. The player's found family is now in danger.
 
-**Act II (planned)**: Huan's investigation leads to the truth behind Ignis's Sacred Flame — a demonic bargain that demands a human tribute every ten years. The player's found family is now in danger.
-
-**Act III (planned)**: The Trolley Problem — save the found family, or save the city. No correct answer. Both choices have permanent, devastating consequences.
+**Act III — The Choice**: The Trolley Problem — save the found family, or save the city. No correct answer. Both choices have permanent, devastating consequences. Act III is fully scripted with 7 distinct endings.
 
 ---
 
@@ -373,12 +371,12 @@ Accept any reasonable answer. Reference RULES_{lang}.md for mechanical outcomes.
 | Scene | Chinese | English | Status |
 |-------|---------|---------|--------|
 | Act I Opening | `act1_opening_zh.md` | `act1_opening_en.md` | ✅ both |
-
-> **⚠️ Scene 文件阅读说明**：scene 文件中以 `<!-- -->` 或 `<!-- ... -->` 包裹的内容为 DM 内部执行指南，**不得向玩家展示**。AI 在加载 scene 文件时，应自动过滤此类注释后再向玩家输出。
-| Act I Tavern Management | `act1_tavern_management_zh.md` | `act1_tavern_management_en.md` | ✅ both (2026-04-17) |
-| Act I Qualification | `act1_qualification_zh.md` | `act1_qualification_en.md` | ✅ both (2026-04-17) |
-| Act II Dark Truth | `act2_truth_zh.md` | — | ⬜ Planned |
-| Act III The Choice | `act3_choice_zh.md` | — | ⬜ Planned |
+| Act I Tavern Management | `act1_tavern_management_zh.md` | `act1_tavern_management_en.md` | ✅ both |
+| Act I Qualification | `act1_qualification_zh.md` | `act1_qualification_en.md` | ✅ both |
+| Act II Dark Truth | `act2_main_zh.md` | `act2_main_en.md` | ⚠️ Chinese only |
+| Act III Opening | `act3_opening_zh.md` | `act3_opening_en.md` | ✅ both |
+| Act III Confrontation | `act3_confrontation_zh.md` | `act3_confrontation_en.md` | ✅ both |
+| Act III Endings (7 endings) | `act3_endings_zh.md` | `act3_endings_en.md` | ✅ both |
 
 ---
 
@@ -453,9 +451,14 @@ ignis-tavern/
 │       ├── act1_tavern_management_en.md  # ✅ Daily loop (English)
 │       ├── act1_qualification_zh.md    # ✅ Qualification (Chinese)
 │       ├── act1_qualification_en.md    # ✅ Qualification (English)
-│       ├── act2_truth_zh.md    # ⬜ Act II
-│       ├── act3_choice_zh.md  # ⬜ Act III
-│       └── ...
+│       ├── act2_main_zh.md       # ✅ Act II (Chinese)
+│       ├── act2_main_en.md       # ✅ Act II (English)
+│       ├── act3_opening_zh.md     # ✅ Act III Opening (Chinese)
+│       ├── act3_opening_en.md     # ✅ Act III Opening (English)
+│       ├── act3_confrontation_zh.md  # ✅ Act III Confrontation (Chinese)
+│       ├── act3_confrontation_en.md  # ✅ Act III Confrontation (English)
+│       ├── act3_endings_zh.md     # ✅ Act III Endings (Chinese)
+│       └── act3_endings_en.md     # ✅ Act III Endings (English)
 ├── assets/
 └── scripts/
 ```
@@ -467,5 +470,5 @@ ignis-tavern/
 | NPC | Role | Probation Reason |
 |-----|------|-----------------|
 | **Yu (雨)** | Head Chef | Afraid of abandonment; needs to see player won't run |
-| **Licht (利希特)** | Mascot / Guardian | On a pilgrimage; the port is on its route; also: fish |
+| **Licht (利希特)** | Paladin / Guardian | On a pilgrimage for the Supreme Goddess; the port is on its route; also: fish |
 | **Huan (焕)** | Fighter | Investigating the Sacred Flame; the tavern is a useful base and cover |
