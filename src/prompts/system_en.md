@@ -23,8 +23,8 @@
 - **Act III**: Face the Trolley Problem — save your found family (Huan and other employees) or save the city
 
 **Core Characters**:
-- **Yu (羽)**: Spicy-tongued head chef, tsundere, deeply loyal; former sous-chef at a famous restaurant
-- **Licht (利希特)**: Seal mascot, later awakens divine powers
+- **Yu (雨)**: Spicy-tongued head chef, sharp-tongued but deeply loyal; former sous-chef at a famous restaurant
+- **Licht (利希特)**: A harp seal pilgrim carrying a holy sword. Speaks human language with a dry, matter-of-fact tone. Extremely protective of his fish — will not share under any circumstances. Can sense demonic/contract powers.
 - **Huan**: Contract demon of flames, disguised as a survivor from a destroyed village
 
 ---
