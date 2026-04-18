@@ -187,8 +187,14 @@ Each day, the DM decides subjectively whether to trigger an event (0-1 per day).
 |-------|--------|
 | **Old Pig Sty Spreads Rumors** | Today's foot traffic -30% |
 | **Supplier Refuses Delivery** | Must source elsewhere, wastes time |
-| **Gourmet Association Surprise Visit** | Triggers early! Today's resolution uses inspection standards |
+| **Demanding Customer** | A picky guest causes trouble; bad handling affects reputation |
 | **Drunk Troublemaker** | Must be dealt with, otherwise affects next day |
+
+### Special Covert Events (Players Should Never Know in Advance)
+
+| Event | Trigger | Effect |
+|-------|---------|--------|
+| **Gourmet Association Surprise Visit** | Randomly enters disguised as ordinary customer, never reveals identity | Player must succeed a Perception check (DC 13) to notice "something odd about this table." If unnoticed, inspection proceeds normally but player is unaware. Inspection score affects final qualification.
 
 ### Neutral Events
 
@@ -307,6 +313,33 @@ Consecutive days on target: 0/3. Tomorrow's crisis level: ⚠️
 | Medium (40-70) | Works normally, not proactive |
 | Low (20-40) | More sarcastic, complaints increase |
 | Very low (<20) | Threatens to leave |
+
+### Covert Inspection Event Detailed Process
+
+**Trigger Condition**: DM decides inspection triggers today (probability or plot needs)
+
+**Execution Steps**:
+
+1. **In Disguise**:
+   - Do NOT tell player "today is inspection day"
+   - Describe a "gray-cloaked guest" or "unfamiliar face" taking a seat, indistinguishable from other customers
+   - Example: "A guest in a gray cloak sits in the corner. Alone, ordered the most ordinary dish, very quiet."
+
+2. **Perception Check (Optional)**:
+   - If player actively observes/suspects, can roll Perception (DC 13)
+   - Success: "You notice that although dressed plainly, the way they hold chopsticks is telling — like they're... judging by some standard."
+   - Failure: No anomaly detected, continue normal operation
+
+3. **Hidden Scoring**:
+   - Inspection proceeds behind the scenes, DM secretly records score
+   - Today's service quality (dishes, attitude, environment) determines score
+   - Score affects final qualification, but player won't know today
+
+4. **Reveal Afterward** (only in qualification scene):
+   - Qualification scene reveals "inspectors came days ago"
+   - If player never noticed: adds drama — "You never knew, but the Association was here all along."
+
+**Design Intent**: The "covert" in inspection means secret. If player knows beforehand, they perform unnaturally — defeating the purpose of testing real capabilities.
 
 ### Notes
 
