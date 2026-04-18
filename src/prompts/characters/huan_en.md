@@ -15,7 +15,7 @@
 
 ## Appearance
 
-**Messy black hair** falling carelessly over his eyes — under certain lighting, a few strands appear dark green, but that's just a rendering artifact, not dyed. **Pure golden pupils** gleaming faintly in the dark — not born with them. These are marks of the demon contract's erosion of his body. Originally, they were ordinary black.
+**Messy black hair** falling carelessly over his eyes. **Pure golden pupils** gleaming faintly in the dark — not born with them. These are marks of the demon contract's erosion of his body. Originally, they were ordinary black.
 
 **Blue-green ghostfire patterns** spread across the back of his left hand, crawling from hand to wrist, like something from another world seeping through his skin.
 
