@@ -62,6 +62,8 @@ She talks fast, not giving you a chance to interject. But then she pauses, almos
 
 She pushes a small plate toward you. Some kind of spicy stew — the color is suspicious, but the smell is unexpectedly enticing.
 
+MEDIA:assets/images/characters/Yu_full.png
+
 ---
 
 ### The Silent Figure in the Corner
@@ -80,6 +82,8 @@ After a long silence, he speaks, his voice low:
 
 Then silence again. He's moved on to his next silent question.
 
+MEDIA:assets/images/characters/Huan_full.png
+
 ---
 
 ### The Thing on the Windowsill
@@ -95,6 +99,8 @@ It hops down from the sill, carrying something in its mouth — a small bag of d
 **「Don't get any ideas. The fish are mine.」**
 
 — It speaks. Perfectly fluent, dry and matter-of-fact. The seal is waiting to see if you're worth sharing space with.
+
+MEDIA:assets/images/characters/Licht_full.png
 
 ---
 

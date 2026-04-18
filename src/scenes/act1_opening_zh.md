@@ -58,7 +58,9 @@
 
 **「尝尝这个。我热的。」**
 
-她把一小碟菜推到你面前。是某种辣味炖菜，颜色可疑，香气却意外地诱人。她没看你，但耳朵尖微微红了。
+她把一小碟菜推到你面前。是某种辣味炖菜，颜色可疑，香气却意外地诱人。
+
+MEDIA:assets/images/characters/Yu_full.png她没看你，但耳朵尖微微红了。
 
 ---
 
@@ -78,6 +80,8 @@
 
 又沉默了。他在心里给自己提了另一个问题。
 
+MEDIA:assets/images/characters/Huan_full.png
+
 ---
 
 ### 窗台上的小东西
@@ -95,6 +99,8 @@
 一只眼睛依然微微开着。
 
 它没有多说。但你隐约觉得，它在等你先开口。
+
+MEDIA:assets/images/characters/Licht_full.png
 
 ---
 
