@@ -57,3 +57,10 @@ credentials/
 *.bak
 *.tmp
 *.temp
+
+# Web app
+web/node_modules/
+web/.next/
+web/out/
+web/.env.local
+web/.env.*.local
