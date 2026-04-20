@@ -38,6 +38,7 @@ function GamePageContent() {
 
     // Always load settings from localStorage first
     const settings = loadSettings();
+    if (settings.apiMode) dispatch({ type: 'SET_API_MODE', payload: settings.apiMode });
     if (settings.language) dispatch({ type: 'SET_LANGUAGE', payload: settings.language });
     if (settings.apiKey) dispatch({ type: 'SET_API_KEY', payload: settings.apiKey });
     if (settings.provider) dispatch({ type: 'SET_PROVIDER', payload: settings.provider });
@@ -216,12 +217,13 @@ function GamePageContent() {
     }
   }, [gameState.messages, gameState.displayedText, gameState.isStreaming]);
 
-  const handleApiKeySave = (settings: { apiKey: string; provider: string; model: string; customApiUrl: string }) => {
+  const handleApiKeySave = (settings: { apiKey: string; provider: string; model: string; customApiUrl: string; mode: 'default' | 'custom' }) => {
     dispatch({ type: 'SET_API_KEY', payload: settings.apiKey });
     dispatch({ type: 'SET_PROVIDER', payload: settings.provider });
     dispatch({ type: 'SET_MODEL', payload: settings.model });
     dispatch({ type: 'SET_CUSTOM_API_URL', payload: settings.customApiUrl });
-    persistSettings(settings); // Persist to localStorage
+    dispatch({ type: 'SET_API_MODE', payload: settings.mode });
+    persistSettings({ ...settings, apiMode: settings.mode });
     setShowApiKeyModal(false);
   };
 
@@ -292,10 +294,16 @@ function GamePageContent() {
             {text.act.replace('$', gameState.currentAct.toString())}
           </span>
           {/* Current model indicator */}
-          {gameState.provider && gameState.model && (
+          {gameState.apiMode === 'custom' && gameState.provider && gameState.model && (
             <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-800/80 border border-amber-700/20 text-xs text-amber-500/60">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500/70 animate-pulse" />
               {PROVIDERS[gameState.provider as ProviderId]?.name || gameState.provider} · {gameState.model}
+            </span>
+          )}
+          {gameState.apiMode === 'default' && (
+            <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-800/80 border border-amber-700/20 text-xs text-amber-500/40">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500/50" />
+              {lang === 'zh' ? '保底模型' : 'Fallback'}
             </span>
           )}
         </div>
@@ -489,6 +497,7 @@ function GamePageContent() {
         currentProvider={gameState.provider}
         currentModel={gameState.model}
         currentCustomApiUrl={gameState.customApiUrl}
+        currentMode={gameState.apiMode}
         language={lang}
       />
     </div>

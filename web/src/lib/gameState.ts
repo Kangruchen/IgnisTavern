@@ -39,6 +39,7 @@ export interface GameState {
   provider?: string;
   model?: string;
   customApiUrl?: string;
+  apiMode?: 'default' | 'custom';
 }
 
 const defaultCharacter: Character = {
@@ -85,6 +86,7 @@ export const gameStateReducer = (
     | { type: 'SET_PROVIDER'; payload: string }
     | { type: 'SET_MODEL'; payload: string }
     | { type: 'SET_CUSTOM_API_URL'; payload: string }
+    | { type: 'SET_API_MODE'; payload: 'default' | 'custom' }
     | { type: 'RESET_STATE' }
 ): GameState => {
   switch (action.type) {
@@ -132,6 +134,8 @@ export const gameStateReducer = (
       return { ...state, model: action.payload };
     case 'SET_CUSTOM_API_URL':
       return { ...state, customApiUrl: action.payload };
+    case 'SET_API_MODE':
+      return { ...state, apiMode: action.payload };
     case 'RESET_STATE':
       return createInitialGameState();
     default:

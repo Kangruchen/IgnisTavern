@@ -6,14 +6,16 @@ export interface AppSettings {
   provider: string;
   model: string;
   customApiUrl: string;
+  apiMode: 'default' | 'custom';
 }
 
 export const defaultSettings: AppSettings = {
   language: 'zh',
   apiKey: '',
-  provider: 'deepseek',
-  model: 'deepseek-chat',
+  provider: 'siliconflow',
+  model: 'Qwen/Qwen3.5-4B',
   customApiUrl: '',
+  apiMode: 'default',
 };
 
 export function loadSettings(): AppSettings {
