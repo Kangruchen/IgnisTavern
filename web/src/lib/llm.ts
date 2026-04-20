@@ -67,6 +67,11 @@ export async function streamChatCompletion(
       stream: true,
       // Disable reasoning/thinking for faster responses (Qwen3.x etc)
       ...(providerId === 'siliconflow' ? { enable_thinking: false } : {}),
+      // OpenRouter: pass provider options for free models
+      ...(providerId === 'openrouter' ? {
+        // Some models support reasoning, disable for speed
+        provider: { allow_fallbacks: true },
+      } : {}),
     }),
     signal: controller.signal,
   });

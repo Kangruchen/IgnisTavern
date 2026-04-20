@@ -12,8 +12,8 @@ export interface AppSettings {
 export const defaultSettings: AppSettings = {
   language: 'zh',
   apiKey: '',
-  provider: 'siliconflow',
-  model: 'Qwen/Qwen3.5-4B',
+  provider: 'openrouter',
+  model: 'minimax/minimax-m2.5:free',
   customApiUrl: '',
   apiMode: 'default',
 };
