@@ -104,10 +104,25 @@ function GamePageContent() {
       }
       dispatch({ type: 'FINISH_STREAMING', payload: fullResponse });
     } catch (error: any) {
-      const errorMsg = gameState.language === 'zh'
-        ? `（连接失败：${error.message}）`
-        : `(Connection failed: ${error.message})`;
-      dispatch({ type: 'FINISH_STREAMING', payload: fullResponse || errorMsg });
+      let errMsg = error.message || 'Unknown error';
+      if (errMsg.includes('abort') || errMsg.includes('AbortError')) {
+        errMsg = lang === 'zh'
+          ? '请求超时（30秒无响应）。保底模型可能已不可用，请点击右上角「API Key」配置自己的 Key。'
+          : 'Request timed out (30s). Fallback model may be unavailable — please click "API Key" to configure your own.';
+      } else if (errMsg.includes('balance') || errMsg.includes('depleted') || errMsg.includes('insufficient')) {
+        errMsg = lang === 'zh'
+          ? '保底模型余额不足。请点击右上角「API Key」配置自己的 Key。'
+          : 'Fallback model balance depleted. Please click "API Key" to configure your own.';
+      } else if (errMsg.includes('401') || errMsg.includes('403')) {
+        errMsg = lang === 'zh'
+          ? 'API Key 无效或余额不足。请点击右上角「API Key」检查设置。'
+          : 'API key invalid or balance depleted. Please click "API Key" to check settings.';
+      } else {
+        errMsg = lang === 'zh'
+          ? `连接失败：${errMsg}`
+          : `Connection failed: ${errMsg}`;
+      }
+      dispatch({ type: 'FINISH_STREAMING', payload: fullResponse || errMsg });
     }
   };
 
@@ -177,10 +192,25 @@ function GamePageContent() {
           setDiceCheckLabel(detectedLabel);
         }
       } catch (error: any) {
-        const errorMsg = gameState.language === 'zh'
-          ? `（连接失败：${error.message}）`
-          : `(Connection failed: ${error.message})`;
-        dispatch({ type: 'FINISH_STREAMING', payload: fullResponse || errorMsg });
+        let errMsg = error.message || 'Unknown error';
+        if (errMsg.includes('abort') || errMsg.includes('AbortError')) {
+          errMsg = gameState.language === 'zh'
+            ? '请求超时（30秒无响应）。保底模型可能已不可用，请点击右上角「API Key」配置自己的 Key。'
+            : 'Request timed out (30s). Fallback model may be unavailable — please click "API Key" to configure your own.';
+        } else if (errMsg.includes('balance') || errMsg.includes('depleted') || errMsg.includes('insufficient')) {
+          errMsg = gameState.language === 'zh'
+            ? '保底模型余额不足。请点击右上角「API Key」配置自己的 Key。'
+            : 'Fallback model balance depleted. Please click "API Key" to configure your own.';
+        } else if (errMsg.includes('401') || errMsg.includes('403')) {
+          errMsg = gameState.language === 'zh'
+            ? 'API Key 无效或余额不足。请点击右上角「API Key」检查设置。'
+            : 'API key invalid or balance depleted. Please click "API Key" to check settings.';
+        } else {
+          errMsg = gameState.language === 'zh'
+            ? `连接失败：${errMsg}`
+            : `Connection failed: ${errMsg}`;
+        }
+        dispatch({ type: 'FINISH_STREAMING', payload: fullResponse || errMsg });
       }
     },
     [gameState.messages, gameState.isStreaming, gameState.language, gameState.userApiKey]

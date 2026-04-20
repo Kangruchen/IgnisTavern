@@ -45,6 +45,10 @@ export async function streamChatCompletion(
 
   const modelName = model || provider.defaultModel;
 
+  // Timeout controller — 30 seconds max wait for first response
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
+
   const response = await fetch(apiUrl, {
     method: 'POST',
     headers: {
@@ -64,7 +68,10 @@ export async function streamChatCompletion(
       // Disable reasoning/thinking for faster responses (Qwen3.x etc)
       ...(providerId === 'siliconflow' ? { enable_thinking: false } : {}),
     }),
+    signal: controller.signal,
   });
+
+  clearTimeout(timeout);
 
   if (!response.ok) {
     let errorMsg = `API request failed: ${response.status}`;
@@ -72,6 +79,12 @@ export async function streamChatCompletion(
       const error = await response.json();
       errorMsg = error.error?.message || error.message || errorMsg;
     } catch {}
+    // Common error hints
+    if (response.status === 401 || response.status === 403) {
+      errorMsg += ' (API key may be invalid or balance depleted)';
+    } else if (response.status === 429) {
+      errorMsg += ' (Rate limited — please try again in a moment)';
+    }
     throw new Error(errorMsg);
   }
 
@@ -139,6 +152,9 @@ async function streamAnthropic(
     .filter(m => m.role !== 'system')
     .map(m => ({ role: m.role, content: m.content }));
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 30000);
+
   const response = await fetch(provider.apiUrl, {
     method: 'POST',
     headers: {
@@ -155,7 +171,10 @@ async function streamAnthropic(
       max_tokens: maxTokens,
       stream: true,
     }),
+    signal: controller.signal,
   });
+
+  clearTimeout(timeout);
 
   if (!response.ok) {
     let errorMsg = `Anthropic API error: ${response.status}`;
