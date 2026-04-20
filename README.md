@@ -9,7 +9,11 @@
 
 ### What is Ignis Tavern?
 
-**Ignis Tavern** is an OpenClaw skill that brings AI-driven tabletop roleplaying to life. Players take on the role of a new tavern owner in the bustling city of **Ignis** — a massive neutral city-state famous for its endless culinary delights, thriving night markets, and the eternal "Sacred Flame" that never goes out.
+**Ignis Tavern** is an AI-driven tabletop roleplaying game available in two formats:
+- **OpenClaw Skill** — Play directly in your OpenClaw chat (skill version)
+- **Web App** — Browser-based experience with front-end driven game mechanics (web version)
+
+Players take on the role of a new tavern owner in the bustling city of **Ignis** — a massive neutral city-state famous for its endless culinary delights, thriving night markets, and the eternal "Sacred Flame" that never goes out.
 
 ### The Story
 
@@ -18,10 +22,12 @@ Your tavern is failing. Three eccentric employees are already here — on probat
 ### Features
 
 - **AI Dungeon Master** — Dynamic storytelling powered by large language models
-- **Character Customization** — Create and develop your own tavern owner
-- **Dice Mechanics** — Traditional tabletop checks adapted for AI narration
-- **Procedural Art** — AI-generated character expressions and scene backgrounds delivered in-game
+- **Front-End Driven Mechanics** — Character creation, dice checks, and inventory managed by UI (web version)
+- **Dice State Machine** — Idle → Awaiting Roll → Resolved, with animation and formula display
+- **Inline Cards** — Game events (dice checks, item changes, HP) appear as embedded cards in the chat flow
+- **Character Customization** — Template selection or quiz-based generation
 - **Branching Narrative** — Choices matter; your decisions shape the story
+- **Bilingual** — Full Chinese (中文) and English support
 
 ### The Three-Act Structure
 
@@ -31,17 +37,17 @@ Your tavern is failing. Three eccentric employees are already here — on probat
 | **Act II** | Dark Revelation | Uncover that the city's prosperity is built on a demonic bargain |
 | **Act III** | Moral Climax | Face the Trolley Problem — save your family or save the city |
 
-### Team
-
-This is a 3-person project running over 1–2 weeks. The goal is a **playable prototype** that demonstrates the core concept, not a polished product.
-
 ---
 
 ## 中文
 
 ### 什么是伊格尼斯酒馆？
 
-**伊格尼斯酒馆** 是一个基于 OpenClaw 的 AI 跑团 skill。玩家扮演"炉火之都"伊格尼斯城中一家濒临倒闭的酒馆的新老板，在这个以无尽美食、繁华夜市和永不熄灭的"圣焰"闻名的巨大中立城邦中展开冒险。
+**伊格尼斯酒馆** 是一款 AI 驱动的桌面角色扮演游戏，提供两种游玩方式：
+- **OpenClaw Skill** — 在 OpenClaw 对话中直接游玩
+- **Web 版** — 基于浏览器的独立体验，前端驱动的游戏机制
+
+玩家扮演"炉火之都"伊格尼斯城中一家濒临倒闭的酒馆的新老板，在这个以无尽美食、繁华夜市和永不熄灭的"圣焰"闻名的巨大中立城邦中展开冒险。
 
 ### 故事简介
 
@@ -50,10 +56,12 @@ This is a 3-person project running over 1–2 weeks. The goal is a **playable pr
 ### 核心功能
 
 - **AI 主持人（DM）** — 大语言模型驱动的动态叙事
-- **角色创建** — 自定义你的酒馆老板角色
-- **检定系统** — 传统桌游掷骰机制，适配 AI 叙事
-- **程序化美术** — AI 根据情境生成角色表情差分和场景背景图
+- **前端驱动机制** — 角色创建、骰子检定、背包管理由 UI 控制（Web 版）
+- **骰子状态机** — 空闲→等待投骰→已解决，带动画和公式展示
+- **内嵌卡片** — 游戏事件（检定、物品变化、HP）以卡片形式嵌入聊天流
+- **角色创建** — 预设模板选择或问答生成
 - **分支剧情** — 选择会影响剧情走向
+- **双语支持** — 中文 / English
 
 ### 三幕结构
 
@@ -67,106 +75,155 @@ This is a 3-person project running over 1–2 weeks. The goal is a **playable pr
 
 ## Quick Start / 快速开始
 
-### 安装 Installation (手动 / Manual)
+### Web 版 / Web Version
 
-**前提条件 / Prerequisites**
+1. **安装依赖** Install dependencies:
+   ```bash
+   cd web && npm install
+   ```
 
-- 已安装 OpenClaw（[安装指南](https://docs.openclaw.ai/install)）
-- OpenClaw is already installed ([install guide](https://docs.openclaw.ai/install))
+2. **配置环境变量** Set up environment (optional, for free fallback model):
+   ```bash
+   cp web/.env.example web/.env.local
+   # Edit .env.local with your fallback API keys
+   ```
 
-**步骤 / Steps**
+3. **启动开发服务器** Start dev server:
+   ```bash
+   cd web && npm run dev
+   ```
 
-1. **下载仓库** — 下载 `ignis-tavern` 文件夹，或 clone 整个仓库
-   Download the repository:
+4. **打开浏览器** Open http://localhost:3000
+
+5. **配置 API Key**（可选）— 点击右上角 🔑 配置自己的 API Key，或使用免费额度（10次/天）
+
+### Skill 版 / Skill Version
+
+1. **下载仓库** Clone the repository:
    ```bash
    git clone https://github.com/Kangruchen/IgnisTavern.git
    ```
 
-2. **复制到 skills 目录** — 把仓库内容放到 OpenClaw 的 skills 文件夹
-   Copy the repository contents to OpenClaw's skills directory:
+2. **复制到 skills 目录** Copy to OpenClaw's workspace skills directory:
    ```bash
    # Windows
-   xcopy /E /I IgnisTavern %USERPROFILE%\.openclaw\skills\ignis-tavern
+   xcopy /E /I IgnisTavern %USERPROFILE%\.openclaw\workspace\skills\ignis-tavern
 
    # macOS / Linux
-   cp -r IgnisTavern ~/.openclaw/skills/ignis-tavern
+   cp -r IgnisTavern ~/.openclaw/workspace/skills/ignis-tavern
    ```
 
-   目录结构应该像这样：
-   The directory structure should look like this:
-   ```
-   ~/.openclaw/skills/ignis-tavern/
-   ├── SKILL.md
-   ├── README.md
-   └── src/
-       ├── prompts/
-       ├── rules/
-       └── scenes/
-   ```
-
-3. **重启 OpenClaw** — 如果 OpenClaw 正在运行，重启 gateway 让新 skill 生效
-   Restart OpenClaw gateway if it's running to load the new skill
-
-4. **开始游戏** — 在 OpenClaw 对话中输入：
-   Start the game by saying in your OpenClaw chat:
+3. **开始游戏** Start the game by saying:
    ```
    玩伊格尼斯酒馆
    ```
-   或 / or: `play Ignis Tavern`
-
-   AI 会加载 SKILL.md 并开始游戏。
-   The AI will load SKILL.md and begin the session.
+   or: `play Ignis Tavern`
 
 ---
 
-### 开始游戏 Starting the Game
+## 游戏流程 / Game Flow
 
-游戏开始后，AI 会依次引导你：
-Once started, the AI will guide you through:
+### Web 版流程
+
+1. **欢迎词** — DM 输出伊格尼斯城介绍
+2. **角色创建** — 前端内嵌卡片，选择模板或问答生成
+3. **开场叙事** — DM 按场景文件描述第一幕
+4. **游戏循环** — 玩家行动 → DM 叙事 → 检定/物品/HP 内嵌卡片 → 继续
+5. **三幕推进** — 自动切换场景和阶段
+
+### Skill 版流程
 
 1. **选择语言** — 中文 / English
-2. **创建角色** — 预设模板或问答生成
+2. **创建角色** — DM 引导选择模板或问答
 3. **第一幕** — 经营酒馆，赢得三位员工的信任
-4. **资格确认** — 达成连续3天达标，解锁第一幕结局
-
-Language → Character Creation → Act I Management → Qualification
-
-**预计游戏时长：** 1-2小时
-**Estimated play time:** 1-2 hours
+4. **资格确认** — 达成连续3天达标
+5. **第二/三幕** — 调查真相，面对最终抉择
 
 ---
 
-### 项目结构 Project Structure
+## 项目结构 / Project Structure
 
-| 文件夹 Folder | 内容 Content |
-|-------------|-------------|
-| `src/prompts/` | AI DM 系统提示、世界设定、NPC 角色描述 |
-| `src/rules/` | 游戏规则（d20 检定、属性、职业等） |
-| `src/scenes/` | 各场景脚本（开场、经营、资格确认等） |
-| `src/scenes/shared/` | Act II/III 共享场景文件 |
-| `src/npc/` | NPC 深度对话和背景文件（Act II 对话已完成） |
-| `assets/` | 预留：图像生成模板 |
-| `scripts/` | 预留：辅助脚本 |
+```
+ignis-tavern/
+├── SKILL.md                    # OpenClaw skill entry point
+├── README.md                   # This file
+├── src/                        # Skill version data
+│   ├── prompts/                # AI prompts & world-building
+│   │   ├── system_zh/en.md     # DM system prompt
+│   │   ├── dm_behavior_zh/en.md
+│   │   ├── web_dm_rules_zh/en.md  # Web DM rules (plain-text state tracking)
+│   │   ├── world_zh/en.md      # World setting
+│   │   ├── characters/         # NPC profiles (huan, licht, yu)
+│   │   └── phases/             # Phase-specific instructions
+│   ├── scenes/                 # Scene scripts (per-act, per-language)
+│   ├── scenes/shared/          # Act II/III shared scenes
+│   ├── rules/                  # Game rules
+│   ├── npc/                    # NPC dialogue and backstory
+│   └── schemas/                # Data format definitions
+├── web/                        # Web app (Next.js)
+│   ├── src/
+│   │   ├── app/                # Next.js app router
+│   │   │   ├── api/chat/       # Server-side chat API with provider fallback
+│   │   │   └── game/           # Game page
+│   │   ├── components/
+│   │   │   ├── InlineCharacterCreation.tsx  # UI-driven character creation card
+│   │   │   ├── InlineDiceCheck.tsx          # Inline dice roll card
+│   │   │   ├── InlineNotification.tsx       # Item/HP/XP notification cards
+│   │   │   ├── CharacterSheet.tsx           # Side panel character sheet
+│   │   │   ├── ChatInput.tsx
+│   │   │   ├── StreamingText.tsx
+│   │   │   └── ...
+│   │   ├── lib/
+│   │   │   ├── agents/gm.ts   # Progressive prompt loading
+│   │   │   ├── gameState.ts    # Reducer-based game state
+│   │   │   ├── diceMachine.ts  # Dice state machine + DC parsing
+│   │   │   └── api.ts          # Streaming chat API client
+│   │   └── data/               # Web version data (synced with src/)
+│   │       ├── prompts/        # Same structure as src/prompts/ + [CHAR:...] tags
+│   │       ├── scenes/         # Identical to src/scenes/
+│   │       ├── rules/          # Identical to src/rules/
+│   │       └── npc/            # Identical to src/npc/
+│   └── package.json
+└── LICENSE                     # MIT License
+```
 
-**支持语言 Supported Languages：** 中文（Chinese）、English
+### 两版差异 / Version Differences
+
+| 特性 | Skill 版 | Web 版 |
+|------|---------|--------|
+| 角色创建 | LLM 引导（多轮对话） | 前端 UI 驱动（内嵌卡片） |
+| 骰子检定 | 纯文本描述结果 | 状态机 + 动画 + 公式展示 |
+| 状态追踪 | DM 纯文本标注（`HP: 4/5`） | `[CHAR:...]` 标签自动解析 |
+| 物品/技能 | DM 叙事描述 | 内嵌通知卡片 |
+| API 限制 | 无（用用户的 key） | 免费 10 次/天 + 自带 key |
+| 多模型 | 用户的模型 | 自动 fallback（MiniMax → DeepSeek） |
 
 ---
 
 ## 项目状态 / Project Status
 
-### 第一幕（Playable）✅
-- 开场（中文/English）
-- 日经营系统（中文/English）
-- 资格确认场景（中文/English）
+### Story Content ✅
+- **Act I**: Opening + tavern management + qualification (中文/English)
+- **Act II**: Investigation (3 branches) + revelation (中文/English)
+- **Act III**: Confrontation + 7 endings (中文/English)
+- **NPC Dialogue**: Huan, Licht, Yu — Act II dialogues complete
 
-### 第二幕（Implemented）✅
-- 调查阶段（中文/English）
-- 真相揭露阶段（中文/English）
+### Web App 🔄
+- ✅ Progressive prompt loading (opening phase 4.4k tokens, -63%)
+- ✅ Front-end driven character creation (template + quiz)
+- ✅ Dice state machine (idle → awaiting_roll → roll_resolved)
+- ✅ Inline cards (dice check, item notifications, HP changes)
+- ✅ Side panel character sheet (stats, skills, NPC relations, revenue)
+- ✅ Server-side API with provider fallback + rate limiting
+- 🔄 Bug fixes in progress (dice flow, startup sequence, model selection)
+- ⏳ Visual polish and animations
+- ⏳ Save/load system improvements
 
-### 第三幕（Fully Implemented）✅
-- 开场场景（中文/English）
-- 对峙场景（中文/English）
-- 7 个结局完整剧本（中文/English）
+### Data Sync ✅
+- `scenes/`, `rules/`, `npc/` — identical between skill and web versions
+- `prompts/phases/act2` — synced (web's detailed scene descriptions)
+- `prompts/web_dm_rules` — intentionally different (tags vs plain text)
+- `prompts/phases/character_creation` — intentionally different (UI vs LLM driven)
 
 ---
 
@@ -174,45 +231,12 @@ Language → Character Creation → Act I Management → Qualification
 
 | 机制 | 说明 |
 |------|------|
-| **暗骰（Hidden Rolls）** | NPC 态度/声誉变化 DM 暗投，只通过行为表现传达 |
+| **d20 检定** | 属性修正 + d20 vs DC，前端骰子组件（Web）/ 纯文本（Skill） |
+| **暗骰** | NPC 态度/声誉变化 DM 暗投，只通过行为表现传达 |
 | **角色亮点 XP** | 精彩 RP 行为奖励 XP，DM 主动宣布 |
-| **每日检定情境** | 讨价还价、立威、处理投诉等场景触发 d20 明骰 |
-| **NPC 满意度（隐性）** | 玩家行为影响满意度，低了 NPC 可能离开 |
-
----
-
-## 安装路径 / Installation Path
-
-> ⚠️ 本项目使用 **workspace skill** 加载方式。
-> 安装路径：`~/.openclaw/workspace/skills/ignis-tavern/`
-> 而不是：`~/.openclaw/skills/ignis-tavern/`
-
----
-
-## Repository Structure / 仓库结构
-
-```
-ignis-tavern/
-├── SKILL.md               # OpenClaw skill entry point
-├── README.md              # This file
-├── LICENSE                # MIT License
-├── src/
-│   ├── prompts/           # AI prompts & world-building
-│   │   ├── system_zh.md   # DM system prompt (Chinese)
-│   │   ├── system_en.md   # DM system prompt (English)
-│   │   ├── world_zh.md    # World setting (Chinese)
-│   │   ├── world_en.md    # World setting (English)
-│   │   └── characters/    # NPC profiles (per-character, per-language)
-│   ├── scenes/            # Scene modules (per-act, per-language)
-│   ├── scenes/shared/     # Act II/III shared scenes
-│   ├── schemas/           # Data format definitions
-│   └── rules/             # Game rules (RULES_zh.md, RULES_en.md)
-├── assets/
-│   ├── prompts/           # Image generation prompt templates
-│   └── examples/          # Example outputs
-├── scripts/               # Helper scripts
-└── tests/                 # Test files
-```
+| **NPC 满意度** | 玩家行为影响满意度（0-100），低了 NPC 可能离开 |
+| **营收目标** | 每日营收目标，连续达标解锁资格 |
+| **HP 系统** | 基础 5 + 体魄修正，受伤/恢复 |
 
 ---
 
