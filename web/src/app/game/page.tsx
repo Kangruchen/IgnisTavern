@@ -38,23 +38,19 @@ function GamePageContent() {
    */
   function parseCharacterFromResponse(
     text: string,
-    dispatch: React.Dispatch<any>,
+    dispatchFn: React.Dispatch<any>,
     lang: 'zh' | 'en'
   ) {
-    // Only parse if stats are still empty (character not yet created)
-    if (gameState.character.stats.str > 0) return;
-
-    // Detect template name
+    // Detect template name — multiple formats
     const templatePatterns = [
       /角色卡[·\s]*([^\n]+)/, // 角色卡 · 调和者
       /Character Sheet[·\s]*([^\n]+)/i, // Character Sheet · Mediator
-      /【([^】]+)】/, // 【调和者】
     ];
     for (const p of templatePatterns) {
       const m = text.match(p);
       if (m) {
         const templateName = m[1].trim();
-        dispatch({
+        dispatchFn({
           type: 'SET_CHARACTER_NAME',
           payload: {
             name: templateName,
@@ -65,14 +61,14 @@ function GamePageContent() {
       }
     }
 
-    // Detect stats — support multiple formats
-    // Chinese: 体魄 14(＋2)  or  体魄14
-    // English: STR 14(+2)   or  STR 14
+    // Detect stats — support many formats
+    // Chinese: 体魄 14(＋2) / 体魄14 / 体魄：14
+    // English: STR 14(+2) / STR14 / STR: 14
     const statPatterns = [
-      { key: 'str', patterns: [/体魄\s*(\d+)/, /STR\s*(\d+)/i] },
-      { key: 'dex', patterns: [/敏捷\s*(\d+)/, /DEX\s*(\d+)/i] },
-      { key: 'int', patterns: [/心智\s*(\d+)/, /INT\s*(\d+)/i] },
-      { key: 'cha', patterns: [/魅力\s*(\d+)/, /CHA\s*(\d+)/i] },
+      { key: 'str', patterns: [/体魄[：:\s]*(\d+)/, /STR[：:\s]*(\d+)/i] },
+      { key: 'dex', patterns: [/敏捷[：:\s]*(\d+)/, /DEX[：:\s]*(\d+)/i] },
+      { key: 'int', patterns: [/心智[：:\s]*(\d+)/, /INT[：:\s]*(\d+)/i] },
+      { key: 'cha', patterns: [/魅力[：:\s]*(\d+)/, /CHA[：:\s]*(\d+)/i] },
     ];
 
     const parsedStats: Record<string, number> = {};
@@ -81,8 +77,11 @@ function GamePageContent() {
       for (const p of patterns) {
         const m = text.match(p);
         if (m) {
-          parsedStats[key] = parseInt(m[1]);
-          foundAny = true;
+          const val = parseInt(m[1]);
+          if (val >= 8 && val <= 16) { // Sanity check
+            parsedStats[key] = val;
+            foundAny = true;
+          }
           break;
         }
       }
@@ -95,22 +94,19 @@ function GamePageContent() {
       parsedStats.hp = 5 + strMod;
       parsedStats.maxHp = 5 + strMod;
 
-      dispatch({ type: 'UPDATE_CHARACTER_STATS', payload: parsedStats });
+      dispatchFn({ type: 'UPDATE_CHARACTER_STATS', payload: parsedStats });
     }
 
     // Detect skills
-    // Chinese: 技能：观察 ＋2（心智）、烹饪 ＋2（心智）
-    // English: Skills: Perception +2 (INT), Cooking +2 (INT)
     const skillMatch = text.match(/技能[：:]\s*([^\n]+)/) || text.match(/Skills?[：:]\s*([^\n]+)/i);
     if (skillMatch) {
       const skillText = skillMatch[1];
-      // Split by various delimiters
       const skills = skillText
-        .split(/[、,，;/]/)
-        .map(s => s.replace(/[＋+\-]\d+.*$/, '').trim()) // Remove modifier suffix
-        .filter(s => s.length > 0 && s.length < 20); // Sanity filter
+        .split(/[、,，;\/]/)
+        .map(s => s.replace(/[＋+\-]\d+.*$/, '').trim())
+        .filter(s => s.length > 0 && s.length < 20);
       if (skills.length > 0) {
-        dispatch({ type: 'UPDATE_CHARACTER_SKILLS', payload: skills });
+        dispatchFn({ type: 'UPDATE_CHARACTER_SKILLS', payload: skills });
       }
     }
   }
@@ -187,6 +183,9 @@ function GamePageContent() {
         dispatch({ type: 'APPEND_STREAMING_TEXT', payload: chunk });
       }
       dispatch({ type: 'FINISH_STREAMING', payload: fullResponse });
+
+      // Parse character data from initial DM response
+      parseCharacterFromResponse(fullResponse, dispatch, lang as 'zh' | 'en');
 
       // Check for phase transition in character creation response
       const charPhaseMatch = fullResponse.match(/\[PHASE_TRANSITION:(\w+)\]/);
@@ -322,7 +321,7 @@ function GamePageContent() {
           }
         }
 
-        // Parse character data from DM response (character creation phase)
+        // Parse character data from DM response
         if (gameState.currentScene === 'character_creation') {
           parseCharacterFromResponse(fullResponse, dispatch, lang);
         }

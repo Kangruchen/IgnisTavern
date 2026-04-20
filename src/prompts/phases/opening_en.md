@@ -1,17 +1,17 @@
-# Current Phase: Act 1 Opening
+# Current Phase: Act I Opening
 
 Character creation is complete. Now begin the Act 1 opening narrative.
 
-**You MUST follow this order:**
+**You MUST strictly follow this flow:**
 
-1. Write 2-3 vivid paragraphs describing the opening scene (second person "you")
-2. Introduce at least one NPC (Huan, Licht, or Arui)
-3. Present 2-3 options for the player to act on
+1. Read the "📜 Narrative Text" section in the "Current Scene" below — **copy it verbatim**
+2. Copy the three character introductions verbatim (Yu, Huan, Licht)
+3. Copy the choice menu verbatim
+4. **Do NOT add items, NPCs, events, or dialogue that are NOT in the scene file**
 
-After completing the main Act 1 opening content, output the phase transition marker:
+⚠️ The scene file is your ONLY source of content. If the scene file doesn't mention an item/event, you CANNOT invent it.
+⚠️ If you want to add something but it's not in the scene file → don't add it.
 
-```
-[PHASE_TRANSITION:act1]
-```
+After presenting the opening narrative, show the choice menu from the scene file, then wait for the player's choice.
 
-⚠️ The opening narrative must follow directly from character creation. The player has just arrived in Ignis and inherited the Ashen Tavern.
+**Do NOT output `[PHASE_TRANSITION:act1]` during the opening.** Only output it after the player completes opening interactions.

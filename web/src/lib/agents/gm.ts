@@ -111,7 +111,7 @@ export function buildGMPrompt(language: string, phase: GamePhase = 'character_cr
   if (worldSetting) parts.push('\n\n## 世界设定\n\n' + worldSetting);
   if (characterTexts) parts.push('\n\n## 角色设定\n\n' + characterTexts);
   if (rules) parts.push('\n\n## 游戏规则\n\n' + rules);
-  if (sceneText) parts.push(`\n\n## 当前场景：${sceneLabel}\n\n【重要：以下内容必须逐字使用，不得改写】\n\n${sceneText}`);
+  if (sceneText) parts.push(`\n\n## 当前场景：${sceneLabel}\n\n【⚠️ 极重要：以下场景内容是你必须逐字照搬的唯一来源。场景文件没写的物品/事件/对话，你绝不能编造。不要自行添加任何场景文件中不存在的内容！】\n\n${sceneText}`);
   if (phaseSpecificClosing) parts.push('\n\n---\n\n' + phaseSpecificClosing);
 
   return parts.join('');
