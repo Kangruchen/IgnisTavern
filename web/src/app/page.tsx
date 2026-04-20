@@ -11,6 +11,7 @@ export default function Home() {
   const router = useRouter();
   const [language, setLanguage] = useState<'zh' | 'en'>('zh');
   const [showApiModal, setShowApiModal] = useState(false);
+  const [showStartConfirm, setShowStartConfirm] = useState(false);
   const [hasSavedGame, setHasSavedGame] = useState(false);
 
   useEffect(() => {
@@ -20,6 +21,17 @@ export default function Home() {
   }, []);
 
   const handleStartGame = () => {
+    // If no custom API key, show recommendation dialog first
+    const settings = loadSettings();
+    if (!settings.apiKey) {
+      setShowStartConfirm(true);
+    } else {
+      router.push('/game');
+    }
+  };
+
+  const handleConfirmStart = () => {
+    setShowStartConfirm(false);
     router.push('/game');
   };
 
@@ -35,6 +47,10 @@ export default function Home() {
       start: '🔥 开始冒险',
       continue: '继续游戏',
       settings: '🔑 API 设置',
+      confirmTitle: '💡 建议配置 API Key',
+      confirmMsg: '未配置自定义 API Key 时，使用免费保底模型（每日限10次），可能出现角色设定偏差或叙事不稳定。\n\n配置自己的 Key 可以：\n✅ 解除每日调用限制\n✅ 使用更强的模型获得更好的 DM 体验\n✅ 享受更快更稳定的响应',
+      confirmSkip: '先用免费模式试试',
+      confirmConfig: '去配置 API Key',
     },
     en: {
       title: 'Ignis Tavern',
@@ -43,6 +59,10 @@ export default function Home() {
       start: '🔥 Begin Adventure',
       continue: 'Continue',
       settings: '🔑 API Settings',
+      confirmTitle: '💡 Consider Configuring an API Key',
+      confirmMsg: 'Without a custom API key, you\'ll use the free fallback model (10 calls/day), which may produce inaccurate character settings or unstable narratives.\n\nWith your own key:\n✅ No daily call limit\n✅ Stronger models for better DM quality\n✅ Faster, more stable responses',
+      confirmSkip: 'Try free mode first',
+      confirmConfig: 'Configure API Key',
     },
   };
 
@@ -134,6 +154,33 @@ export default function Home() {
         currentCustomApiUrl={loadSettings().customApiUrl}
         language={language}
       />
+
+      {/* Start game confirmation — shown when no API key configured */}
+      {showStartConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="bg-slate-900 border-2 border-amber-600 rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
+            <h3 className="text-xl text-amber-400 mb-3 font-bold">{t.confirmTitle}</h3>
+            <p className="text-amber-200/70 text-sm leading-relaxed whitespace-pre-line mb-6">{t.confirmMsg}</p>
+            <div className="flex gap-3">
+              <button
+                onClick={handleConfirmStart}
+                className="flex-1 px-4 py-2.5 border border-amber-700/50 text-amber-300/70 rounded-lg text-sm hover:bg-amber-900/30 transition-colors"
+              >
+                {t.confirmSkip}
+              </button>
+              <button
+                onClick={() => {
+                  setShowStartConfirm(false);
+                  setShowApiModal(true);
+                }}
+                className="flex-1 px-4 py-2.5 bg-gradient-to-r from-amber-600 to-orange-500 text-white rounded-lg font-bold text-sm hover:from-amber-500 hover:to-orange-400 transition-all shadow-lg shadow-orange-900/30"
+              >
+                {t.confirmConfig}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
