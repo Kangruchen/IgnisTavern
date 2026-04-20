@@ -28,6 +28,7 @@ function GamePageContent() {
   const [showSidePanel, setShowSidePanel] = useState(false);
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [saveFailedNotice, setSaveFailedNotice] = useState(false);
+  const gameStateRef = useRef(gameState);
 
   // Ref to always have latest API settings (avoids stale closure issues)
   const apiSettingsRef = useRef({
@@ -45,6 +46,7 @@ function GamePageContent() {
     model: gameState.model,
     customApiUrl: gameState.customApiUrl,
   };
+  gameStateRef.current = gameState;
 
   const hasInitialized = useRef(false);
 
@@ -295,7 +297,6 @@ function GamePageContent() {
       ? '开始游戏'
       : 'Start the game';
 
-    dispatch({ type: 'ADD_USER_MESSAGE', payload: triggerMessage });
     dispatch({ type: 'SET_STREAMING', payload: true });
     dispatch({ type: 'APPEND_STREAMING_TEXT', payload: '' });
 
@@ -350,8 +351,9 @@ function GamePageContent() {
   };
 
   const handleSendMessage = useCallback(
-    async (text: string) => {
-      if (gameState.isStreaming) return;
+    async (text: string, options?: { resolveDice?: boolean }) => {
+      const state = gameStateRef.current;
+      if (state.isStreaming) return;
 
       dispatch({ type: 'ADD_USER_MESSAGE', payload: text });
       dispatch({ type: 'SET_STREAMING', payload: true });
@@ -360,7 +362,7 @@ function GamePageContent() {
       let fullResponse = '';
       const s = apiSettingsRef.current;
       const contextMessages = [
-        ...gameState.messages,
+        ...state.messages,
         { role: 'user' as const, content: text },
       ];
       const assistantMessageIndex = contextMessages.length;
@@ -370,7 +372,7 @@ function GamePageContent() {
           contextMessages,
           s.language,
           s.userApiKey,
-          gameState.currentScene,
+          state.currentScene,
           s.provider,
           s.model,
           s.customApiUrl
@@ -385,7 +387,7 @@ function GamePageContent() {
         dispatch({ type: 'FINISH_STREAMING', payload: cleanedText });
 
         // Dice check: only detect when diceState is 'idle'
-        if (gameState.diceState === 'idle') {
+        if (!options?.resolveDice && state.diceState === 'idle') {
           const check = parseDiceCheck(fullResponse);
           if (check) {
             dispatch({ type: 'SET_DICE_STATE', payload: 'awaiting_roll' });
@@ -394,7 +396,7 @@ function GamePageContent() {
         }
 
         // Reset dice state to idle after roll was resolved and DM responded
-        if (gameState.diceState === 'roll_resolved') {
+        if (options?.resolveDice || state.diceState === 'roll_resolved') {
           dispatch({ type: 'SET_DICE_STATE', payload: 'idle' });
           dispatch({ type: 'SET_CURRENT_CHECK', payload: null });
         }
@@ -454,16 +456,16 @@ function GamePageContent() {
         dispatch({ type: 'FINISH_STREAMING', payload: fullResponse || errMsg });
       }
     },
-    [gameState.messages, gameState.isStreaming, gameState.language, gameState.userApiKey, gameState.currentScene, gameState.diceState]
+    []
   );
 
   const handleDiceRoll = useCallback(
-    (totalResult: number) => {
+    (roll: number) => {
       const check = gameState.currentCheck;
       if (!check) return;
 
       const statValue = gameState.character.stats[check.attribute as keyof typeof gameState.character.stats] || 10;
-      const rollResult = calculateRollResult(totalResult, statValue, check.dc);
+      const rollResult = calculateRollResult(roll, statValue, check.dc);
 
       dispatch({
         type: 'SET_DICE_ROLL',
@@ -477,7 +479,7 @@ function GamePageContent() {
       const lang = apiSettingsRef.current.language || gameState.language;
       const diceMsg = formatRollMessage(rollResult, lang);
       setTimeout(() => {
-        handleSendMessage(diceMsg);
+        handleSendMessage(diceMsg, { resolveDice: true });
       }, 2000);
     },
     [gameState.currentCheck, gameState.character.stats, gameState.language, handleSendMessage]
@@ -606,13 +608,6 @@ function GamePageContent() {
           {/* Messages */}
           <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 scroll-smooth">
             <div className="max-w-3xl mx-auto">
-              {/* Initial loading — game is starting */}
-              {displayMessages.length === 0 && !gameState.isStreaming && (
-                <div className="text-amber-300/60 text-center mt-20 whitespace-pre-line text-lg">
-                  {text.welcome}
-                </div>
-              )}
-
               {/* Initial loading animation */}
               {displayMessages.length === 0 && gameState.isStreaming && !gameState.displayedText && (
                 <div className="flex flex-col items-center justify-center mt-20 gap-6">

@@ -66,8 +66,8 @@ export default function InlineDiceCheck({
         setIsRolling(false);
         setRollPhase('done');
 
-        // Notify parent with the roll result total
-        onRoll?.(rollResult.total);
+        // Notify parent with raw d20 roll; parent computes final total once.
+        onRoll?.(finalRoll);
       }
     };
 
