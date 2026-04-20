@@ -61,6 +61,8 @@ export async function streamChatCompletion(
       temperature,
       max_tokens: maxTokens,
       stream: true,
+      // Disable reasoning/thinking for faster responses (Qwen3.x etc)
+      ...(providerId === 'siliconflow' ? { enable_thinking: false } : {}),
     }),
   });
 
