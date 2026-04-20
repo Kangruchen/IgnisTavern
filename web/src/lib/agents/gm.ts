@@ -11,6 +11,7 @@ type GamePhase = 'character_creation' | 'opening' | 'act1' | 'act2' | 'act3';
  *
  * File sources (all under web/src/data/, synced from src/):
  *   - prompts/system_{lang}.md       → base DM persona + rules (shared with skill)
+ *   - prompts/dm_behavior_{lang}.md  → detailed DM behavior rules (shared with skill)
  *   - prompts/web_dm_rules_{lang}.md → web-specific rules (dice, identity, scene verbatim)
  *   - prompts/phases/{phase}_{lang}.md → phase-specific instructions
  *   - prompts/world_{lang}.md        → world setting
@@ -34,16 +35,19 @@ export function buildGMPrompt(language: string, phase: GamePhase = 'character_cr
   // 1. Base DM system prompt (shared with skill version)
   const systemPrompt = readDataFile('prompts', `system_${lang}.md`);
 
-  // 2. Web-specific DM rules (dice, identity, scene verbatim)
+  // 2. Detailed DM behavior rules (shared with skill version)
+  const dmBehavior = readDataFile('prompts', `dm_behavior_${lang}.md`);
+
+  // 3. Web-specific DM rules (dice, identity, scene verbatim)
   const webRules = readDataFile('prompts', `web_dm_rules_${lang}.md`);
 
-  // 3. Phase-specific instructions
+  // 4. Phase-specific instructions
   const phaseInstructions = readDataFile('prompts', 'phases', `${phase}_${lang}.md`);
 
-  // 4. World setting
+  // 5. World setting
   const worldSetting = readDataFile('prompts', `world_${lang}.md`);
 
-  // 5. Character files (skip during creation to avoid spoilers)
+  // 6. Character files (skip during creation to avoid spoilers)
   let characterTexts = '';
   if (phase !== 'character_creation') {
     const charactersDir = path.join(dataDir, 'prompts', 'characters');
@@ -57,10 +61,10 @@ export function buildGMPrompt(language: string, phase: GamePhase = 'character_cr
     }
   }
 
-  // 6. Game rules
+  // 7. Game rules
   const rules = readDataFile('rules', `RULES_${lang}.md`);
 
-  // 7. Scene script based on phase
+  // 8. Scene script based on phase
   let sceneText = '';
   let sceneLabel = '';
   const sceneMap: Record<GamePhase, { file: string; labelZh: string; labelEn: string }> = {
@@ -81,6 +85,7 @@ export function buildGMPrompt(language: string, phase: GamePhase = 'character_cr
   const parts: string[] = [];
 
   if (systemPrompt) parts.push(systemPrompt);
+  if (dmBehavior) parts.push('\n\n' + dmBehavior);
   if (webRules) parts.push('\n\n' + webRules);
   if (phaseInstructions) parts.push('\n\n' + phaseInstructions);
   if (worldSetting) parts.push('\n\n## 世界设定\n\n' + worldSetting);
