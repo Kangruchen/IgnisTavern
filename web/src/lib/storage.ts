@@ -9,13 +9,11 @@ interface SaveData extends Partial<GameState> {
 export function saveGame(state: GameState): void {
   try {
     const saveData: SaveData = {
-      language: state.language,
-      currentAct: state.currentAct,
-      currentScene: state.currentScene,
-      messages: state.messages,
-      character: state.character,
-      lastDiceRoll: state.lastDiceRoll,
-      userApiKey: state.userApiKey,
+      ...state,
+      // Runtime-only fields should not resume as active async states.
+      isTyping: false,
+      isStreaming: false,
+      displayedText: '',
       savedAt: Date.now(),
     };
     localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));

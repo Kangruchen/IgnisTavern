@@ -24,8 +24,10 @@ git checkout npc/yu            # 之后直接切到自己的分支
 
 ```bash
 # 只改自己的目录
-src/npc/yu/dialogue/act2_xxx.md
-src/npc/yu/backstory/xxx.md
+src/npc/yu/dialogue/act2_xxx_zh.md
+src/npc/yu/dialogue/act2_xxx_en.md
+src/npc/yu/backstory/xxx_zh.md
+src/npc/yu/backstory/xxx_en.md
 ```
 
 ### 完成后：提交 PR

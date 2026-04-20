@@ -77,6 +77,19 @@ export interface InlineEvent {
   afterMessageIndex: number;  // show after this message index
 }
 
+export interface DmTagPatch {
+  hp?: number;
+  maxHp?: number;
+  addItems?: string[];
+  removeItems?: string[];
+  addSkills?: string[];
+  xpGain?: number;
+  npcDeltas?: Array<{ npcName: string; delta: number }>;
+  name?: string;
+  nameEn?: string;
+  stats?: Partial<Pick<Character['stats'], 'str' | 'dex' | 'int' | 'cha'>>;
+}
+
 const defaultCharacter: Character = {
   name: '',
   nameEn: '',
@@ -163,6 +176,8 @@ export const gameStateReducer = (
     | { type: 'ADD_INLINE_EVENT'; payload: InlineEvent }
     | { type: 'CLEAR_INLINE_EVENTS' }
     | { type: 'SET_SHOW_CHARACTER_CREATION'; payload: boolean }
+    | { type: 'APPLY_DM_TAG_PATCH'; payload: { patch: DmTagPatch; messageIndex: number } }
+    | { type: 'LOAD_STATE'; payload: Partial<GameState> }
     | { type: 'RESET_STATE' }
 ): GameState => {
   switch (action.type) {
@@ -316,6 +331,142 @@ export const gameStateReducer = (
       return { ...state, inlineEvents: [] };
     case 'SET_SHOW_CHARACTER_CREATION':
       return { ...state, showCharacterCreation: action.payload };
+    case 'APPLY_DM_TAG_PATCH': {
+      const { patch, messageIndex } = action.payload;
+      let character = state.character;
+      let mechanics = state.mechanics;
+      let npcRelations = state.npcRelations;
+      let inlineEvents = state.inlineEvents;
+
+      const pushInlineEvent = (type: InlineEvent['type'], value: string | number) => {
+        const event: InlineEvent = {
+          id: `${type}-${messageIndex}-${inlineEvents.length}`,
+          type,
+          value,
+          afterMessageIndex: messageIndex,
+        };
+        inlineEvents = [...inlineEvents, event];
+      };
+
+      if (patch.hp !== undefined || patch.maxHp !== undefined) {
+        const nextHp = patch.hp ?? character.stats.hp;
+        const nextMaxHp = patch.maxHp ?? character.stats.maxHp;
+        const clampedHp = Math.max(0, Math.min(nextMaxHp, nextHp));
+        if (clampedHp !== character.stats.hp || nextMaxHp !== character.stats.maxHp) {
+          const prevHp = character.stats.hp;
+          character = {
+            ...character,
+            stats: {
+              ...character.stats,
+              hp: clampedHp,
+              maxHp: nextMaxHp,
+            },
+          };
+          if (clampedHp !== prevHp) {
+            pushInlineEvent('hp_change', `${prevHp} -> ${clampedHp}`);
+          }
+        }
+      }
+
+      if (patch.addItems && patch.addItems.length > 0) {
+        let nextInventory = character.inventory;
+        for (const item of patch.addItems) {
+          if (!nextInventory.includes(item)) {
+            nextInventory = [...nextInventory, item];
+            pushInlineEvent('item_add', item);
+          }
+        }
+        if (nextInventory !== character.inventory) {
+          character = { ...character, inventory: nextInventory };
+        }
+      }
+
+      if (patch.removeItems && patch.removeItems.length > 0) {
+        let nextInventory = character.inventory;
+        for (const item of patch.removeItems) {
+          if (nextInventory.includes(item)) {
+            nextInventory = nextInventory.filter(i => i !== item);
+            pushInlineEvent('item_remove', item);
+          }
+        }
+        if (nextInventory !== character.inventory) {
+          character = { ...character, inventory: nextInventory };
+        }
+      }
+
+      if (patch.addSkills && patch.addSkills.length > 0) {
+        let nextSkills = character.skills;
+        for (const skill of patch.addSkills) {
+          if (!nextSkills.includes(skill)) {
+            nextSkills = [...nextSkills, skill];
+            pushInlineEvent('skill_add', skill);
+          }
+        }
+        if (nextSkills !== character.skills) {
+          character = { ...character, skills: nextSkills };
+        }
+      }
+
+      if (patch.xpGain && patch.xpGain > 0) {
+        mechanics = { ...mechanics, xp: mechanics.xp + patch.xpGain };
+        pushInlineEvent('xp', patch.xpGain);
+      }
+
+      if (patch.npcDeltas && patch.npcDeltas.length > 0) {
+        const deltaMap = new Map<string, number>();
+        for (const { npcName, delta } of patch.npcDeltas) {
+          deltaMap.set(npcName, (deltaMap.get(npcName) ?? 0) + delta);
+        }
+        npcRelations = npcRelations.map(npc => {
+          const delta = deltaMap.get(npc.name);
+          if (delta === undefined) return npc;
+          return {
+            ...npc,
+            satisfaction: Math.max(0, Math.min(100, npc.satisfaction + delta)),
+          };
+        });
+      }
+
+      if (patch.name !== undefined || patch.nameEn !== undefined || patch.stats) {
+        character = {
+          ...character,
+          name: patch.name ?? character.name,
+          nameEn: patch.nameEn ?? character.nameEn,
+          stats: patch.stats ? { ...character.stats, ...patch.stats } : character.stats,
+        };
+      }
+
+      return {
+        ...state,
+        character,
+        mechanics,
+        npcRelations,
+        inlineEvents,
+      };
+    }
+    case 'LOAD_STATE': {
+      const loaded = action.payload;
+      return {
+        ...state,
+        ...loaded,
+        character: {
+          ...state.character,
+          ...loaded.character,
+          stats: {
+            ...state.character.stats,
+            ...(loaded.character?.stats ?? {}),
+          },
+        },
+        mechanics: {
+          ...state.mechanics,
+          ...(loaded.mechanics ?? {}),
+        },
+        npcRelations: loaded.npcRelations ?? state.npcRelations,
+        inlineEvents: loaded.inlineEvents ?? state.inlineEvents,
+        messages: loaded.messages ?? state.messages,
+        currentCheck: loaded.currentCheck ?? state.currentCheck,
+      };
+    }
     default:
       return state;
   }

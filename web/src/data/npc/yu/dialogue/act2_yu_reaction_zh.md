@@ -1,7 +1,7 @@
 # 雨（Yu）/ Act II 对话片段
 
 > **负责人**：组员 A
-> **文件路径**：`src/npc/yu/dialogue/act2_yu_reaction.md`
+> **文件路径**：`src/npc/yu/dialogue/act2_yu_reaction_zh.md`
 > **说明**：填写雨在 Act II 各事件节点的对话
 
 ---

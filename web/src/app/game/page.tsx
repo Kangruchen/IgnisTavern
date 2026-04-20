@@ -11,7 +11,7 @@ import StreamingText from '@/components/StreamingText';
 import LanguageSelector from '@/components/LanguageSelector';
 import ApiKeyModal from '@/components/ApiKeyModal';
 import {
-  GameState,
+  DmTagPatch,
   createInitialGameState,
   gameStateReducer,
 } from '@/lib/gameState';
@@ -50,90 +50,114 @@ function GamePageContent() {
 
   /**
    * Strip all [CHAR:...] and [PHASE_TRANSITION:...] tags from DM text.
-   * Parse [CHAR:...] tags for in-game state changes (HP, items, skills).
+   * Parse [CHAR:...] tags into a single reducer patch to avoid fragmented state writes.
    * Returns cleaned text for display.
    */
-  function stripAndParseTags(
-    text: string,
-    dispatchFn: React.Dispatch<any>,
-  ): string {
-    const msgIndex = gameState.messages.length;
+  function parseDmTagPatch(text: string): DmTagPatch {
+    const patch: DmTagPatch = {};
+    const addItems: string[] = [];
+    const removeItems: string[] = [];
+    const addSkills: string[] = [];
+    const npcDeltas: Array<{ npcName: string; delta: number }> = [];
 
-    // Parse [CHAR:...] tags for in-game updates
-    const tagRegex = /\[CHAR:(\w+)=([^\]]+)\]/g;
+    const tagRegex = /\[CHAR:([a-zA-Z0-9+\-]+)=([^\]]+)\]/g;
     let match: RegExpExecArray | null;
 
     while ((match = tagRegex.exec(text)) !== null) {
       const key = match[1];
-      const value = match[2];
+      const value = match[2].trim();
 
       switch (key) {
         case 'hp': {
           const hpMatch = value.match(/^(\d+)\/(\d+)$/);
           if (hpMatch) {
-            const hp = parseInt(hpMatch[1]);
-            const maxHp = parseInt(hpMatch[2]);
+            const hp = parseInt(hpMatch[1], 10);
+            const maxHp = parseInt(hpMatch[2], 10);
             if (hp >= 0 && maxHp > 0 && hp <= maxHp) {
-              const oldHp = gameState.character.stats.hp;
-              dispatchFn({ type: 'UPDATE_CHARACTER_STATS', payload: { hp, maxHp } });
-              if (hp !== oldHp) {
-                dispatchFn({ type: 'ADD_INLINE_EVENT', payload: {
-                  id: `hp-${Date.now()}`, type: 'hp_change' as const,
-                  value: `${oldHp} → ${hp}`, afterMessageIndex: msgIndex,
-                }});
-              }
+              patch.hp = hp;
+              patch.maxHp = maxHp;
             }
           }
           break;
         }
-        case 'item+': {
-          dispatchFn({ type: 'ADD_INVENTORY_ITEM', payload: value });
-          dispatchFn({ type: 'ADD_INLINE_EVENT', payload: {
-            id: `item+-${Date.now()}`, type: 'item_add' as const,
-            value, afterMessageIndex: msgIndex,
-          }});
+        case 'item+':
+          if (value) addItems.push(value);
           break;
-        }
-        case 'item-': {
-          dispatchFn({ type: 'REMOVE_INVENTORY_ITEM', payload: value });
-          dispatchFn({ type: 'ADD_INLINE_EVENT', payload: {
-            id: `item--${Date.now()}`, type: 'item_remove' as const,
-            value, afterMessageIndex: msgIndex,
-          }});
+        case 'item-':
+          if (value) removeItems.push(value);
           break;
-        }
-        case 'skill+': {
-          dispatchFn({ type: 'ADD_CHARACTER_SKILL', payload: value });
-          dispatchFn({ type: 'ADD_INLINE_EVENT', payload: {
-            id: `skill+-${Date.now()}`, type: 'skill_add' as const,
-            value, afterMessageIndex: msgIndex,
-          }});
+        case 'skill+':
+          if (value) addSkills.push(value);
           break;
-        }
         case 'xp': {
-          const xp = parseInt(value);
-          if (xp > 0) {
-            dispatchFn({ type: 'ADD_XP', payload: xp });
-            dispatchFn({ type: 'ADD_INLINE_EVENT', payload: {
-              id: `xp-${Date.now()}`, type: 'xp' as const,
-              value: xp, afterMessageIndex: msgIndex,
-            }});
+          const xp = parseInt(value, 10);
+          if (!Number.isNaN(xp) && xp > 0) {
+            patch.xpGain = (patch.xpGain ?? 0) + xp;
           }
           break;
         }
         case 'npc+': {
           const npcMatch = value.match(/^(\w+):(-?\d+)$/);
           if (npcMatch) {
-            const npcName = npcMatch[1];
-            const delta = parseInt(npcMatch[2]);
-            const current = gameState.npcRelations.find(n => n.name === npcName);
-            if (current) {
-              dispatchFn({ type: 'SET_NPC_SATISFACTION', payload: { npcName, satisfaction: current.satisfaction + delta } });
-            }
+            npcDeltas.push({ npcName: npcMatch[1], delta: parseInt(npcMatch[2], 10) });
+          }
+          break;
+        }
+        case 'name':
+          patch.name = value;
+          break;
+        case 'stats': {
+          const nextStats: DmTagPatch['stats'] = { ...(patch.stats ?? {}) };
+          const statEntries = value.split(',').map(s => s.trim());
+          for (const entry of statEntries) {
+            const m = entry.match(/^(STR|DEX|INT|CHA|体魄|敏捷|心智|魅力)\s*(\d+)$/i);
+            if (!m) continue;
+            const label = m[1].toUpperCase();
+            const statValue = parseInt(m[2], 10);
+            if (label === 'STR' || label === '体魄') nextStats.str = statValue;
+            if (label === 'DEX' || label === '敏捷') nextStats.dex = statValue;
+            if (label === 'INT' || label === '心智') nextStats.int = statValue;
+            if (label === 'CHA' || label === '魅力') nextStats.cha = statValue;
+          }
+          if (Object.keys(nextStats).length > 0) {
+            patch.stats = nextStats;
           }
           break;
         }
       }
+    }
+
+    if (addItems.length > 0) patch.addItems = addItems;
+    if (removeItems.length > 0) patch.removeItems = removeItems;
+    if (addSkills.length > 0) patch.addSkills = addSkills;
+    if (npcDeltas.length > 0) patch.npcDeltas = npcDeltas;
+
+    return patch;
+  }
+
+  function hasDmTagPatch(patch: DmTagPatch): boolean {
+    return (
+      patch.hp !== undefined
+      || patch.maxHp !== undefined
+      || patch.name !== undefined
+      || patch.nameEn !== undefined
+      || patch.xpGain !== undefined
+      || (patch.stats !== undefined && Object.keys(patch.stats).length > 0)
+      || (patch.addItems !== undefined && patch.addItems.length > 0)
+      || (patch.removeItems !== undefined && patch.removeItems.length > 0)
+      || (patch.addSkills !== undefined && patch.addSkills.length > 0)
+      || (patch.npcDeltas !== undefined && patch.npcDeltas.length > 0)
+    );
+  }
+
+  function stripAndParseTags(
+    text: string,
+    dispatchFn: React.Dispatch<any>,
+    messageIndex: number,
+  ): string {
+    const patch = parseDmTagPatch(text);
+    if (hasDmTagPatch(patch)) {
+      dispatchFn({ type: 'APPLY_DM_TAG_PATCH', payload: { patch, messageIndex } });
     }
 
     // Strip all tags
@@ -195,7 +219,7 @@ function GamePageContent() {
             fullResponse += chunk;
             dispatch({ type: 'APPEND_STREAMING_TEXT', payload: chunk });
           }
-          const cleaned = stripAndParseTags(fullResponse, dispatch);
+          const cleaned = stripAndParseTags(fullResponse, dispatch, gameState.messages.length);
           dispatch({ type: 'FINISH_STREAMING', payload: cleaned });
 
           // Check for dice check in opening
@@ -235,14 +259,7 @@ function GamePageContent() {
 
     if (shouldContinue && saved && saved.messages && saved.messages.length > 0) {
       // Restore from save
-      if (saved.language) dispatch({ type: 'SET_LANGUAGE', payload: saved.language });
-      if (saved.userApiKey) dispatch({ type: 'SET_API_KEY', payload: saved.userApiKey });
-      if (saved.provider) dispatch({ type: 'SET_PROVIDER', payload: saved.provider });
-      if (saved.model) dispatch({ type: 'SET_MODEL', payload: saved.model });
-      if (saved.customApiUrl) dispatch({ type: 'SET_CUSTOM_API_URL', payload: saved.customApiUrl });
-      for (const msg of saved.messages) {
-        dispatch({ type: 'ADD_ASSISTANT_MESSAGE', payload: msg.content });
-      }
+      dispatch({ type: 'LOAD_STATE', payload: saved });
     } else {
       // New game: show character creation UI
       // Pass settings directly since dispatch hasn't updated gameState yet
@@ -294,7 +311,7 @@ function GamePageContent() {
           fullResponse += chunk;
           dispatch({ type: 'APPEND_STREAMING_TEXT', payload: chunk });
         }
-        const cleaned = stripAndParseTags(fullResponse, dispatch);
+        const cleaned = stripAndParseTags(fullResponse, dispatch, gameState.messages.length);
         dispatch({ type: 'FINISH_STREAMING', payload: cleaned });
       } catch (error: any) {
         let errMsg = error.message || 'Unknown error';
@@ -360,7 +377,7 @@ function GamePageContent() {
         }
 
         // Strip and parse tags (HP, items, skills, etc.)
-        const cleanedText = stripAndParseTags(fullResponse, dispatch);
+        const cleanedText = stripAndParseTags(fullResponse, dispatch, gameState.messages.length);
 
         dispatch({ type: 'FINISH_STREAMING', payload: cleanedText });
 

@@ -26,7 +26,7 @@ src/npc/
 
 1. 在自己的 NPC 目录下新建文件
 2. 修改自己 NPC 目录下的文件
-3. 在 `dialogue/` 下按事件命名文件（如 `act2_revelation.md`）
+3. 在 `dialogue/` 下按事件命名文件，并使用双语后缀（如 `act2_revelation_zh.md` / `act2_revelation_en.md`）
 4. 完成后在群里通知
 
 ### ❌ 禁止做的
@@ -40,11 +40,17 @@ src/npc/
 ## 文件命名规范
 
 ```
-act2_{事件名}.md        # Act II 对话
-act3_{事件名}.md        # Act III 对话
-backstory_{主题}.md     # 背景补充
-lines_{场景}.md         # 零散台词
+act2_{event}_zh.md      # Act II 对话（中文）
+act2_{event}_en.md      # Act II 对话（英文）
+act3_{event}_zh.md      # Act III 对话（中文）
+act3_{event}_en.md      # Act III 对话（英文）
+backstory_{topic}_zh.md # 背景补充（中文）
+backstory_{topic}_en.md # 背景补充（英文）
+lines_{scene}_zh.md     # 零散台词（中文）
+lines_{scene}_en.md     # 零散台词（英文）
 ```
+
+> 规则：中文和英文文件必须成对提交。
 
 ---
 
@@ -54,8 +60,8 @@ lines_{场景}.md         # 零散台词
 
 ```
 [焕] Act II 对话已完成
-- 新增文件：src/npc/huan/dialogue/act2_revelation.md
-- 新增文件：src/npc/huan/dialogue/act2_huan_choice.md
+- 新增文件：src/npc/huan/dialogue/act2_revelation_zh.md
+- 新增文件：src/npc/huan/dialogue/act2_revelation_en.md
 - 备注：焕的真相分三段讲述，按顺序触发
 ```
 

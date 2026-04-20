@@ -1,7 +1,7 @@
 # 焕（Huan）/ Act II 对话片段
 
 > **负责人**：组员 C
-> **文件路径**：`src/npc/huan/dialogue/act2_revelation.md`
+> **文件路径**：`src/npc/huan/dialogue/act2_revelation_zh.md`
 > **说明**：填写焕在 Act II 的核心对话——他的过去、他的复仇、他的选择
 
 ---

@@ -76,12 +76,12 @@
 ## 🎭 NPC 剧情节点
 
 > **注意**：以下为占位符。各 NPC 负责人在自己的 `npc/` 目录下填写具体对话。
-> 文件路径格式：`npc/{npc}/dialogue/act2_{event}.md`
+> 文件路径格式：`npc/{npc}/dialogue/act2_{event}_{lang}.md`
 
 | 事件 | 涉及 NPC | 负责人 | 占位文件 |
 |------|---------|--------|---------|
-| 焕坦白过去 | 焕 | 组员 C | `npc/huan/dialogue/act2_revelation.md` |
-| 雨得知真相后的反应 | 雨 | 组员 A | `npc/yu/dialogue/act2_yu_reaction.md` |
+| 焕坦白过去 | 焕 | 组员 C | `npc/huan/dialogue/act2_revelation_zh.md` / `act2_revelation_en.md` |
+| 雨得知真相后的反应 | 雨 | 组员 A | `npc/yu/dialogue/act2_yu_reaction_zh.md` / `act2_yu_reaction_en.md` |
 | 利希特感知到异常 | 利希特 | 组员 B | `npc/licht/dialogue/act2_licht_sense_zh.md` / `act2_licht_sense_en.md` |
 | 三人会议 | 全体 | 你（统筹）| 写在主框架里 |
 | 美食协会的阴影 | 雨/焕 | 组员 A+C | ⬜ 待创建 |
