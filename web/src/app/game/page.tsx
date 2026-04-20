@@ -603,7 +603,13 @@ function GamePageContent() {
           </button>
 
           <div className="h-full p-4 flex flex-col gap-4 overflow-y-auto">
-            <CharacterSheet character={gameState.character} language={lang} phase={gameState.currentScene} />
+            <CharacterSheet 
+              character={gameState.character} 
+              language={lang} 
+              phase={gameState.currentScene}
+              npcRelations={gameState.npcRelations}
+              mechanics={gameState.mechanics}
+            />
             {/* Dice roller — state machine driven */}
             <div id="dice-roller">
               <DiceRoller
