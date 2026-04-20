@@ -160,10 +160,8 @@ Language → Character Creation → Act I Management → Qualification
 - 资格确认场景（中文/English）
 
 ### 第二幕（Implemented）✅
-- 调查阶段（中文/English）— 美食大赛邀请函异常，三条分支路线调查城市秘密
-- 真相揭露阶段（中文/English）— 圣焰广场地下密室发现骸骨堆与灵魂燃烧阵法，与守焰者对峙并做出最终抉择
-- GM 支持多场景加载，完整流程贯通
-- NPC Act II 对话：焕（中文）、利希特（中文/English）、雨（中文/English）
+- 调查阶段（中文/English）
+- 真相揭露阶段（中文/English）
 
 ### 第三幕（Fully Implemented）✅
 - 开场场景（中文/English）
