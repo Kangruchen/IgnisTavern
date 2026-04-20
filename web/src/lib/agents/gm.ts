@@ -69,7 +69,7 @@ export function buildGMPrompt(language: string, phase: GamePhase = 'character_cr
     act3: { file: `act3_opening_${lang}.md`, labelZh: '第三幕', labelEn: 'Act III' },
   };
 
-  const sceneInfo = sceneMap[phase];
+  const sceneInfo = sceneMap[phase] || { file: '', labelZh: '', labelEn: '' };
   if (sceneInfo.file) {
     sceneText = readDataFile('scenes', sceneInfo.file);
     sceneLabel = lang === 'zh' ? sceneInfo.labelZh : sceneInfo.labelEn;
