@@ -428,28 +428,31 @@ function GamePageContent() {
         dispatch({ type: 'FINISH_STREAMING', payload: fullResponse || errMsg });
       }
     },
-    [gameState.messages, gameState.isStreaming, gameState.language, gameState.userApiKey, gameState.currentScene]
+    [gameState.messages, gameState.isStreaming, gameState.language, gameState.userApiKey, gameState.currentScene, gameState.diceState]
   );
 
   const handleDiceRoll = useCallback(
-    async (result: number) => {
+    (totalResult: number) => {
       const check = gameState.currentCheck;
       if (!check) return;
 
       const statValue = gameState.character.stats[check.attribute as keyof typeof gameState.character.stats] || 10;
-      const rollResult = calculateRollResult(result, statValue, check.dc);
+      const rollResult = calculateRollResult(totalResult, statValue, check.dc);
 
       dispatch({
         type: 'SET_DICE_ROLL',
         payload: { result: rollResult.total, success: rollResult.success, difficulty: check.dc },
       });
 
-      // Transition to roll_resolved
+      // Transition to roll_resolved — card stays visible showing result
       dispatch({ type: 'SET_DICE_STATE', payload: 'roll_resolved' });
 
-      // Send dice result as a follow-up message
-      const diceMsg = formatRollMessage(rollResult, gameState.language);
-      await handleSendMessage(diceMsg);
+      // After a 2-second pause so player sees the result, send to DM
+      const lang = apiSettingsRef.current.language || gameState.language;
+      const diceMsg = formatRollMessage(rollResult, lang);
+      setTimeout(() => {
+        handleSendMessage(diceMsg);
+      }, 2000);
     },
     [gameState.currentCheck, gameState.character.stats, gameState.language, handleSendMessage]
   );
