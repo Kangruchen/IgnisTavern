@@ -85,17 +85,17 @@ export function buildGMPrompt(language: string, phase: GamePhase = 'character_cr
   const phaseClosingMap: Record<string, Record<string, string>> = {
     zh: {
       character_creation: '⚠️ 最后提醒：你现在是角色创建阶段！只帮玩家建角色，不要讲故事！展示完整角色卡后输出 [PHASE_TRANSITION:opening]',
-      opening: '⚠️ 最后提醒：你现在开始开场叙事！场景文件必须逐字使用，给2-3个选项后输出 [PHASE_TRANSITION:act1]',
-      act1: '⚠️ 最后提醒：你在第一幕酒馆经营阶段！追踪营收和NPC，准备进入第二幕时输出 [PHASE_TRANSITION:act2]',
-      act2: '⚠️ 最后提醒：你在第二幕！逐步揭露真相，准备进入第三幕时输出 [PHASE_TRANSITION:act3]',
-      act3: '⚠️ 最后提醒：你在第三幕！玩家面临最终抉择，故事结束时输出 [PHASE_TRANSITION:ending]',
+      opening: '⚠️ 最后提醒：1) 场景文件必须逐字使用 2) 输出🎲检定后立刻停笔，绝不接着写「如果成功…如果失败…」3) 给2-3个选项后输出 [PHASE_TRANSITION:act1]',
+      act1: '⚠️ 最后提醒：1) 输出🎲检定后立刻停笔等玩家投骰 2) 追踪营收和NPC 3) 准备进入第二幕时输出 [PHASE_TRANSITION:act2]',
+      act2: '⚠️ 最后提醒：1) 输出🎲检定后立刻停笔等玩家投骰 2) 逐步揭露真相 3) 准备进入第三幕时输出 [PHASE_TRANSITION:act3]',
+      act3: '⚠️ 最后提醒：1) 输出🎲检定后立刻停笔等玩家投骰 2) 玩家面临最终抉择 3) 故事结束时输出 [PHASE_TRANSITION:ending]',
     },
     en: {
       character_creation: '⚠️ REMINDER: You are in CHARACTER CREATION! Only build the character, DO NOT narrate! After showing complete character sheet, output [PHASE_TRANSITION:opening]',
-      opening: '⚠️ REMINDER: Begin the opening narrative! Use scene file verbatim, give 2-3 options, then output [PHASE_TRANSITION:act1]',
-      act1: '⚠️ REMINDER: You are in Act I tavern management! Track revenue and NPCs, when ready for Act II output [PHASE_TRANSITION:act2]',
-      act2: '⚠️ REMINDER: You are in Act II! Reveal truth gradually, when ready for Act III output [PHASE_TRANSITION:act3]',
-      act3: '⚠️ REMINDER: You are in Act III! Player faces final choice, when story ends output [PHASE_TRANSITION:ending]',
+      opening: '⚠️ REMINDER: 1) Use scene file verbatim 2) After announcing 🎲 Check, STOP immediately — NEVER write "if you succeed/fail" 3) Give 2-3 options, then output [PHASE_TRANSITION:act1]',
+      act1: '⚠️ REMINDER: 1) After announcing 🎲 Check, STOP immediately and wait for player roll 2) Track revenue and NPCs 3) When ready for Act II output [PHASE_TRANSITION:act2]',
+      act2: '⚠️ REMINDER: 1) After announcing 🎲 Check, STOP immediately and wait for player roll 2) Reveal truth gradually 3) When ready for Act III output [PHASE_TRANSITION:act3]',
+      act3: '⚠️ REMINDER: 1) After announcing 🎲 Check, STOP immediately and wait for player roll 2) Player faces final choice 3) When story ends output [PHASE_TRANSITION:ending]',
     },
   };
 

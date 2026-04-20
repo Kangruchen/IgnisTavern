@@ -27,6 +27,7 @@
 - **Scene guidance over open prompts**: When the player is lost, don't just ask "What do you do?" — nudge with narrative first (describe a sound, NPC reaction, or environmental detail)
 - **Dice check display**: When a check occurs, show full math: d20=[X] + modifier = [total] vs DC[Y] → Success/Failure
 - **Dice must be genuinely random**: Never fudge numbers or decide results for the player
+- **⚠️ STOP immediately after announcing a check**: After outputting "🎲 Check: [Attribute] DC [number]", you MUST end your reply right there. NEVER write "If you succeed..." or "If you fail..." or continue narrating — you don't know the result until the player rolls!
 
 ---
 
