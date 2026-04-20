@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { buildGMPrompt } from '@/lib/agents/gm';
 import { streamChatCompletion } from '@/lib/llm';
-import { ProviderId } from '@/lib/providers';
+import { PROVIDERS, ProviderId } from '@/lib/providers';
 
 /**
- * Server-side chat API — ONLY used for the fallback (free) model.
- * User API keys are handled directly in the browser (see api.ts streamDirectFromBrowser).
+ * Server-side chat API.
+ * Handles BOTH fallback (server key) and user-provided keys.
+ * User keys are received from browser, used for this request only, never stored.
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { messages, language, phase, provider, model } = body;
+    const { messages, language, phase, provider, model, userApiKey, customApiUrl } = body;
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json(
@@ -19,19 +20,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // This endpoint only handles fallback — no user key accepted
-    const apiKey = process.env.FALLBACK_API_KEY;
-    const fallbackProvider = (process.env.FALLBACK_PROVIDER as ProviderId) || 'siliconflow';
-    const fallbackModel = process.env.FALLBACK_MODEL || 'Qwen/Qwen3.5-4B';
+    // Use user's key if provided, otherwise fallback to server key
+    const apiKey = userApiKey || process.env.FALLBACK_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
-        { error: 'No fallback API key configured on server. Please provide your own API key.' },
+        { error: 'No API key available. Please provide your own API key.' },
         { status: 401 }
       );
     }
 
-    // Build system prompt
-    const systemPrompt = buildGMPrompt(language || 'zh', phase || 'character_creation');
+    const providerId = (provider as ProviderId) || (process.env.FALLBACK_PROVIDER as ProviderId) || 'siliconflow';
+    const modelName = model || process.env.FALLBACK_MODEL || PROVIDERS[providerId]?.defaultModel || 'Qwen/Qwen3.5-4B';
+
+    // Build system prompt using the SAME server-side logic as fallback
+    const systemPrompt = buildGMPrompt(language || 'zh', (phase || 'character_creation') as any);
 
     const llmMessages = [
       { role: 'system', content: systemPrompt },
@@ -46,8 +48,9 @@ export async function POST(request: NextRequest) {
             {
               apiKey,
               messages: llmMessages,
-              model: fallbackModel,
-              provider: fallbackProvider,
+              model: modelName,
+              provider: providerId,
+              customApiUrl,
             },
             (chunk) => {
               controller.enqueue(
