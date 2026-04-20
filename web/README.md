@@ -26,10 +26,15 @@ Open http://localhost:3000
 	- runs local consistency checks (must pass)
 - `npm run check:consistency`
 	- validates local consistency only (no copy)
+- `npm run setup:hooks`
+	- installs local `pre-commit` and `pre-push` hooks
+	- each hook runs `npm run check:consistency`
 - `npm run dev`
 	- `sync` then starts Next dev server
 - `npm run build`
 	- `sync` then builds production bundle
+- `npm run lint`
+	- runs ESLint CLI (`eslint .`)
 
 ## Local Consistency Guard
 
@@ -45,6 +50,12 @@ If the guard fails, fix issues first, then rerun:
 
 ```bash
 npm run check:consistency
+```
+
+To enforce checks automatically on commit/push (local only):
+
+```bash
+npm run setup:hooks
 ```
 
 ## Data Source Rules
@@ -65,4 +76,4 @@ npm run check:consistency
 
 ## Known Note
 
-`next lint` may fail due to existing Next/ESLint compatibility in this repository setup. The local workflow for this project prioritizes `sync + check:consistency` as the gate.
+`npm run lint` is enabled and reports current repository lint issues. In the short term, the required local gate for this project remains `sync + check:consistency`; lint violations can be fixed incrementally in follow-up PRs.

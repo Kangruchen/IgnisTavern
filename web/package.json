@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "check:consistency": "node scripts/check-consistency.js",
+    "setup:hooks": "node scripts/install-hooks.js",
     "sync": "node scripts/sync-skill.js && npm run check:consistency",
     "dev": "npm run sync && next dev",
     "build": "npm run sync && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "lint:next": "next lint"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.2",
@@ -21,8 +23,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^10.2.1",
-    "eslint-config-next": "^16.2.4",
+    "eslint": "^9.38.0",
+    "eslint-config-next": "^15.5.5",
     "typescript": "^5"
   }
 }
