@@ -134,8 +134,13 @@ export async function POST(request: NextRequest) {
 
     if (attempts.length === 0) {
       return NextResponse.json(
-        { error: 'No API key available. Please provide your own API key.' },
-        { status: 401 }
+        {
+          error: 'fallback_unavailable',
+          message: language === 'zh'
+            ? '当前免费保底模型不可用，请配置自己的 API Key。'
+            : 'Fallback free model is currently unavailable. Please configure your own API key.',
+        },
+        { status: 503 }
       );
     }
 

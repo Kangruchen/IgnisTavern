@@ -6,7 +6,7 @@ interface SaveData extends Partial<GameState> {
   savedAt: number;
 }
 
-export function saveGame(state: GameState): void {
+export function saveGame(state: GameState): boolean {
   try {
     const saveData: SaveData = {
       ...state,
@@ -17,8 +17,10 @@ export function saveGame(state: GameState): void {
       savedAt: Date.now(),
     };
     localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
+    return true;
   } catch (error) {
     console.error('Failed to save game:', error);
+    return false;
   }
 }
 

@@ -27,6 +27,7 @@ function GamePageContent() {
   const [gameState, dispatch] = useReducer(gameStateReducer, createInitialGameState());
   const [showSidePanel, setShowSidePanel] = useState(false);
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
+  const [saveFailedNotice, setSaveFailedNotice] = useState(false);
 
   // Ref to always have latest API settings (avoids stale closure issues)
   const apiSettingsRef = useRef({
@@ -270,7 +271,10 @@ function GamePageContent() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (gameState.messages.length > 0) {
-        saveGame(gameState);
+        const ok = saveGame(gameState);
+        if (!ok) {
+          setSaveFailedNotice(true);
+        }
       }
     }, 30000);
     return () => clearInterval(interval);
@@ -354,29 +358,29 @@ function GamePageContent() {
       dispatch({ type: 'APPEND_STREAMING_TEXT', payload: '' }); // Reset streaming text
 
       let fullResponse = '';
+      const s = apiSettingsRef.current;
+      const contextMessages = [
+        ...gameState.messages,
+        { role: 'user' as const, content: text },
+      ];
+      const assistantMessageIndex = contextMessages.length;
 
       try {
-        // Get all messages for context (including the one we just added)
-        const contextMessages = [
-          ...gameState.messages,
-          { role: 'user' as const, content: text },
-        ];
-
         for await (const chunk of streamChatMessage(
           contextMessages,
-          gameState.language,
-          gameState.userApiKey,
+          s.language,
+          s.userApiKey,
           gameState.currentScene,
-          gameState.provider,
-          gameState.model,
-          gameState.customApiUrl
+          s.provider,
+          s.model,
+          s.customApiUrl
         )) {
           fullResponse += chunk;
           dispatch({ type: 'APPEND_STREAMING_TEXT', payload: chunk });
         }
 
         // Strip and parse tags (HP, items, skills, etc.)
-        const cleanedText = stripAndParseTags(fullResponse, dispatch, gameState.messages.length);
+        const cleanedText = stripAndParseTags(fullResponse, dispatch, assistantMessageIndex);
 
         dispatch({ type: 'FINISH_STREAMING', payload: cleanedText });
 
@@ -418,26 +422,32 @@ function GamePageContent() {
         }
       } catch (error: any) {
         let errMsg = error.message || 'Unknown error';
+        if (errMsg.includes('fallback_unavailable')) {
+          errMsg = s.language === 'zh'
+            ? '当前免费保底模型不可用。请点击右上角「API Key」配置自己的 Key。'
+            : 'Fallback free model is unavailable. Please click "API Key" to configure your own key.';
+          setTimeout(() => setShowApiKeyModal(true), 500);
+        } else
         if (errMsg.includes('daily_limit')) {
-          errMsg = gameState.language === 'zh'
+          errMsg = s.language === 'zh'
             ? '今日免费额度已用完（10次/天）。请点击右上角 🔑「API Key」配置自己的 Key 解除限制！'
             : 'Daily free limit reached (10/day). Click 🔑 "API Key" in the top-right to configure your own key!';
           // Auto-open API key modal on rate limit
           setTimeout(() => setShowApiKeyModal(true), 500);
         } else if (errMsg.includes('abort') || errMsg.includes('AbortError')) {
-          errMsg = gameState.language === 'zh'
+          errMsg = s.language === 'zh'
             ? '请求超时（30秒无响应）。保底模型可能已不可用，请点击右上角「API Key」配置自己的 Key。'
             : 'Request timed out (30s). Fallback model may be unavailable — please click "API Key" to configure your own.';
         } else if (errMsg.includes('balance') || errMsg.includes('depleted') || errMsg.includes('insufficient')) {
-          errMsg = gameState.language === 'zh'
+          errMsg = s.language === 'zh'
             ? '保底模型余额不足。请点击右上角「API Key」配置自己的 Key。'
             : 'Fallback model balance depleted. Please click "API Key" to configure your own.';
         } else if (errMsg.includes('401') || errMsg.includes('403')) {
-          errMsg = gameState.language === 'zh'
+          errMsg = s.language === 'zh'
             ? 'API Key 无效或余额不足。请点击右上角「API Key」检查设置。'
             : 'API key invalid or balance depleted. Please click "API Key" to check settings.';
         } else {
-          errMsg = gameState.language === 'zh'
+          errMsg = s.language === 'zh'
             ? `连接失败：${errMsg}`
             : `Connection failed: ${errMsg}`;
         }
@@ -580,6 +590,14 @@ function GamePageContent() {
           <LanguageSelector currentLang={lang} onChange={handleLanguageChange} size="sm" />
         </div>
       </header>
+
+      {saveFailedNotice && (
+        <div className="px-4 py-2 text-xs text-red-300 bg-red-900/30 border-b border-red-700/40">
+          {lang === 'zh'
+            ? '自动保存失败：浏览器存储可能不可用。请先不要刷新页面，并尽快复制关键信息。'
+            : 'Auto-save failed: browser storage may be unavailable. Avoid refreshing and keep key progress notes.'}
+        </div>
+      )}
 
       {/* Main game area */}
       <main className="flex-1 flex overflow-hidden">
