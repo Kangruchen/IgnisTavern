@@ -89,7 +89,10 @@ export const gameStateReducer = (
     | { type: 'SET_API_MODE'; payload: 'default' | 'custom' }
     | { type: 'UPDATE_CHARACTER_STATS'; payload: Partial<Character['stats']> }
     | { type: 'UPDATE_CHARACTER_SKILLS'; payload: string[] }
+    | { type: 'ADD_CHARACTER_SKILL'; payload: string }
     | { type: 'UPDATE_CHARACTER_INVENTORY'; payload: string[] }
+    | { type: 'ADD_INVENTORY_ITEM'; payload: string }
+    | { type: 'REMOVE_INVENTORY_ITEM'; payload: string }
     | { type: 'SET_CHARACTER_NAME'; payload: { name: string; nameEn: string } }
     | { type: 'RESET_STATE' }
 ): GameState => {
@@ -144,8 +147,16 @@ export const gameStateReducer = (
       return { ...state, character: { ...state.character, stats: { ...state.character.stats, ...action.payload } } };
     case 'UPDATE_CHARACTER_SKILLS':
       return { ...state, character: { ...state.character, skills: action.payload } };
+    case 'ADD_CHARACTER_SKILL':
+      if (state.character.skills.includes(action.payload)) return state;
+      return { ...state, character: { ...state.character, skills: [...state.character.skills, action.payload] } };
     case 'UPDATE_CHARACTER_INVENTORY':
       return { ...state, character: { ...state.character, inventory: action.payload } };
+    case 'ADD_INVENTORY_ITEM':
+      if (state.character.inventory.includes(action.payload)) return state;
+      return { ...state, character: { ...state.character, inventory: [...state.character.inventory, action.payload] } };
+    case 'REMOVE_INVENTORY_ITEM':
+      return { ...state, character: { ...state.character, inventory: state.character.inventory.filter(i => i !== action.payload) } };
     case 'SET_CHARACTER_NAME':
       return { ...state, character: { ...state.character, name: action.payload.name, nameEn: action.payload.nameEn } };
     case 'RESET_STATE':

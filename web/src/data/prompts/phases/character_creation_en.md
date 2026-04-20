@@ -167,11 +167,30 @@ After the player selects a template or completes the quiz, **you MUST output the
 
 ⚠️ The sheet MUST include: HP value, all 4 attributes with modifiers, skills with bonuses, trait. Missing any item is unacceptable.
 
+**After the character sheet, you MUST output state tags** (these are invisible to the player, but the system needs them to sync the character panel):
+
+```
+[CHAR:name=Template Name]
+[CHAR:stats=STRxx,DEXxx,INTxx,CHAxx]
+[CHAR:skill+=Skill1]
+[CHAR:skill+=Skill2]
+[CHAR:skill+=Skill3]
+```
+
+Example (Action-Oriented template):
+```
+[CHAR:name=Action-Oriented]
+[CHAR:stats=STR10,DEX14,INT10,CHA12]
+[CHAR:skill+=Sleight of Hand]
+[CHAR:skill+=Stealth]
+[CHAR:skill+=Performance]
+```
+
 ---
 
 ### Step 4: Confirm and Transition
 
-After displaying the character sheet, output:
+After displaying the character sheet and state tags, output:
 
 ```
 Your character is ready! The adventure begins...

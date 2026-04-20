@@ -32,113 +32,111 @@ function GamePageContent() {
   const hasInitialized = useRef(false);
 
   /**
-   * Parse character sheet data from DM response text.
-   * Detects: name, template, STR/DEX/INT/CHA, HP, skills.
-   * Works with both Chinese and English output formats.
+   * Parse [CHAR:...] state tags from DM response text.
+   * Also strips all [CHAR:...] and [PHASE_TRANSITION:...] tags from the text.
+   * Returns the cleaned text (tags removed) for display.
    *
-   * IMPORTANT: Only parses from a complete character card block
-   * (bounded by ═══ lines), not from template listings.
+   * Supported tags:
+   *   [CHAR:name=X]          → set character name
+   *   [CHAR:stats=STRxx,DEXxx,INTxx,CHAxx]  → set all stats (character creation)
+   *   [CHAR:stats=体魄xx,敏捷xx,心智xx,魅力xx]  → same, Chinese
+   *   [CHAR:hp=X/Y]          → set current/max HP
+   *   [CHAR:item+=X]         → add item to inventory
+   *   [CHAR:item-=X]         → remove item from inventory
+   *   [CHAR:skill+=X]        → add skill
    */
-  function parseCharacterFromResponse(
+  function parseAndStripTags(
     text: string,
     dispatchFn: React.Dispatch<any>,
     lang: 'zh' | 'en'
-  ) {
-    // ── Detect character card block (bounded by ═══ delimiters) ──
-    // This prevents false matches from the template listing (which shows all 4 templates)
-    const cardBlockMatch = text.match(/[═━]{5,}[\s\S]*?[═━]{5,}/);
-    const cardText = cardBlockMatch ? cardBlockMatch[0] : '';
+  ): string {
+    let cleaned = text;
 
-    // Only parse name/stats/skills from within the card block
-    // If no card block found, skip name/stats parsing entirely
-    if (cardText) {
-      // Detect template name
-      const templatePatterns = [
-        /角色卡[·\s]*([^\n]+)/,
-        /Character Sheet[·\s]*([^\n]+)/i,
-      ];
-      for (const p of templatePatterns) {
-        const m = cardText.match(p);
-        if (m) {
-          const templateName = m[1].trim();
+    // ── Parse [CHAR:...] tags ──
+    const tagRegex = /\[CHAR:(\w+)=([^\]]+)\]/g;
+    let match: RegExpExecArray | null;
+
+    while ((match = tagRegex.exec(text)) !== null) {
+      const key = match[1];
+      const value = match[2];
+
+      switch (key) {
+        case 'name': {
           dispatchFn({
             type: 'SET_CHARACTER_NAME',
-            payload: {
-              name: templateName,
-              nameEn: lang === 'en' ? templateName : '',
-            },
+            payload: { name: value, nameEn: lang === 'en' ? value : '' },
           });
           break;
         }
-      }
-
-      // Detect stats — only from card block
-      const statPatterns = [
-        { key: 'str', patterns: [/体魄[：:\s]*(\d+)/, /STR[：:\s]*(\d+)/i] },
-        { key: 'dex', patterns: [/敏捷[：:\s]*(\d+)/, /DEX[：:\s]*(\d+)/i] },
-        { key: 'int', patterns: [/心智[：:\s]*(\d+)/, /INT[：:\s]*(\d+)/i] },
-        { key: 'cha', patterns: [/魅力[：:\s]*(\d+)/, /CHA[：:\s]*(\d+)/i] },
-      ];
-
-      const parsedStats: Record<string, number> = {};
-      let foundAny = false;
-      for (const { key, patterns } of statPatterns) {
-        for (const p of patterns) {
-          const m = cardText.match(p);
-          if (m) {
-            const val = parseInt(m[1]);
-            if (val >= 8 && val <= 16) {
-              parsedStats[key] = val;
-              foundAny = true;
+        case 'stats': {
+          // Parse both Chinese and English stat formats
+          // EN: STR10,DEX14,INT10,CHA12
+          // ZH: 体魄10,敏捷14,心智10,魅力12
+          const statMap: Record<string, string> = {
+            'str': 'str', 'STR': 'str',
+            'dex': 'dex', 'DEX': 'dex',
+            'int': 'int', 'INT': 'int',
+            'cha': 'cha', 'CHA': 'cha',
+            '体魄': 'str', '敏捷': 'dex', '心智': 'int', '魅力': 'cha',
+          };
+          const parsedStats: Record<string, number> = {};
+          const parts = value.split(',');
+          for (const part of parts) {
+            // Try to extract stat name + number
+            // Match: STR10, str10, 体魄10, etc.
+            const statMatch = part.match(/^([a-zA-Z]+|体魄|敏捷|心智|魅力)(\d+)$/);
+            if (statMatch) {
+              const statKey = statMap[statMatch[1]];
+              const statVal = parseInt(statMatch[2]);
+              if (statKey && statVal >= 1 && statVal <= 20) {
+                parsedStats[statKey] = statVal;
+              }
             }
-            break;
           }
+          if (Object.keys(parsedStats).length > 0) {
+            // Calculate HP
+            const strVal = parsedStats.str || 10;
+            const strMod = strVal >= 16 ? 3 : strVal >= 14 ? 2 : strVal >= 12 ? 1 : strVal >= 10 ? 0 : -1;
+            parsedStats.hp = 5 + strMod;
+            parsedStats.maxHp = 5 + strMod;
+            dispatchFn({ type: 'UPDATE_CHARACTER_STATS', payload: parsedStats });
+          }
+          break;
         }
-      }
-
-      if (foundAny) {
-        const strVal = parsedStats.str || 10;
-        const strMod = strVal >= 16 ? 3 : strVal >= 14 ? 2 : strVal >= 12 ? 1 : strVal >= 10 ? 0 : -1;
-        parsedStats.hp = 5 + strMod;
-        parsedStats.maxHp = 5 + strMod;
-        dispatchFn({ type: 'UPDATE_CHARACTER_STATS', payload: parsedStats });
-      }
-
-      // Detect skills — only from card block
-      const skillMatch = cardText.match(/技能[：:]\s*([^\n]+)/) || cardText.match(/Skills?[：:]\s*([^\n]+)/i);
-      if (skillMatch) {
-        const skillText = skillMatch[1];
-        const skills = skillText
-          .split(/[、,，;\/]/)
-          .map(s => s.replace(/[＋+\-]\d+.*$/, '').trim())
-          .filter(s => s.length > 0 && s.length < 20);
-        if (skills.length > 0) {
-          dispatchFn({ type: 'UPDATE_CHARACTER_SKILLS', payload: skills });
+        case 'hp': {
+          // value = "4/5" or "0/5"
+          const hpMatch = value.match(/^(\d+)\/(\d+)$/);
+          if (hpMatch) {
+            const hp = parseInt(hpMatch[1]);
+            const maxHp = parseInt(hpMatch[2]);
+            if (hp >= 0 && maxHp > 0 && hp <= maxHp) {
+              dispatchFn({ type: 'UPDATE_CHARACTER_STATS', payload: { hp, maxHp } });
+            }
+          }
+          break;
+        }
+        case 'item+': {
+          dispatchFn({ type: 'ADD_INVENTORY_ITEM', payload: value });
+          break;
+        }
+        case 'item-': {
+          dispatchFn({ type: 'REMOVE_INVENTORY_ITEM', payload: value });
+          break;
+        }
+        case 'skill+': {
+          dispatchFn({ type: 'ADD_CHARACTER_SKILL', payload: value });
+          break;
         }
       }
     }
 
-    // ── HP change detection (works outside card block) ──
-    // Detect DM narrating HP changes during gameplay
-    // Chinese: HP：2/5  HP：5/5 → 2/5  生命值：2/5
-    // English: HP: 2/5  HP: 5/5 → 2/5
-    const hpChangePatterns = [
-      /HP[：:]\s*(\d+)\s*\/\s*(\d+)/i,
-      /生命值[：:]\s*(\d+)\s*\/\s*(\d+)/i,
-      /HP[：:]\s*\d+\s*→\s*(\d+)\s*\/\s*(\d+)/i,
-      /HP[：:]\s*\d+\/\d+\s*→\s*(\d+)\s*\/\s*(\d+)/i,
-    ];
-    for (const p of hpChangePatterns) {
-      const m = text.match(p);
-      if (m) {
-        const newHp = parseInt(m[1]);
-        const newMaxHp = parseInt(m[2]);
-        if (newHp >= 0 && newMaxHp > 0 && newHp <= newMaxHp) {
-          dispatchFn({ type: 'UPDATE_CHARACTER_STATS', payload: { hp: newHp, maxHp: newMaxHp } });
-        }
-        break;
-      }
-    }
+    // ── Strip all tags from display text ──
+    cleaned = cleaned.replace(/\[CHAR:\w+=[^\]]+\]/g, '');
+    cleaned = cleaned.replace(/\[PHASE_TRANSITION:\w+\]/g, '');
+    // Clean up blank lines left by removed tags
+    cleaned = cleaned.replace(/\n{3,}/g, '\n\n').trim();
+
+    return cleaned;
   }
 
   // On first load: restore save or auto-start character creation
@@ -212,10 +210,9 @@ function GamePageContent() {
         fullResponse += chunk;
         dispatch({ type: 'APPEND_STREAMING_TEXT', payload: chunk });
       }
-      dispatch({ type: 'FINISH_STREAMING', payload: fullResponse });
-
-      // Parse character data from initial DM response
-      parseCharacterFromResponse(fullResponse, dispatch, lang as 'zh' | 'en');
+      // Parse tags and get cleaned text (tags stripped for display)
+      const cleanedText = parseAndStripTags(fullResponse, dispatch, lang as 'zh' | 'en');
+      dispatch({ type: 'FINISH_STREAMING', payload: cleanedText });
 
       // Check for phase transition in character creation response
       const charPhaseMatch = fullResponse.match(/\[PHASE_TRANSITION:(\w+)\]/);
@@ -289,13 +286,13 @@ function GamePageContent() {
           dispatch({ type: 'APPEND_STREAMING_TEXT', payload: chunk });
         }
 
-        // Strip PHASE_TRANSITION markers before displaying
-        const phaseMatch = fullResponse.match(/\[PHASE_TRANSITION:(\w+)\]/);
-        const cleanResponse = fullResponse.replace(/\[PHASE_TRANSITION:\w+\]/g, '').trim();
+        // Parse tags and get cleaned text (all tags stripped for display)
+        const cleanedText = parseAndStripTags(fullResponse, dispatch, lang);
 
-        dispatch({ type: 'FINISH_STREAMING', payload: cleanResponse });
+        dispatch({ type: 'FINISH_STREAMING', payload: cleanedText });
 
         // Check if the response contains a dice check request
+        // (check against fullResponse since tags are stripped from cleanedText)
         const dicePatterns = [
           /🎲\s*检定[：:]\s*(\S+)\s*DC\s*(\d+)/i,
           /🎲\s*Check[：:]\s*(\S+)\s*DC\s*(\d+)/i,
@@ -323,7 +320,8 @@ function GamePageContent() {
           setDiceCheckLabel(detectedLabel);
         }
 
-        // Handle phase transition
+        // Handle phase transition (check against original fullResponse)
+        const phaseMatch = fullResponse.match(/\[PHASE_TRANSITION:(\w+)\]/);
         if (phaseMatch) {
           const nextPhase = phaseMatch[1];
           const phaseMap: Record<string, string> = {
@@ -343,10 +341,6 @@ function GamePageContent() {
             }, 1500);
           }
         }
-
-        // Parse character data from DM response
-        // Always try to parse — the function only acts if it finds character data
-        parseCharacterFromResponse(fullResponse, dispatch, lang);
       } catch (error: any) {
         let errMsg = error.message || 'Unknown error';
         if (errMsg.includes('daily_limit')) {
