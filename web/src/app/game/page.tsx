@@ -35,78 +35,108 @@ function GamePageContent() {
    * Parse character sheet data from DM response text.
    * Detects: name, template, STR/DEX/INT/CHA, HP, skills.
    * Works with both Chinese and English output formats.
+   *
+   * IMPORTANT: Only parses from a complete character card block
+   * (bounded by ═══ lines), not from template listings.
    */
   function parseCharacterFromResponse(
     text: string,
     dispatchFn: React.Dispatch<any>,
     lang: 'zh' | 'en'
   ) {
-    // Detect template name — multiple formats
-    const templatePatterns = [
-      /角色卡[·\s]*([^\n]+)/, // 角色卡 · 调和者
-      /Character Sheet[·\s]*([^\n]+)/i, // Character Sheet · Mediator
-    ];
-    for (const p of templatePatterns) {
-      const m = text.match(p);
-      if (m) {
-        const templateName = m[1].trim();
-        dispatchFn({
-          type: 'SET_CHARACTER_NAME',
-          payload: {
-            name: templateName,
-            nameEn: lang === 'en' ? templateName : '',
-          },
-        });
-        break;
-      }
-    }
+    // ── Detect character card block (bounded by ═══ delimiters) ──
+    // This prevents false matches from the template listing (which shows all 4 templates)
+    const cardBlockMatch = text.match(/[═━]{5,}[\s\S]*?[═━]{5,}/);
+    const cardText = cardBlockMatch ? cardBlockMatch[0] : '';
 
-    // Detect stats — support many formats
-    // Chinese: 体魄 14(＋2) / 体魄14 / 体魄：14
-    // English: STR 14(+2) / STR14 / STR: 14
-    const statPatterns = [
-      { key: 'str', patterns: [/体魄[：:\s]*(\d+)/, /STR[：:\s]*(\d+)/i] },
-      { key: 'dex', patterns: [/敏捷[：:\s]*(\d+)/, /DEX[：:\s]*(\d+)/i] },
-      { key: 'int', patterns: [/心智[：:\s]*(\d+)/, /INT[：:\s]*(\d+)/i] },
-      { key: 'cha', patterns: [/魅力[：:\s]*(\d+)/, /CHA[：:\s]*(\d+)/i] },
-    ];
-
-    const parsedStats: Record<string, number> = {};
-    let foundAny = false;
-    for (const { key, patterns } of statPatterns) {
-      for (const p of patterns) {
-        const m = text.match(p);
+    // Only parse name/stats/skills from within the card block
+    // If no card block found, skip name/stats parsing entirely
+    if (cardText) {
+      // Detect template name
+      const templatePatterns = [
+        /角色卡[·\s]*([^\n]+)/,
+        /Character Sheet[·\s]*([^\n]+)/i,
+      ];
+      for (const p of templatePatterns) {
+        const m = cardText.match(p);
         if (m) {
-          const val = parseInt(m[1]);
-          if (val >= 8 && val <= 16) { // Sanity check
-            parsedStats[key] = val;
-            foundAny = true;
-          }
+          const templateName = m[1].trim();
+          dispatchFn({
+            type: 'SET_CHARACTER_NAME',
+            payload: {
+              name: templateName,
+              nameEn: lang === 'en' ? templateName : '',
+            },
+          });
           break;
+        }
+      }
+
+      // Detect stats — only from card block
+      const statPatterns = [
+        { key: 'str', patterns: [/体魄[：:\s]*(\d+)/, /STR[：:\s]*(\d+)/i] },
+        { key: 'dex', patterns: [/敏捷[：:\s]*(\d+)/, /DEX[：:\s]*(\d+)/i] },
+        { key: 'int', patterns: [/心智[：:\s]*(\d+)/, /INT[：:\s]*(\d+)/i] },
+        { key: 'cha', patterns: [/魅力[：:\s]*(\d+)/, /CHA[：:\s]*(\d+)/i] },
+      ];
+
+      const parsedStats: Record<string, number> = {};
+      let foundAny = false;
+      for (const { key, patterns } of statPatterns) {
+        for (const p of patterns) {
+          const m = cardText.match(p);
+          if (m) {
+            const val = parseInt(m[1]);
+            if (val >= 8 && val <= 16) {
+              parsedStats[key] = val;
+              foundAny = true;
+            }
+            break;
+          }
+        }
+      }
+
+      if (foundAny) {
+        const strVal = parsedStats.str || 10;
+        const strMod = strVal >= 16 ? 3 : strVal >= 14 ? 2 : strVal >= 12 ? 1 : strVal >= 10 ? 0 : -1;
+        parsedStats.hp = 5 + strMod;
+        parsedStats.maxHp = 5 + strMod;
+        dispatchFn({ type: 'UPDATE_CHARACTER_STATS', payload: parsedStats });
+      }
+
+      // Detect skills — only from card block
+      const skillMatch = cardText.match(/技能[：:]\s*([^\n]+)/) || cardText.match(/Skills?[：:]\s*([^\n]+)/i);
+      if (skillMatch) {
+        const skillText = skillMatch[1];
+        const skills = skillText
+          .split(/[、,，;\/]/)
+          .map(s => s.replace(/[＋+\-]\d+.*$/, '').trim())
+          .filter(s => s.length > 0 && s.length < 20);
+        if (skills.length > 0) {
+          dispatchFn({ type: 'UPDATE_CHARACTER_SKILLS', payload: skills });
         }
       }
     }
 
-    if (foundAny) {
-      // Calculate HP: 5 + STR modifier
-      const strVal = parsedStats.str || 10;
-      const strMod = strVal >= 16 ? 3 : strVal >= 14 ? 2 : strVal >= 12 ? 1 : strVal >= 10 ? 0 : -1;
-      parsedStats.hp = 5 + strMod;
-      parsedStats.maxHp = 5 + strMod;
-
-      dispatchFn({ type: 'UPDATE_CHARACTER_STATS', payload: parsedStats });
-    }
-
-    // Detect skills
-    const skillMatch = text.match(/技能[：:]\s*([^\n]+)/) || text.match(/Skills?[：:]\s*([^\n]+)/i);
-    if (skillMatch) {
-      const skillText = skillMatch[1];
-      const skills = skillText
-        .split(/[、,，;\/]/)
-        .map(s => s.replace(/[＋+\-]\d+.*$/, '').trim())
-        .filter(s => s.length > 0 && s.length < 20);
-      if (skills.length > 0) {
-        dispatchFn({ type: 'UPDATE_CHARACTER_SKILLS', payload: skills });
+    // ── HP change detection (works outside card block) ──
+    // Detect DM narrating HP changes during gameplay
+    // Chinese: HP：2/5  HP：5/5 → 2/5  生命值：2/5
+    // English: HP: 2/5  HP: 5/5 → 2/5
+    const hpChangePatterns = [
+      /HP[：:]\s*(\d+)\s*\/\s*(\d+)/i,
+      /生命值[：:]\s*(\d+)\s*\/\s*(\d+)/i,
+      /HP[：:]\s*\d+\s*→\s*(\d+)\s*\/\s*(\d+)/i,
+      /HP[：:]\s*\d+\/\d+\s*→\s*(\d+)\s*\/\s*(\d+)/i,
+    ];
+    for (const p of hpChangePatterns) {
+      const m = text.match(p);
+      if (m) {
+        const newHp = parseInt(m[1]);
+        const newMaxHp = parseInt(m[2]);
+        if (newHp >= 0 && newMaxHp > 0 && newHp <= newMaxHp) {
+          dispatchFn({ type: 'UPDATE_CHARACTER_STATS', payload: { hp: newHp, maxHp: newMaxHp } });
+        }
+        break;
       }
     }
   }
