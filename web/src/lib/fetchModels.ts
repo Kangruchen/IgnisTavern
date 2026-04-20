@@ -1,132 +1,94 @@
-import { PROVIDERS, ProviderId } from './providers';
+/**
+ * Dynamic model list fetching.
+ * Fetches real-time models from provider APIs (OpenRouter, SiliconFlow, etc.)
+ * Falls back to static lists if API is unavailable.
+ */
 
 export interface ModelInfo {
   id: string;
-  name?: string;
-  created?: number;
+  name: string;
+  free?: boolean;
 }
 
-/**
- * Fetch available models from a provider's API using the user's API key.
- * Falls back to the static suggestions list if the API call fails.
- */
-export async function fetchModels(
-  providerId: ProviderId,
-  apiKey: string,
-  customApiUrl?: string
-): Promise<ModelInfo[]> {
-  if (!apiKey) return [];
+const OPENROUTER_API = 'https://openrouter.ai/api/v1/models';
 
+/**
+ * Fetch models from OpenRouter API — returns all available models.
+ * This gives us real-time, always-up-to-date model lists.
+ */
+export async function fetchOpenRouterModels(): Promise<ModelInfo[]> {
   try {
-    switch (providerId) {
-      case 'openai':
-        return fetchOpenAIModels(apiKey);
-      case 'anthropic':
-        // Anthropic doesn't have a public models list endpoint, return static
-        return PROVIDERS.anthropic.models.map(id => ({ id }));
-      case 'google':
-        return fetchGoogleModels(apiKey);
-      case 'deepseek':
-        return fetchDeepSeekModels(apiKey);
-      case 'openrouter':
-        return fetchOpenRouterModels(apiKey);
-      case 'fireworks':
-        return fetchFireworksModels(apiKey);
-      case 'minimax':
-        // MiniMax doesn't have a standard models endpoint
-        return PROVIDERS.minimax.models.map(id => ({ id }));
-      case 'custom':
-        return fetchCustomModels(customApiUrl || '', apiKey);
-      default:
-        return [];
-    }
+    const response = await fetch(OPENROUTER_API);
+    if (!response.ok) return [];
+    const data = await response.json();
+    return (data.data || [])
+      .map((m: any) => ({
+        id: m.id,
+        name: m.name || m.id,
+        free: m.pricing?.prompt === '0' && m.pricing?.completion === '0',
+      }))
+      .sort((a: ModelInfo, b: ModelInfo) => a.id.localeCompare(b.id));
   } catch {
-    // Fallback to static list
-    const provider = PROVIDERS[providerId];
-    return provider.models.map(id => ({ id }));
+    return [];
   }
 }
 
-async function fetchOpenAIModels(apiKey: string): Promise<ModelInfo[]> {
-  const res = await fetch('https://api.openai.com/v1/models', {
-    headers: { Authorization: `Bearer ${apiKey}` },
-  });
-  if (!res.ok) throw new Error('Failed to fetch models');
-  const data = await res.json();
-  const models: ModelInfo[] = (data.data || [])
-    .filter((m: any) =>
-      // Filter to chat/completion models only
-      m.id.includes('gpt') ||
-      m.id.includes('o1') ||
-      m.id.includes('o3') ||
-      m.id.includes('o4') ||
-      m.id.includes('chat')
-    )
-    .sort((a: any, b: any) => (b.created || 0) - (a.created || 0))
-    .map((m: any) => ({ id: m.id, name: m.id, created: m.created }));
-  return models;
-}
+/**
+ * Fetch models for a specific provider.
+ * For OpenRouter: fetches from API (comprehensive list).
+ * For others: returns provider-specific models via their APIs if available,
+ * otherwise falls back to static lists from providers.ts.
+ */
+export async function fetchModels(
+  providerId: string,
+  apiKey: string,
+  customApiUrl?: string
+): Promise<ModelInfo[]> {
+  if (providerId === 'openrouter') {
+    return fetchOpenRouterModels();
+  }
 
-async function fetchDeepSeekModels(apiKey: string): Promise<ModelInfo[]> {
-  const res = await fetch('https://api.deepseek.com/v1/models', {
-    headers: { Authorization: `Bearer ${apiKey}` },
-  });
-  if (!res.ok) throw new Error('Failed to fetch models');
-  const data = await res.json();
-  return (data.data || [])
-    .map((m: any) => ({ id: m.id, name: m.id }))
-    .sort((a: ModelInfo, b: ModelInfo) => a.id.localeCompare(b.id));
-}
+  // For non-OpenRouter providers, try their /models endpoint if they have an API key
+  if (apiKey) {
+    try {
+      const { PROVIDERS } = require('./providers');
+      const provider = PROVIDERS[providerId as any];
+      if (!provider || providerId === 'custom') return [];
 
-async function fetchGoogleModels(apiKey: string): Promise<ModelInfo[]> {
-  // Google uses a different endpoint format
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`
-  );
-  if (!res.ok) throw new Error('Failed to fetch models');
-  const data = await res.json();
-  return (data.models || [])
-    .filter((m: any) => m.supportedGenerationMethods?.includes('generateContent'))
-    .map((m: any) => ({
-      id: m.name.replace('models/', ''),
-      name: m.displayName,
-    }))
-    .sort((a: ModelInfo, b: ModelInfo) => a.id.localeCompare(b.id));
-}
+      // Most OpenAI-compatible providers support /v1/models
+      const baseUrl = providerId === 'custom' && customApiUrl
+        ? customApiUrl.replace(/\/chat\/completions\/?$/, '')
+        : provider.apiUrl.replace(/\/chat\/completions\/?$/, '');
+      const modelsUrl = `${baseUrl}/models`;
 
-async function fetchOpenRouterModels(apiKey: string): Promise<ModelInfo[]> {
-  // OpenRouter has a public models endpoint (key optional but helps with rate limits)
-  const res = await fetch('https://openrouter.ai/api/v1/models', {
-    headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {},
-  });
-  if (!res.ok) throw new Error('Failed to fetch models');
-  const data = await res.json();
-  return (data.data || [])
-    .map((m: any) => ({ id: m.id, name: m.name || m.id }))
-    .sort((a: ModelInfo, b: ModelInfo) => a.id.localeCompare(b.id));
-}
+      const response = await fetch(modelsUrl, {
+        headers: { Authorization: `Bearer ${apiKey}` },
+        signal: AbortSignal.timeout(5000),
+      });
 
-async function fetchFireworksModels(apiKey: string): Promise<ModelInfo[]> {
-  const res = await fetch('https://api.fireworks.ai/inference/v1/models', {
-    headers: { Authorization: `Bearer ${apiKey}` },
-  });
-  if (!res.ok) throw new Error('Failed to fetch models');
-  const data = await res.json();
-  return (data.data || [])
-    .map((m: any) => ({ id: m.id, name: m.id }))
-    .sort((a: ModelInfo, b: ModelInfo) => a.id.localeCompare(b.id));
-}
+      if (response.ok) {
+        const data = await response.json();
+        const models = data.data || data.models || [];
+        if (models.length > 0) {
+          return models.map((m: any) => ({
+            id: m.id || m.model || m,
+            name: m.name || m.id || m.model || m,
+          }));
+        }
+      }
+    } catch {
+      // Fall through to static list
+    }
+  }
 
-async function fetchCustomModels(apiUrl: string, apiKey: string): Promise<ModelInfo[]> {
-  if (!apiUrl) return [];
-  // Try the standard /models endpoint
-  const baseUrl = apiUrl.replace(/\/chat\/completions\/?$/, '').replace(/\/v1\/?$/, '');
-  const res = await fetch(`${baseUrl}/v1/models`, {
-    headers: { Authorization: `Bearer ${apiKey}` },
-  });
-  if (!res.ok) throw new Error('Failed to fetch models');
-  const data = await res.json();
-  return (data.data || [])
-    .map((m: any) => ({ id: m.id, name: m.id }))
-    .sort((a: ModelInfo, b: ModelInfo) => a.id.localeCompare(b.id));
+  // Fallback: return static models from providers.ts
+  try {
+    const { PROVIDERS } = require('./providers');
+    const provider = PROVIDERS[providerId as any];
+    if (provider?.models?.length) {
+      return provider.models.map((id: string) => ({ id, name: id }));
+    }
+  } catch {}
+
+  return [];
 }

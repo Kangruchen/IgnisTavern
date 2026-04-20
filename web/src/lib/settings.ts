@@ -13,7 +13,7 @@ export const defaultSettings: AppSettings = {
   language: 'zh',
   apiKey: '',
   provider: 'openrouter',
-  model: 'minimax/minimax-m2.7:free',
+  model: 'openrouter/free',
   customApiUrl: '',
   apiMode: 'default',
 };
