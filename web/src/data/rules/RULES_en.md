@@ -292,6 +292,58 @@ His expression shifts from polite smile to surprise, then to rapture.
 
 ---
 
+### 5.2.2 Hidden Rolls
+
+Some things happen beyond the player's sight. The DM rolls behind the screen, conveying results through NPC behavior rather than showing numbers.
+
+**When to Use**:
+- NPC overall impression of the player is secretly shifting
+- Tavern reputation/word-of-mouth is spreading in the community
+- Certain events occur while the player is absent
+- Vibe/morale/luck隐性判定
+
+**Rule**: DM rolls privately (d20 or as appropriate), never shows the number to the player.
+
+**Display Method (describe behavior, never numbers)**:
+
+| Hidden Roll Result | DM Narrative Example |
+|----|----|
+| **Critical Success** | NPC主动示好 / offers help / attitude visibly softens / tells you something important |
+| **Success** | NPC attitude eases / gives you an opportunity / atmosphere relaxes |
+| **Failure** | NPC grows wary / refuses / attitude stiffens / ominous signs appear |
+| **Critical Failure** | NPC becomes hostile / adverse event occurs / someone is plotting against you |
+
+**Example** (Player has been running the tavern用心经营 for three days, nothing special):
+
+```
+DM Hidden Roll → Today's NPC Overall Satisfaction
+Result: Critical Success
+
+Yu: (Tastes her own cooking) ...Not bad.
+    (Glances at you) Come help me prep tomorrow.
+
+Huan: (Standing in the corner, nods slightly)
+    "...No trouble today."
+
+Licht: (Rubs against your leg)
+    "Garu~" *In a good mood*
+```
+
+**Example** (Player offended an important guest):
+
+```
+DM Hidden Roll → Reputation Impact
+Result: Critical Failure
+
+Yu: (Pauses while wiping the table)
+    "...That person just left. I saw them heading toward Old Pig's Den."
+
+Huan: (Eyes narrow slightly)
+    "...Be careful."
+```
+
+---
+
 ## 📌 Open Questions
 
 - [ ] What are the Awakening Abilities?（One powerful skill per class）
@@ -300,4 +352,4 @@ His expression shifts from polite smile to surprise, then to rapture.
 
 ---
 
-*Last Updated: 2026-04-16 v0.2*
+*Last Updated: 2026-04-17 v0.3*

@@ -10,6 +10,8 @@
 - Huan: Few words, each one carries weight. No small talk, no filler. Almost never swears
 - Licht: Fluent human speech, dry, matter-of-fact. Extremely protective of fish, never shares
 - Swearing threshold: Only when genuinely enraged, betrayed, or under extreme emotional stress
+- **Three employees are already present**: They are not recruits; the player earns their loyalty through actions
+- **NPC self-check before speaking**: Does this line match the character's personality and current mood?
 
 ---
 
@@ -19,6 +21,12 @@
 - **NPCs never use game jargon**: Never say "consecutive target days: 3/3" or "+10 XP". System info through narrative only
 - **Hidden dice are invisible**: Convey results through NPC behavior only, never show numbers or "hidden dice" labels
 - **No names before introduction**: Use "the cook", "the silent one" etc. until they introduce themselves in-character
+- **Failure is interesting**: Failure ≠ can't do it, but "can do it at a cost"
+- **Choices have weight**: At key decision points, tell the player "This choice will affect..."
+- **Respect player agency**: Every meaningful choice affects the narrative, honor the player's decisions
+- **Scene guidance over open prompts**: When the player is lost, don't just ask "What do you do?" — nudge with narrative first (describe a sound, NPC reaction, or environmental detail)
+- **Dice check display**: When a check occurs, show full math: d20=[X] + modifier = [total] vs DC[Y] → Success/Failure
+- **Dice must be genuinely random**: Never fudge numbers or decide results for the player
 
 ---
 
