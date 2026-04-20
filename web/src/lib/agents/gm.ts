@@ -79,21 +79,44 @@ export function buildGMPrompt(language: string, phase: GamePhase = 'character_cr
   const needRules = phase !== 'character_creation' && phase !== 'opening';
   const rules = needRules ? readDataFile('rules', `RULES_${lang}.md`) : '';
 
-  // ── Scene file ──
+  // ── Scene files (supports multiple scenes per phase) ──
   let sceneText = '';
   let sceneLabel = '';
-  const sceneMap: Record<GamePhase, { file: string; labelZh: string; labelEn: string }> = {
-    character_creation: { file: '', labelZh: '', labelEn: '' },
-    opening: { file: `act1_opening_${lang}.md`, labelZh: '第一幕开场', labelEn: 'Act I Opening' },
-    act1: { file: `act1_tavern_management_${lang}.md`, labelZh: '第一幕酒馆经营', labelEn: 'Act I Tavern Management' },
-    act2: { file: `act2_revelation_${lang}.md`, labelZh: '第二幕', labelEn: 'Act II' },
-    act3: { file: `act3_opening_${lang}.md`, labelZh: '第三幕', labelEn: 'Act III' },
-    ending: { file: `act3_endings_${lang}.md`, labelZh: '结局', labelEn: 'Endings' },
+  
+  // Define scenes for each phase - can be single file or array of files for sequential loading
+  const sceneMap: Record<GamePhase, { files: string | string[]; labelZh: string; labelEn: string }> = {
+    character_creation: { files: '', labelZh: '', labelEn: '' },
+    opening: { files: `act1_opening_${lang}.md`, labelZh: '第一幕开场', labelEn: 'Act I Opening' },
+    act1: { files: `act1_tavern_management_${lang}.md`, labelZh: '第一幕酒馆经营', labelEn: 'Act I Tavern Management' },
+    act2: { 
+      files: [`act2_investigation_${lang}.md`, `act2_revelation_${lang}.md`], 
+      labelZh: '第二幕', 
+      labelEn: 'Act II' 
+    },
+    act3: { files: `act3_opening_${lang}.md`, labelZh: '第三幕', labelEn: 'Act III' },
+    ending: { files: `act3_endings_${lang}.md`, labelZh: '结局', labelEn: 'Endings' },
   };
 
-  const sceneInfo = sceneMap[phase] || { file: '', labelZh: '', labelEn: '' };
-  if (sceneInfo.file) {
-    sceneText = readDataFile('scenes', sceneInfo.file);
+  const sceneInfo = sceneMap[phase] || { files: '', labelZh: '', labelEn: '' };
+  
+  // Load scene(s) - single file or multiple files
+  if (sceneInfo.files) {
+    const files = Array.isArray(sceneInfo.files) ? sceneInfo.files : [sceneInfo.files];
+    const sceneParts: string[] = [];
+    
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const content = readDataFile('scenes', file);
+      if (content) {
+        // Add separator between multiple scenes
+        if (i > 0) {
+          sceneParts.push(`\n\n---\n\n## 场景 ${i + 1}\n\n`);
+        }
+        sceneParts.push(content);
+      }
+    }
+    
+    sceneText = sceneParts.join('');
     sceneLabel = lang === 'zh' ? sceneInfo.labelZh : sceneInfo.labelEn;
   }
 
