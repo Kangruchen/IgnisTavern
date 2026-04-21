@@ -181,6 +181,7 @@ export const gameStateReducer = (
     | { type: 'APPLY_DM_TAG_PATCH'; payload: { patch: DmTagPatch; messageIndex: number } }
     | { type: 'LOAD_STATE'; payload: Partial<GameState> }
     | { type: 'RESET_STATE' }
+    | { type: 'CLEAR_MESSAGES' }
 ): GameState => {
   switch (action.type) {
     case 'SET_LANGUAGE':
@@ -327,6 +328,8 @@ export const gameStateReducer = (
       };
     case 'RESET_STATE':
       return createInitialGameState();
+    case 'CLEAR_MESSAGES':
+      return { ...state, messages: [], displayedText: '' };
     case 'ADD_INLINE_EVENT':
       return { ...state, inlineEvents: [...state.inlineEvents, action.payload] };
     case 'CLEAR_INLINE_EVENTS':

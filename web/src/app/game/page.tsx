@@ -164,6 +164,8 @@ function GamePageContent() {
       || (patch.removeItems !== undefined && patch.removeItems.length > 0)
       || (patch.addSkills !== undefined && patch.addSkills.length > 0)
       || (patch.npcDeltas !== undefined && patch.npcDeltas.length > 0)
+      || patch.dayNumber !== undefined
+      || patch.addRevenue !== undefined
     );
   }
 
@@ -360,8 +362,51 @@ function GamePageContent() {
     })();
   };
 
-  const handleLanguageChange = (lang: 'zh' | 'en') => {
-    dispatch({ type: 'SET_LANGUAGE', payload: lang });
+  const handleLanguageChange = (newLang: 'zh' | 'en') => {
+    // Only proceed if language actually changed
+    if (newLang === gameState.language) return;
+    
+    // Update language state
+    dispatch({ type: 'SET_LANGUAGE', payload: newLang });
+    
+    // Save current progress before clearing
+    saveGame(gameState);
+    
+    // Clear messages and restart scene with new language
+    // This ensures DM generates content in the correct language
+    dispatch({ type: 'CLEAR_MESSAGES' });
+    
+    // Re-trigger scene loading based on current phase
+    const s = apiSettingsRef.current;
+    const triggerMessage = newLang === 'zh'
+      ? '请用中文继续当前场景'
+      : 'Please continue the current scene in English';
+    
+    dispatch({ type: 'SET_STREAMING', payload: true });
+    dispatch({ type: 'APPEND_STREAMING_TEXT', payload: '' });
+    
+    // Send trigger to DM to regenerate content in new language
+    (async () => {
+      try {
+        for await (const chunk of streamChatMessage(
+          [{ role: 'user', content: triggerMessage }],
+          newLang,
+          s.userApiKey,
+          gameState.currentScene,
+          s.provider,
+          s.model,
+          s.customApiUrl
+        )) {
+          dispatch({ type: 'APPEND_STREAMING_TEXT', payload: chunk });
+        }
+        const fullResponse = gameStateRef.current.displayedText;
+        const cleaned = stripAndParseTags(fullResponse, dispatch, 0);
+        dispatch({ type: 'FINISH_STREAMING', payload: cleaned });
+      } catch (error) {
+        // Silently handle error - user can continue in previous language
+        dispatch({ type: 'FINISH_STREAMING', payload: '' });
+      }
+    })();
   };
 
   const handleSendMessage = useCallback(
