@@ -10,6 +10,7 @@ import ChatInput from '@/components/ChatInput';
 import StreamingText from '@/components/StreamingText';
 import LanguageSelector from '@/components/LanguageSelector';
 import ApiKeyModal from '@/components/ApiKeyModal';
+import SaveLoadButtons from '@/components/SaveLoadButtons';
 import {
   DmTagPatch,
   createInitialGameState,
@@ -755,7 +756,11 @@ function GamePageContent() {
               npcRelations={gameState.npcRelations}
               mechanics={gameState.mechanics}
             />
-
+            <SaveLoadButtons
+              gameState={gameState}
+              onLoad={(state) => dispatch({ type: 'LOAD_STATE', payload: state })}
+              language={lang}
+            />
           </div>
         </aside>
       </main>
