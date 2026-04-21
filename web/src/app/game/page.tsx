@@ -361,11 +361,19 @@ function GamePageContent() {
 
       let fullResponse = '';
       const s = apiSettingsRef.current;
-      const contextMessages = [
-        ...state.messages,
-        { role: 'user' as const, content: text },
-      ];
-      const assistantMessageIndex = contextMessages.length;
+      
+      // For opening phase player's first choice, don't send full history
+      // to prevent DM from repeating the opening scene
+      const userMessages = state.messages.filter(m => m.role === 'user');
+      const isOpeningFirstChoice = state.currentScene === 'opening' && userMessages.length === 1;
+      
+      const contextMessages = isOpeningFirstChoice
+        ? [{ role: 'user' as const, content: text }]
+        : [
+            ...state.messages,
+            { role: 'user' as const, content: text },
+          ];
+      const assistantMessageIndex = isOpeningFirstChoice ? 1 : contextMessages.length;
 
       try {
         for await (const chunk of streamChatMessage(

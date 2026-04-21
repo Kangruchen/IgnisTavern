@@ -98,14 +98,6 @@ export async function POST(request: NextRequest) {
         ? '角色已创建完成。请按照场景文件原文，开始第一幕开场叙事。'
         : 'Character creation is complete. Begin the Act I opening scene, using the scene file text verbatim.';
       llmMessages.push({ role: 'user', content: trigger });
-    } else if (currentPhase === 'opening' && userMessages.length === 2) {
-      // Second turn in opening phase (player's first choice)
-      // Only send the latest user message, not the full history
-      // to avoid the DM repeating the opening scene
-      const lastUserMessage = messages.filter(m => m.role === 'user').pop();
-      if (lastUserMessage) {
-        llmMessages.push(lastUserMessage);
-      }
     } else {
       llmMessages.push(...messages);
     }
