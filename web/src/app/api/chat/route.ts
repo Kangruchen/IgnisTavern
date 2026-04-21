@@ -92,13 +92,15 @@ export async function POST(request: NextRequest) {
         ? '开始游戏。请输出欢迎词。'
         : 'Start the game. Please output a welcome message.';
       llmMessages.push({ role: 'user', content: trigger });
-    } else if (currentPhase === 'opening' && userMessages.length <= 1) {
-      // First turn in opening phase — inject scene trigger as the user message
+    } else if (currentPhase === 'opening' && userMessages.length === 0) {
+      // First turn in opening phase with no user message — inject scene trigger
+      // Note: Frontend now handles context control for player's first choice
       const trigger = lang === 'zh'
         ? '角色已创建完成。请按照场景文件原文，开始第一幕开场叙事。'
         : 'Character creation is complete. Begin the Act I opening scene, using the scene file text verbatim.';
       llmMessages.push({ role: 'user', content: trigger });
     } else {
+      // For all other cases, use messages as-is (frontend controls context)
       llmMessages.push(...messages);
     }
 
