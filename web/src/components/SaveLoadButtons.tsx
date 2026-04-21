@@ -1,7 +1,7 @@
 'use client';
 
 import { GameState } from '@/lib/gameState';
-import { saveGame, loadGame, hasSave } from '@/lib/storage';
+import { saveGame, loadGame } from '@/lib/storage';
 
 interface SaveLoadButtonsProps {
   gameState: GameState;
@@ -36,6 +36,32 @@ export default function SaveLoadButtons({ gameState, onLoad, language }: SaveLoa
   };
 
   const text = t[language];
+
+  function isValidImportedSave(data: unknown): data is Partial<GameState> {
+    if (!data || typeof data !== 'object') return false;
+    const candidate = data as Partial<GameState>;
+
+    if (candidate.language !== undefined && candidate.language !== 'zh' && candidate.language !== 'en') {
+      return false;
+    }
+
+    if (candidate.messages !== undefined && !Array.isArray(candidate.messages)) {
+      return false;
+    }
+
+    if (
+      candidate.messages
+      && candidate.messages.some(m => !m || typeof m.role !== 'string' || typeof m.content !== 'string')
+    ) {
+      return false;
+    }
+
+    if (candidate.character !== undefined && typeof candidate.character !== 'object') {
+      return false;
+    }
+
+    return true;
+  }
 
   const handleSave = () => {
     const ok = saveGame(gameState);
@@ -80,7 +106,11 @@ export default function SaveLoadButtons({ gameState, onLoad, language }: SaveLoa
       const reader = new FileReader();
       reader.onload = (event) => {
         try {
-          const data = JSON.parse(event.target?.result as string);
+          const data = JSON.parse(event.target?.result as string) as unknown;
+          if (!isValidImportedSave(data)) {
+            alert(text.importError);
+            return;
+          }
           onLoad(data);
           alert(text.importSuccess);
         } catch {

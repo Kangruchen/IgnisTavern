@@ -202,7 +202,6 @@ function GamePageContent() {
         ? '角色已创建完成，请开始游戏'
         : 'Character creation complete, start the game';
 
-      dispatch({ type: 'ADD_USER_MESSAGE', payload: triggerMessage });
       dispatch({ type: 'SET_STREAMING', payload: true });
       dispatch({ type: 'APPEND_STREAMING_TEXT', payload: '' });
 
@@ -222,7 +221,7 @@ function GamePageContent() {
             fullResponse += chunk;
             dispatch({ type: 'APPEND_STREAMING_TEXT', payload: chunk });
           }
-          const cleaned = stripAndParseTags(fullResponse, dispatch, gameState.messages.length);
+          const cleaned = stripAndParseTags(fullResponse, dispatch, gameStateRef.current.messages.length);
           dispatch({ type: 'FINISH_STREAMING', payload: cleaned });
 
           // Check for dice check in opening
