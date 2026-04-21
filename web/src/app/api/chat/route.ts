@@ -107,6 +107,7 @@ export async function POST(request: NextRequest) {
                (currentPhase === 'opening' && isLanguageSwitch)) {
       // First turn in opening phase OR language switch — inject scene trigger
       // Note: Frontend now handles context control for player's first choice
+      // For language switch, replace the user's switch message with the proper scene trigger
       const trigger = lang === 'zh'
         ? '角色已创建完成。请按照场景文件原文，开始第一幕开场叙事。'
         : 'Character creation is complete. Begin the Act I opening scene, using the scene file text verbatim.';
