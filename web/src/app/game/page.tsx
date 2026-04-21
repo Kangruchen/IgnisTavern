@@ -127,6 +127,20 @@ function GamePageContent() {
           }
           break;
         }
+        case 'day': {
+          const day = parseInt(value, 10);
+          if (!Number.isNaN(day) && day > 0) {
+            patch.dayNumber = day;
+          }
+          break;
+        }
+        case 'revenue': {
+          const revenue = parseInt(value, 10);
+          if (!Number.isNaN(revenue) && revenue !== 0) {
+            patch.addRevenue = (patch.addRevenue ?? 0) + revenue;
+          }
+          break;
+        }
       }
     }
 

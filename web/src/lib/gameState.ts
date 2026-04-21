@@ -72,7 +72,7 @@ export interface GameState {
 
 export interface InlineEvent {
   id: string;
-  type: 'item_add' | 'item_remove' | 'hp_change' | 'skill_add' | 'xp';
+  type: 'item_add' | 'item_remove' | 'hp_change' | 'skill_add' | 'xp' | 'day_change' | 'revenue_change';
   value: string | number;
   afterMessageIndex: number;  // show after this message index
 }
@@ -88,6 +88,8 @@ export interface DmTagPatch {
   name?: string;
   nameEn?: string;
   stats?: Partial<Pick<Character['stats'], 'str' | 'dex' | 'int' | 'cha'>>;
+  dayNumber?: number;  // Set specific day number
+  addRevenue?: number;  // Add to today's revenue
 }
 
 const defaultCharacter: Character = {
@@ -410,6 +412,27 @@ export const gameStateReducer = (
       if (patch.xpGain && patch.xpGain > 0) {
         mechanics = { ...mechanics, xp: mechanics.xp + patch.xpGain };
         pushInlineEvent('xp', patch.xpGain);
+      }
+
+      if (patch.dayNumber !== undefined && patch.dayNumber > 0) {
+        mechanics = { ...mechanics, dayNumber: patch.dayNumber, todayRevenue: 0 };
+        pushInlineEvent('day_change', patch.dayNumber);
+      }
+
+      if (patch.addRevenue !== undefined && patch.addRevenue !== 0) {
+        const newRevenue = mechanics.todayRevenue + patch.addRevenue;
+        const targetMet = newRevenue >= mechanics.revenueTarget;
+        const wasTargetMetToday = mechanics.todayRevenue >= mechanics.revenueTarget;
+        mechanics = {
+          ...mechanics,
+          todayRevenue: Math.max(0, newRevenue),
+          consecutiveRevenueDays: targetMet
+            ? wasTargetMetToday
+              ? mechanics.consecutiveRevenueDays
+              : mechanics.consecutiveRevenueDays + 1
+            : 0,
+        };
+        pushInlineEvent('revenue_change', patch.addRevenue);
       }
 
       if (patch.npcDeltas && patch.npcDeltas.length > 0) {
