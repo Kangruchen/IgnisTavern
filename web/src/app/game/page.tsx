@@ -578,12 +578,6 @@ function GamePageContent() {
 
         <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
           <button
-            onClick={() => setShowSidePanel(!showSidePanel)}
-            className="md:hidden text-amber-400/70 hover:text-amber-400 px-2 py-1.5 border border-amber-700/30 rounded text-sm"
-          >
-            {text.panel}
-          </button>
-          <button
             onClick={() => setShowApiKeyModal(true)}
             className="flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 bg-amber-900/30 border border-amber-700/40 rounded-lg text-amber-400/80 text-sm hover:bg-amber-900/50 hover:text-amber-300 transition-all"
           >
@@ -603,6 +597,17 @@ function GamePageContent() {
 
       {/* Main game area */}
       <main className="flex-1 flex overflow-hidden">
+        {/* Mobile edge toggle for side panel */}
+        {!showSidePanel && (
+          <button
+            onClick={() => setShowSidePanel(true)}
+            className="md:hidden fixed right-0 top-1/2 -translate-y-1/2 z-30 px-2.5 py-3 rounded-l-lg border border-r-0 border-amber-700/40 bg-slate-900/90 text-amber-300/80 text-xs shadow-lg shadow-black/40 active:scale-95 transition"
+            aria-label={lang === 'zh' ? '打开面板' : 'Open panel'}
+          >
+            {lang === 'zh' ? '面板' : 'Panel'}
+          </button>
+        )}
+
         {/* Left: Chat area */}
         <div className="flex-1 flex flex-col min-w-0">
           {/* Messages */}
