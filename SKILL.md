@@ -234,6 +234,16 @@ Example (Mediator: STR 12(+1) DEX 10(+0) INT 14(+2) CHA 10(+0)):
 
 Options without rolls omit the DC entirely.
 
+### Save/Load System Reference
+
+For complete save/load instructions, see the dedicated section **"💾 Save/Load System (Skill Version)"** later in this document.
+
+**Quick Reference**:
+- **Save**: Player says `save` or `保存` → AI generates JSON file attachment
+- **Load**: Player uploads save JSON file → AI restores all game state
+
+**Auto-save triggers**: End of character creation, end of each day, Act transitions, major choices
+
 **Key Design Change**: All three characters are already present when the player arrives at the tavern. They are not waiting to be recruited; they are on "probation," deciding whether the new boss is worth staying for. **Do not say their names until they introduce themselves in-character.**
 
 **Opening Scene Content**:
@@ -361,6 +371,139 @@ Accept any reasonable answer. Reference RULES_{lang}.md for mechanical outcomes.
 ### Future Expansion
 
 **Act III — The Choice**: The Trolley Problem — save the found family, or save the city. No correct answer. Both choices have permanent, devastating consequences. Act III is currently planned and under development.
+
+---
+
+## 💾 Save/Load System (Skill Version)
+
+The Skill version supports saving and loading progress via JSON files. This allows players to resume their game across sessions.
+
+### How to Save
+
+**Player says**: `save` or `保存`
+
+**AI Action**:
+1. Generate a complete save game JSON following the schema in `src/schemas/savegame.json`
+2. Output the file as: `MEDIA:ignis_tavern_save_[timestamp].json`
+3. Display a confirmation message
+
+**Save Confirmation Message (Chinese)**:
+```
+══════════════════════════════════
+  💾 进度已保存
+══════════════════════════════════
+
+游戏进度已生成。下载附件保存到安全位置，
+下次游戏时上传即可继续冒险。
+
+当前进度：第 [X] 天 · [场景名]
+角色：[角色名] · HP [X]/[Y]
+══════════════════════════════════
+```
+
+**Save Confirmation Message (English)**:
+```
+══════════════════════════════════
+  💾 Progress Saved
+══════════════════════════════════
+
+Save file generated. Download the attachment and
+keep it safe. Upload it next session to continue.
+
+Current: Day [X] · [Scene Name]
+Character: [Name] · HP [X]/[Y]
+══════════════════════════════════
+```
+
+### How to Load
+
+**Player uploads**: A save file (JSON attachment)
+
+**AI Action**:
+1. Detect the uploaded file
+2. Validate JSON structure against schema
+3. Restore all game state from the save
+4. Present a load confirmation
+
+**Load Confirmation Message (Chinese)**:
+```
+══════════════════════════════════
+  📂 进度已加载
+══════════════════════════════════
+
+欢迎回来，[角色名]。
+
+📍 当前位置：[场景名]
+📅 第 [X] 天
+❤️ HP：[当前]/[最大]
+👥 队伍：雨 [状态] · 焕 [状态] · 利希特 [状态]
+
+继续你的冒险吧。
+══════════════════════════════════
+```
+
+**Load Confirmation Message (English)**:
+```
+══════════════════════════════════
+  📂 Progress Loaded
+══════════════════════════════════
+
+Welcome back, [Character Name].
+
+📍 Location: [Scene Name]
+📅 Day [X]
+❤️ HP: [Current]/[Max]
+👥 Party: Yu [status] · Huan [status] · Licht [status]
+
+Continue your adventure.
+══════════════════════════════════
+```
+
+### Save Data Structure
+
+**Required Fields**:
+- `version`: Save format version (e.g., "1.0")
+- `language`: "zh" or "en"
+- `character`: Full character data (name, template, stats, HP, XP, skills)
+- `currentScene`: Current story scene identifier
+- `dayCount`: In-game day number
+
+**Optional Fields** (AI should track and save when applicable):
+- `npcRelations`: Satisfaction scores and status for Yu, Huan, Licht
+- `inventory`: Items with quantities
+- `mechanics`: Revenue data, reputation, investigation progress, act choices
+- `storyFlags`: Key event flags (qualification achieved, acts completed, etc.)
+- `sessionHistory`: Brief log of recent events for context
+- `timestamp`: ISO 8601 save time
+
+### Save File Naming Convention
+
+When generating save files, use:
+- `ignis_tavern_save_YYYYMMDD_HHMMSS.json`
+
+Example: `ignis_tavern_save_20260421_151800.json`
+
+### Auto-Save Behavior
+
+**AI should auto-save** at these key moments:
+- After character creation completes
+- At the end of each in-game day
+- When Act I qualification is achieved
+- When transitioning between Acts (I→II, II→III)
+- Before major choice points
+
+Auto-save generates the same JSON but is presented as:
+> "[自动保存] 关键节点已记录。" / "[Auto-save] Key milestone recorded."
+
+### Cross-Session Memory
+
+Since the AI cannot persist memory between sessions in the Skill version, **the save file is the only way to preserve progress**. Players should be reminded to save before ending a session.
+
+**Session End Reminder (Chinese)**:
+> "要结束了吗？说'保存'来记录当前进度，下次上传存档即可继续。"
+
+**Session End Reminder (English)**:
+> "Ending the session? Say 'save' to record your progress, then upload the file next time to continue."
 
 ---
 
@@ -512,23 +655,27 @@ ignis-tavern/
 │   ├── rules/
 │   │   ├── RULES_zh.md         # Chinese game rules
 │   │   └── RULES_en.md         # English game rules
-│   └── scenes/
-│       ├── act1_opening_zh.md  # ✅ Opening (Chinese)
-│       ├── act1_opening_en.md  # ✅ Opening (English)
-│       ├── act1_tavern_management_zh.md  # ✅ Daily loop (Chinese)
-│       ├── act1_tavern_management_en.md  # ✅ Daily loop (English)
-│       ├── act1_qualification_zh.md    # ✅ Qualification (Chinese)
-│       ├── act1_qualification_en.md    # ✅ Qualification (English)
-│       ├── act2_investigation_zh.md  # ✅ Act II Investigation (Chinese)
-│       ├── act2_investigation_en.md  # ✅ Act II Investigation (English)
-│       ├── act2_revelation_zh.md     # ✅ Act II Revelation (Chinese)
-│       ├── act2_revelation_en.md     # ✅ Act II Revelation (English)
-│       ├── act3_opening_zh.md     # ✅ Act III Opening (Chinese)
-│       ├── act3_opening_en.md     # ✅ Act III Opening (English)
-│       ├── act3_confrontation_zh.md  # ✅ Act III Confrontation (Chinese)
-│       ├── act3_confrontation_en.md  # ✅ Act III Confrontation (English)
-│       ├── act3_endings_zh.md     # ✅ Act III Endings (Chinese)
-│       └── act3_endings_en.md     # ✅ Act III Endings (English)
+│   ├── scenes/
+│   │   ├── act1_opening_zh.md  # ✅ Opening (Chinese)
+│   │   ├── act1_opening_en.md  # ✅ Opening (English)
+│   │   ├── act1_tavern_management_zh.md  # ✅ Daily loop (Chinese)
+│   │   ├── act1_tavern_management_en.md  # ✅ Daily loop (English)
+│   │   ├── act1_qualification_zh.md    # ✅ Qualification (Chinese)
+│   │   ├── act1_qualification_en.md    # ✅ Qualification (English)
+│   │   ├── act2_investigation_zh.md  # ✅ Act II Investigation (Chinese)
+│   │   ├── act2_investigation_en.md  # ✅ Act II Investigation (English)
+│   │   ├── act2_revelation_zh.md     # ✅ Act II Revelation (Chinese)
+│   │   ├── act2_revelation_en.md     # ✅ Act II Revelation (English)
+│   │   ├── act3_opening_zh.md     # ✅ Act III Opening (Chinese)
+│   │   ├── act3_opening_en.md     # ✅ Act III Opening (English)
+│   │   ├── act3_confrontation_zh.md  # ✅ Act III Confrontation (Chinese)
+│   │   ├── act3_confrontation_en.md  # ✅ Act III Confrontation (English)
+│   │   ├── act3_endings_zh.md     # ✅ Act III Endings (Chinese)
+│   │   └── act3_endings_en.md     # ✅ Act III Endings (English)
+│   └── schemas/
+│       ├── savegame.json           # 💾 Save game JSON schema
+│       ├── savegame_example.json   # 💾 Example save (Chinese)
+│       └── savegame_example_en.json # 💾 Example save (English)
 ├── assets/
 └── scripts/
 ```

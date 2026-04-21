@@ -1,0 +1,226 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ignis Tavern Save Game",
+  "description": "Save game data structure for Ignis Tavern Skill version",
+  "type": "object",
+  "required": ["version", "language", "character", "currentScene", "dayCount"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Save format version",
+      "default": "1.0"
+    },
+    "language": {
+      "type": "string",
+      "enum": ["zh", "en"],
+      "description": "Game language: zh=Chinese, en=English"
+    },
+    "character": {
+      "type": "object",
+      "required": ["name", "template", "stats", "hp", "maxHp"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Player character name"
+        },
+        "template": {
+          "type": "string",
+          "enum": ["Mediator", "Action-Oriented", "Persuader", "Warrior", "调和者", "行动派", "说服者", "武者", "Custom"],
+          "description": "Character template or custom"
+        },
+        "stats": {
+          "type": "object",
+          "required": ["str", "dex", "int", "cha"],
+          "properties": {
+            "str": { "type": "integer", "minimum": 1, "maximum": 20 },
+            "dex": { "type": "integer", "minimum": 1, "maximum": 20 },
+            "int": { "type": "integer", "minimum": 1, "maximum": 20 },
+            "cha": { "type": "integer", "minimum": 1, "maximum": 20 }
+          }
+        },
+        "hp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Current HP"
+        },
+        "maxHp": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum HP"
+        },
+        "skills": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of learned skills"
+        },
+        "xp": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Experience points"
+        },
+        "proficiency": {
+          "type": "object",
+          "properties": {
+            "mainStat": { "type": "string", "enum": ["str", "dex", "int", "cha"] },
+            "skills": {
+              "type": "array",
+              "items": { "type": "string" },
+              "maxItems": 2
+            }
+          }
+        }
+      }
+    },
+    "currentScene": {
+      "type": "string",
+      "enum": [
+        "act1_opening",
+        "act1_tavern_management",
+        "act1_qualification",
+        "act2_investigation",
+        "act2_revelation",
+        "act3_opening",
+        "act3_confrontation",
+        "act3_ending"
+      ],
+      "description": "Current story scene/act"
+    },
+    "dayCount": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Current in-game day"
+    },
+    "npcRelations": {
+      "type": "object",
+      "properties": {
+        "yu": {
+          "type": "object",
+          "properties": {
+            "satisfaction": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "staying": { "type": "boolean" },
+            "introduced": { "type": "boolean" }
+          }
+        },
+        "huan": {
+          "type": "object",
+          "properties": {
+            "satisfaction": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "staying": { "type": "boolean" },
+            "introduced": { "type": "boolean" }
+          }
+        },
+        "licht": {
+          "type": "object",
+          "properties": {
+            "satisfaction": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "staying": { "type": "boolean" },
+            "introduced": { "type": "boolean" },
+            "fishCount": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "inventory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "nameZh": { "type": "string" },
+          "quantity": { "type": "integer", "minimum": 1 },
+          "type": { "type": "string", "enum": ["food", "material", "tool", "key", "fish", "other"] }
+        }
+      }
+    },
+    "mechanics": {
+      "type": "object",
+      "properties": {
+        "revenue": {
+          "type": "object",
+          "properties": {
+            "current": { "type": "integer" },
+            "target": { "type": "integer" },
+            "consecutiveDays": { "type": "integer", "minimum": 0, "maximum": 7 },
+            "history": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "day": { "type": "integer" },
+                  "amount": { "type": "integer" },
+                  "metTarget": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "reputation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Tavern reputation score"
+        },
+        "inspectionPassed": {
+          "type": "boolean",
+          "description": "Whether Gourmet Association inspection has been passed"
+        },
+        "investigationProgress": {
+          "type": "object",
+          "properties": {
+            "archivesVisited": { "type": "boolean" },
+            "blackMarketVisited": { "type": "boolean" },
+            "plazaVisited": { "type": "boolean" },
+            "holyFlameFragment": { "type": "boolean" },
+            "cycleRecordsFound": { "type": "boolean" },
+            "soulFacesSeen": { "type": "boolean" }
+          }
+        },
+        "act2Choices": {
+          "type": "object",
+          "properties": {
+            "confrontationApproach": { "type": "string", "enum": ["flee", "fight", "negotiate", "seek_third_way"] },
+            "huanTrustLevel": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "truthRevealed": { "type": "boolean" }
+          }
+        },
+        "act3Choices": {
+          "type": "object",
+          "properties": {
+            "finalDecision": { "type": "string", "enum": ["save_family", "save_city", "sacrifice_self", "third_way", "undecided"] },
+            "endingVariant": { "type": "string" }
+          }
+        }
+      }
+    },
+    "storyFlags": {
+      "type": "object",
+      "description": "Key story event flags",
+      "properties": {
+        "openingComplete": { "type": "boolean" },
+        "firstDayStarted": { "type": "boolean" },
+        "qualificationAchieved": { "type": "boolean" },
+        "act1Complete": { "type": "boolean" },
+        "act2Complete": { "type": "boolean" },
+        "act3Complete": { "type": "boolean" },
+        "crisisTriggered": { "type": "boolean" },
+        "crisisResolved": { "type": "boolean" },
+        "yuBackstoryRevealed": { "type": "boolean" },
+        "huanBackstoryRevealed": { "type": "boolean" },
+        "lichtBackstoryRevealed": { "type": "boolean" }
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when save was created"
+    },
+    "sessionHistory": {
+      "type": "array",
+      "description": "Brief log of key session events for context restoration",
+      "items": { "type": "string" },
+      "maxItems": 20
+    }
+  }
+}

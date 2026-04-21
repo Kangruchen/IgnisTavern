@@ -27,6 +27,7 @@ Your tavern is failing. Three eccentric employees are already here — on probat
 - **Inline Cards** — Game events (dice checks, item changes, HP) appear as embedded cards in the chat flow
 - **Character Customization** — Template selection or quiz-based generation
 - **Branching Narrative** — Choices matter; your decisions shape the story
+- **Save/Load System** — Save progress to JSON files (Skill version) or local storage (Web version)
 - **Bilingual** — Full Chinese (中文) and English support
 
 ### The Three-Act Structure
@@ -61,6 +62,7 @@ Your tavern is failing. Three eccentric employees are already here — on probat
 - **内嵌卡片** — 游戏事件（检定、物品变化、HP）以卡片形式嵌入聊天流
 - **角色创建** — 预设模板选择或问答生成
 - **分支剧情** — 选择会影响剧情走向
+- **存档系统** — 保存进度到 JSON 文件（Skill 版）或本地存储（Web 版）
 - **双语支持** — 中文 / English
 
 ### 三幕结构
@@ -140,6 +142,34 @@ Your tavern is failing. Three eccentric employees are already here — on probat
 3. **第一幕** — 经营酒馆，赢得三位员工的信任
 4. **资格确认** — 达成连续3天达标
 5. **第二/三幕** — 第二幕已接入主流程，第三幕开发中
+6. **保存进度** — 随时说"保存"生成存档文件，上传存档即可继续游戏
+
+---
+
+## 💾 Save/Load / 存档系统
+
+### Skill 版 / Skill Version
+
+**保存游戏 / Save Progress**:
+- 说 `save` 或 `保存` — AI 会生成一个 JSON 存档文件附件
+- Download the file and keep it safe / 下载文件并妥善保存
+
+**加载游戏 / Load Progress**:
+- 直接上传之前保存的 JSON 文件 — AI 会自动读取并恢复游戏状态
+- Upload your previously saved JSON file — AI will automatically restore the game state
+
+**存档内容 / Save Data Includes**:
+- Character stats, HP, XP, skills / 角色属性、生命值、经验、技能
+- Current scene and day count / 当前场景和游戏天数
+- NPC relationships and satisfaction / NPC 关系和满意度
+- Inventory items / 背包物品
+- Story progress and choices / 剧情进度和选择
+
+**自动保存触发点 / Auto-save Triggers**:
+- After character creation / 角色创建完成后
+- End of each in-game day / 每天结束时
+- Act transitions / 幕间切换时
+- Before major choices / 重大选择前
 
 ---
 
@@ -197,6 +227,7 @@ ignis-tavern/
 | 骰子检定 | 纯文本描述结果 | 状态机 + 动画 + 公式展示 |
 | 状态追踪 | DM 纯文本标注（`HP: 4/5`） | `[CHAR:...]` 标签自动解析 |
 | 物品/技能 | DM 叙事描述 | 内嵌通知卡片 |
+| 存档系统 | JSON 文件附件上传/下载 | 浏览器本地存储 |
 | API 限制 | 无（用用户的 key） | 免费 10 次/天 + 自带 key |
 | 多模型 | 用户的模型 | 自动 fallback（MiniMax → DeepSeek） |
 

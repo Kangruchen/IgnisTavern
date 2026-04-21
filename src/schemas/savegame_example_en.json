@@ -1,0 +1,118 @@
+{
+  "version": "1.0",
+  "language": "en",
+  "character": {
+    "name": "Eileen",
+    "template": "Mediator",
+    "stats": {
+      "str": 12,
+      "dex": 10,
+      "int": 14,
+      "cha": 10
+    },
+    "hp": 6,
+    "maxHp": 6,
+    "skills": ["Perception", "Cooking"],
+    "xp": 3,
+    "proficiency": {
+      "mainStat": "int",
+      "skills": ["Perception", "Cooking"]
+    }
+  },
+  "currentScene": "act1_tavern_management",
+  "dayCount": 2,
+  "npcRelations": {
+    "yu": {
+      "satisfaction": 55,
+      "staying": true,
+      "introduced": true
+    },
+    "huan": {
+      "satisfaction": 45,
+      "staying": true,
+      "introduced": true
+    },
+    "licht": {
+      "satisfaction": 60,
+      "staying": true,
+      "introduced": true,
+      "fishCount": 2
+    }
+  },
+  "inventory": [
+    {
+      "id": "fresh_fish",
+      "name": "Fresh Fish",
+      "nameZh": "鲜鱼",
+      "quantity": 3,
+      "type": "fish"
+    },
+    {
+      "id": "spices",
+      "name": "Spices",
+      "nameZh": "香料",
+      "quantity": 2,
+      "type": "material"
+    },
+    {
+      "id": "old_key",
+      "name": "Old Key",
+      "nameZh": "旧钥匙",
+      "quantity": 1,
+      "type": "key"
+    }
+  ],
+  "mechanics": {
+    "revenue": {
+      "current": 45,
+      "target": 50,
+      "consecutiveDays": 1,
+      "history": [
+        {
+          "day": 1,
+          "amount": 52,
+          "metTarget": true
+        }
+      ]
+    },
+    "reputation": 35,
+    "inspectionPassed": false,
+    "investigationProgress": {
+      "archivesVisited": false,
+      "blackMarketVisited": false,
+      "plazaVisited": false,
+      "holyFlameFragment": false,
+      "cycleRecordsFound": false,
+      "soulFacesSeen": false
+    },
+    "act2Choices": {
+      "confrontationApproach": null,
+      "huanTrustLevel": 30,
+      "truthRevealed": false
+    },
+    "act3Choices": {
+      "finalDecision": "undecided",
+      "endingVariant": null
+    }
+  },
+  "storyFlags": {
+    "openingComplete": true,
+    "firstDayStarted": true,
+    "qualificationAchieved": false,
+    "act1Complete": false,
+    "act2Complete": false,
+    "act3Complete": false,
+    "crisisTriggered": false,
+    "crisisResolved": false,
+    "yuBackstoryRevealed": false,
+    "huanBackstoryRevealed": false,
+    "lichtBackstoryRevealed": false
+  },
+  "timestamp": "2026-04-21T15:30:00+08:00",
+  "sessionHistory": [
+    "Day 1: Met Yu, Huan, and Licht at the tavern",
+    "Day 1: Learned about the festival qualification requirements",
+    "Day 1: First day of tavern management - revenue target met",
+    "Day 2: Started morning routine, preparing for another day"
+  ]
+}
