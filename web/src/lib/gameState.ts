@@ -427,12 +427,14 @@ export const gameStateReducer = (
         });
       }
 
-      if (patch.name !== undefined || patch.nameEn !== undefined || patch.stats) {
+      if (patch.name !== undefined || patch.nameEn !== undefined || (patch.stats && Object.keys(patch.stats).length > 0)) {
         character = {
           ...character,
           name: patch.name ?? character.name,
           nameEn: patch.nameEn ?? character.nameEn,
-          stats: patch.stats ? { ...character.stats, ...patch.stats } : character.stats,
+          stats: patch.stats && Object.keys(patch.stats).length > 0
+            ? { ...character.stats, ...patch.stats }
+            : character.stats,
         };
       }
 
