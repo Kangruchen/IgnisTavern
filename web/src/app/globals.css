@@ -31,9 +31,18 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  min-height: 100dvh;
   background-image: 
     radial-gradient(ellipse at top, rgba(180, 83, 9, 0.08) 0%, transparent 50%),
     radial-gradient(ellipse at bottom, rgba(30, 41, 59, 0.5) 0%, transparent 50%);
+}
+
+/* Improve readability and prevent unexpected zoom behavior on mobile inputs. */
+textarea,
+input,
+select,
+button {
+  font-size: 16px;
 }
 
 /* Medieval font utility */

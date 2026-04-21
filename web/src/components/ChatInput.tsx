@@ -44,12 +44,12 @@ export default function ChatInput({
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.style.height = 'auto';
-      inputRef.current.style.height = Math.min(inputRef.current.scrollHeight, 120) + 'px';
+      inputRef.current.style.height = Math.min(inputRef.current.scrollHeight, 132) + 'px';
     }
   }, [input]);
 
   return (
-    <div className="flex items-end gap-2">
+    <div className="flex items-end gap-1.5 md:gap-2">
       <textarea
         ref={inputRef}
         value={input}
@@ -59,12 +59,12 @@ export default function ChatInput({
         placeholder={placeholder || defaultPlaceholder}
         rows={1}
         className={`
-          flex-1 resize-none rounded-lg px-4 py-3
+          flex-1 resize-none rounded-lg px-3 md:px-4 py-2.5 md:py-3
           bg-slate-800/60 border border-amber-700/40
           text-amber-100 placeholder:text-amber-700/50
           focus:outline-none focus:border-amber-500/60 focus:ring-1 focus:ring-amber-500/30
           disabled:opacity-50 disabled:cursor-not-allowed
-          text-sm md:text-base leading-relaxed
+          text-base leading-relaxed
           transition-colors duration-200
         `}
       />
@@ -72,7 +72,7 @@ export default function ChatInput({
         onClick={handleSubmit}
         disabled={disabled || !input.trim()}
         className={`
-          shrink-0 px-4 py-3 rounded-lg font-medium text-sm
+          shrink-0 px-3.5 md:px-4 py-2.5 md:py-3 rounded-lg font-medium text-sm
           transition-all duration-200
           ${disabled || !input.trim()
             ? 'bg-slate-700/50 text-slate-500 cursor-not-allowed'

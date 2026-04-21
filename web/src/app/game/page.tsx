@@ -547,21 +547,21 @@ function GamePageContent() {
   return (
     <div className="h-screen bg-slate-950 flex flex-col overflow-hidden">
       {/* Header */}
-      <header className="bg-slate-900/80 border-b border-amber-700/30 px-4 py-3 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-3">
+      <header className="bg-slate-900/80 border-b border-amber-700/30 px-3 md:px-4 py-2.5 md:py-3 flex items-center justify-between gap-2 shrink-0">
+        <div className="flex items-center gap-2 md:gap-3 min-w-0">
           <button
             onClick={handleBackToMenu}
-            className="text-amber-400/70 hover:text-amber-400 transition-colors text-sm"
+            className="text-amber-400/70 hover:text-amber-400 transition-colors text-sm shrink-0"
           >
-            ← {text.back}
+            ← <span className="hidden sm:inline">{text.back}</span>
           </button>
-          <span className="text-amber-700/50">|</span>
-          <span className="text-amber-300 text-sm">
+          <span className="hidden sm:inline text-amber-700/50">|</span>
+          <span className="hidden sm:inline text-amber-300 text-sm whitespace-nowrap">
             {text.act.replace('$', gameState.currentAct.toString())}
           </span>
           {/* Current model indicator */}
           {gameState.apiMode === 'custom' && gameState.provider && gameState.model && (
-            <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-800/80 border border-amber-700/20 text-xs text-amber-500/60">
+            <span className="hidden lg:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-800/80 border border-amber-700/20 text-xs text-amber-500/60 max-w-[18rem] truncate">
               <span className="w-1.5 h-1.5 rounded-full bg-green-500/70 animate-pulse" />
               {PROVIDERS[gameState.provider as ProviderId]?.name || gameState.provider} · {gameState.model}
             </span>
@@ -569,25 +569,25 @@ function GamePageContent() {
           {gameState.apiMode === 'default' && (
             <button
               onClick={() => setShowApiKeyModal(true)}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-900/40 border border-amber-600/50 text-xs text-amber-400 hover:bg-amber-900/60 transition-colors cursor-pointer"
+              className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-900/40 border border-amber-600/50 text-xs text-amber-400 hover:bg-amber-900/60 transition-colors cursor-pointer"
             >
               🔑 {lang === 'zh' ? '配置 API Key 解锁更好体验' : 'Set API Key for better experience'}
             </button>
           )}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
           <button
             onClick={() => setShowSidePanel(!showSidePanel)}
-            className="md:hidden text-amber-400/70 hover:text-amber-400 px-2 py-1 border border-amber-700/30 rounded text-sm"
+            className="md:hidden text-amber-400/70 hover:text-amber-400 px-2 py-1.5 border border-amber-700/30 rounded text-sm"
           >
             {text.panel}
           </button>
           <button
             onClick={() => setShowApiKeyModal(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-900/30 border border-amber-700/40 rounded-lg text-amber-400/80 text-sm hover:bg-amber-900/50 hover:text-amber-300 transition-all"
+            className="flex items-center gap-1.5 px-2.5 md:px-3 py-1.5 bg-amber-900/30 border border-amber-700/40 rounded-lg text-amber-400/80 text-sm hover:bg-amber-900/50 hover:text-amber-300 transition-all"
           >
-            🔑 API
+            🔑 <span className="hidden sm:inline">API</span>
           </button>
           <LanguageSelector currentLang={lang} onChange={handleLanguageChange} size="sm" />
         </div>
@@ -606,7 +606,7 @@ function GamePageContent() {
         {/* Left: Chat area */}
         <div className="flex-1 flex flex-col min-w-0">
           {/* Messages */}
-          <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 scroll-smooth">
+          <div ref={scrollRef} className="flex-1 overflow-y-auto px-3 md:px-4 py-3 md:py-4 scroll-smooth">
             <div className="max-w-3xl mx-auto">
               {/* Initial loading animation */}
               {displayMessages.length === 0 && gameState.isStreaming && !gameState.displayedText && (
@@ -717,7 +717,10 @@ function GamePageContent() {
           </div>
 
           {/* Input area */}
-          <div className="shrink-0 border-t border-amber-700/20 bg-slate-900/50 px-4 py-3">
+          <div
+            className="shrink-0 border-t border-amber-700/20 bg-slate-900/50 px-3 md:px-4 pt-2.5 md:pt-3"
+            style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 0.75rem)' }}
+          >
             <div className="max-w-3xl mx-auto">
 
               <ChatInput
@@ -732,7 +735,7 @@ function GamePageContent() {
         {/* Right: Side panel */}
         <aside
           className={`
-            fixed inset-y-0 right-0 z-40 w-80
+            fixed inset-y-0 right-0 z-40 w-full max-w-sm
             bg-slate-900/95 backdrop-blur-sm
             border-l border-amber-700/30
             transform transition-transform duration-300
