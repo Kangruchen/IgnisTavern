@@ -1,7 +1,7 @@
 'use client';
 
 interface InlineNotificationProps {
-  type: 'item_add' | 'item_remove' | 'hp_change' | 'skill_add' | 'xp';
+  type: 'item_add' | 'item_remove' | 'hp_change' | 'skill_add' | 'xp' | 'day_change' | 'revenue_change';
   value: string | number;
   language: 'zh' | 'en';
 }
@@ -13,6 +13,8 @@ const LABELS = {
     hp_change: '生命值',
     skill_add: '获得技能',
     xp: '获得经验',
+    day_change: '天数',
+    revenue_change: '营收',
   },
   en: {
     item_add: 'Item gained',
@@ -20,6 +22,8 @@ const LABELS = {
     hp_change: 'HP changed',
     skill_add: 'Skill gained',
     xp: 'XP gained',
+    day_change: 'Day',
+    revenue_change: 'Revenue',
   },
 };
 
@@ -28,7 +32,9 @@ const ICONS: Record<string, string> = {
   item_remove: '🎒',
   hp_change: '❤️',
   skill_add: '✨',
-  xp: '⭐',
+  xp: '📈',
+  day_change: '📅',
+  revenue_change: '💰',
 };
 
 export default function InlineNotification({ type, value, language }: InlineNotificationProps) {
