@@ -365,32 +365,33 @@ function GamePageContent() {
   const handleLanguageChange = (newLang: 'zh' | 'en') => {
     // Only proceed if language actually changed
     if (newLang === gameState.language) return;
-    
-    // Update language state
-    dispatch({ type: 'SET_LANGUAGE', payload: newLang });
-    
+
     // Save current progress before clearing
     saveGame(gameState);
-    
+
     // Clear messages and restart scene with new language
     // This ensures DM generates content in the correct language
     dispatch({ type: 'CLEAR_MESSAGES' });
-    
+
+    // Update language state AFTER clearing messages to ensure correct state
+    dispatch({ type: 'SET_LANGUAGE', payload: newLang });
+
     // Re-trigger scene loading based on current phase
+    // Use newLang directly instead of ref to ensure correct language is sent
     const s = apiSettingsRef.current;
     const triggerMessage = newLang === 'zh'
       ? '请用中文继续当前场景'
       : 'Please continue the current scene in English';
-    
+
     dispatch({ type: 'SET_STREAMING', payload: true });
     dispatch({ type: 'APPEND_STREAMING_TEXT', payload: '' });
-    
+
     // Send trigger to DM to regenerate content in new language
     (async () => {
       try {
         for await (const chunk of streamChatMessage(
           [{ role: 'user', content: triggerMessage }],
-          newLang,
+          newLang, // Use newLang directly, not from ref
           s.userApiKey,
           gameState.currentScene,
           s.provider,

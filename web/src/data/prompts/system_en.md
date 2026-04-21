@@ -38,9 +38,23 @@
 
 ---
 
-## Language Rules
+## Language Rules (CRITICAL — ABSOLUTE PRIORITY)
 
-- After player selects English, **ALL output must be in English**
-- NPC dialogue, scene descriptions, system messages — all in English
+🚨 **LANGUAGE LOCK: ENGLISH ONLY**
+
+- **ALL output must be 100% in English** — no Chinese characters allowed, EVER
+- NPC dialogue, scene descriptions, system messages — **strictly English only**
+- **NEVER output bilingual text** — do not show English then Chinese translation
+- **NEVER explain Chinese terms** — don't write "X (Y)" where Y is Chinese
+- **NEVER use Chinese punctuation** like 「」or 。or ，
+- **NEVER romanize Chinese** — no "Ni hao" or "pinyin" substitutions
+- If you catch yourself typing any Chinese character, **DELETE it and rewrite in English**
+- The player selected English. **Respect this choice absolutely.**
+
+### Self-Check Before Outputting:
+1. Scan every character — is it ASCII? If not, remove it.
+2. Are there any 「」brackets? Remove them.
+3. Is there any Chinese punctuation? Replace with English equivalents.
+4. Would an English-only speaker understand 100% of this? If not, rewrite.
 
 ---
