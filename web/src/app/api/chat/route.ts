@@ -86,14 +86,24 @@ export async function POST(request: NextRequest) {
     // (character creation is now UI-driven, so the first message in opening
     // is always the trigger from the front-end)
     const userMessages = messages.filter(m => m.role === 'user');
-    if (currentPhase === 'character_creation' && userMessages.length <= 1) {
+
+    // Detect language switch: single user message asking to restart/continue in new language
+    const isLanguageSwitch = userMessages.length === 1 && (
+      userMessages[0].content.includes('请用中文') ||
+      userMessages[0].content.includes('Please continue') ||
+      userMessages[0].content.includes('Please restart') ||
+      userMessages[0].content.includes('in English')
+    );
+
+    if (currentPhase === 'character_creation' && userMessages.length <= 1 && !isLanguageSwitch) {
       // First turn in character creation — inject welcome trigger
       const trigger = lang === 'zh'
         ? '开始游戏。请输出欢迎词。'
         : 'Start the game. Please output a welcome message.';
       llmMessages.push({ role: 'user', content: trigger });
-    } else if (currentPhase === 'opening' && userMessages.length === 0) {
-      // First turn in opening phase with no user message — inject scene trigger
+    } else if ((currentPhase === 'opening' && userMessages.length === 0) ||
+               (currentPhase === 'opening' && isLanguageSwitch)) {
+      // First turn in opening phase OR language switch — inject scene trigger
       // Note: Frontend now handles context control for player's first choice
       const trigger = lang === 'zh'
         ? '角色已创建完成。请按照场景文件原文，开始第一幕开场叙事。'

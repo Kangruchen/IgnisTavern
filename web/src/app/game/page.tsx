@@ -369,31 +369,54 @@ function GamePageContent() {
     // Save current progress before clearing
     saveGame(gameState);
 
-    // Clear messages and restart scene with new language
-    // This ensures DM generates content in the correct language
+    // Get current scene before clearing
+    const currentScene = gameState.currentScene;
+
+    // Clear messages and displayed text completely
     dispatch({ type: 'CLEAR_MESSAGES' });
 
-    // Update language state AFTER clearing messages to ensure correct state
+    // Update language state
     dispatch({ type: 'SET_LANGUAGE', payload: newLang });
 
     // Re-trigger scene loading based on current phase
     // Use newLang directly instead of ref to ensure correct language is sent
     const s = apiSettingsRef.current;
-    const triggerMessage = newLang === 'zh'
-      ? '请用中文继续当前场景'
-      : 'Please continue the current scene in English';
+
+    // Use scene-appropriate trigger message to restart the scene fresh
+    let triggerMessage: string;
+    let phase: string;
+
+    if (currentScene === 'opening' || currentScene === 'act1_opening') {
+      // For opening scene, use the opening trigger to get full scene narration
+      triggerMessage = newLang === 'zh'
+        ? '角色已创建完成。请按照场景文件原文，开始第一幕开场叙事。'
+        : 'Character creation is complete. Begin the Act I opening scene, using the scene file text verbatim.';
+      phase = 'opening';
+    } else if (currentScene === 'character_creation') {
+      triggerMessage = newLang === 'zh'
+        ? '开始游戏。请输出欢迎词。'
+        : 'Start the game. Please output a welcome message.';
+      phase = 'character_creation';
+    } else {
+      // For other scenes, use a generic restart trigger
+      triggerMessage = newLang === 'zh'
+        ? '请重新开始当前场景，使用中文输出。'
+        : 'Please restart the current scene, output in English only.';
+      phase = currentScene;
+    }
 
     dispatch({ type: 'SET_STREAMING', payload: true });
     dispatch({ type: 'APPEND_STREAMING_TEXT', payload: '' });
 
     // Send trigger to DM to regenerate content in new language
+    // Use empty messages array to ensure fresh context
     (async () => {
       try {
         for await (const chunk of streamChatMessage(
           [{ role: 'user', content: triggerMessage }],
           newLang, // Use newLang directly, not from ref
           s.userApiKey,
-          gameState.currentScene,
+          phase,
           s.provider,
           s.model,
           s.customApiUrl
