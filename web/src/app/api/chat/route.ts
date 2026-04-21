@@ -144,17 +144,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Try each provider, fallback on failure
+    // Try each provider with real-time streaming.
+    // Fallback only if an attempt fails before yielding any chunk.
+    const encoder = new TextEncoder();
     let lastError = '';
-    for (let i = 0; i < attempts.length; i++) {
-      const attempt = attempts[i];
-      const isLast = i === attempts.length - 1;
 
-      const encoder = new TextEncoder();
-      let streamError = '';
+    const stream = new ReadableStream({
+      async start(controller) {
+        for (let i = 0; i < attempts.length; i++) {
+          const attempt = attempts[i];
+          let hasContent = false;
 
-      const stream = new ReadableStream({
-        async start(controller) {
           try {
             await streamChatCompletion(
               {
@@ -163,82 +163,51 @@ export async function POST(request: NextRequest) {
                 model: attempt.model,
                 provider: attempt.provider as ProviderId,
                 customApiUrl: attempt.customApiUrl,
+                firstResponseTimeoutMs: userApiKey ? 30000 : 12000,
               },
               (chunk) => {
+                hasContent = true;
                 controller.enqueue(
                   encoder.encode(`data: ${JSON.stringify({ content: chunk })}\n\n`)
                 );
               },
-              () => {
-                controller.enqueue(
-                  encoder.encode(`data: ${JSON.stringify({ done: true })}\n\n`)
-                );
-                controller.close();
-              }
+              () => {}
             );
-          } catch (error: unknown) {
-            streamError = error instanceof Error ? error.message : 'Stream error';
+
             controller.enqueue(
-              encoder.encode(`data: ${JSON.stringify({ error: streamError })}\n\n`)
+              encoder.encode(`data: ${JSON.stringify({ done: true })}\n\n`)
             );
             controller.close();
-          }
-        },
-      });
+            return;
+          } catch (error: unknown) {
+            lastError = error instanceof Error ? error.message : 'Stream error';
+            console.log(`Provider ${attempt.provider} failed: ${lastError}. Trying next...`);
 
-      // If last attempt, just return the stream directly
-      if (isLast) {
-        return new Response(stream, {
-          headers: {
-            'Content-Type': 'text/event-stream',
-            'Cache-Control': 'no-cache',
-            Connection: 'keep-alive',
-          },
-        });
-      }
-
-      // For non-last attempts, collect and check for errors
-      const chunks: string[] = [];
-      let streamFailed = false;
-      const reader = stream.getReader();
-      const decoder = new TextDecoder();
-
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const text = decoder.decode(value, { stream: true });
-          for (const line of text.split('\n')) {
-            if (!line.startsWith('data: ')) continue;
-            try {
-              const parsed = JSON.parse(line.slice(6));
-              if (parsed.error) { streamFailed = true; lastError = parsed.error; }
-              else if (parsed.content) chunks.push(parsed.content);
-            } catch {}
+            // If streaming already started, do not switch provider mid-response.
+            if (hasContent) {
+              controller.enqueue(
+                encoder.encode(`data: ${JSON.stringify({ error: lastError })}\n\n`)
+              );
+              controller.close();
+              return;
+            }
           }
         }
-      } catch { streamFailed = true; }
 
-      if (!streamFailed && chunks.length > 0) {
-        const resultStream = new ReadableStream({
-          start(controller) {
-            const enc = new TextEncoder();
-            for (const chunk of chunks) {
-              controller.enqueue(enc.encode(`data: ${JSON.stringify({ content: chunk })}\n\n`));
-            }
-            controller.enqueue(enc.encode(`data: ${JSON.stringify({ done: true })}\n\n`));
-            controller.close();
-          },
-        });
-        return new Response(resultStream, {
-          headers: { 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', Connection: 'keep-alive' },
-        });
-      }
+        controller.enqueue(
+          encoder.encode(`data: ${JSON.stringify({ error: lastError || 'All providers failed' })}\n\n`)
+        );
+        controller.close();
+      },
+    });
 
-      console.log(`Provider ${attempt.provider} failed: ${lastError}. Trying next...`);
-    }
-
-    return NextResponse.json({ error: lastError || 'All providers failed' }, { status: 502 });
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive',
+      },
+    });
   } catch (error: unknown) {
     console.error('Chat API error:', error);
     const message = error instanceof Error ? error.message : 'Internal server error';

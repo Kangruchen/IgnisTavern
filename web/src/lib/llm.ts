@@ -8,6 +8,7 @@ interface ChatCompletionOptions {
   customApiUrl?: string;
   temperature?: number;
   maxTokens?: number;
+  firstResponseTimeoutMs?: number;
 }
 
 /**
@@ -26,6 +27,7 @@ export async function streamChatCompletion(
     customApiUrl,
     temperature = 0.4,
     maxTokens = 4096,
+    firstResponseTimeoutMs = 30000,
   } = options;
 
   const providerId = explicitProvider || detectProvider(apiKey);
@@ -51,9 +53,9 @@ export async function streamChatCompletion(
     } : {}),
   };
 
-  // Timeout controller — 30 seconds max wait for first response
+  // Timeout controller — max wait for first response
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 30000);
+  const timeout = setTimeout(() => controller.abort(), firstResponseTimeoutMs);
 
   const response = await fetch(apiUrl, {
     method: 'POST',
@@ -141,7 +143,14 @@ async function streamAnthropic(
   onChunk: (text: string) => void,
   onDone: () => void
 ): Promise<void> {
-  const { apiKey, messages, model, temperature = 0.4, maxTokens = 4096 } = options;
+  const {
+    apiKey,
+    messages,
+    model,
+    temperature = 0.4,
+    maxTokens = 4096,
+    firstResponseTimeoutMs = 30000,
+  } = options;
   const provider = PROVIDERS.anthropic;
   const modelName = model || provider.defaultModel;
 
@@ -151,7 +160,7 @@ async function streamAnthropic(
     .map(m => ({ role: m.role, content: m.content }));
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 30000);
+  const timeout = setTimeout(() => controller.abort(), firstResponseTimeoutMs);
 
   const response = await fetch(provider.apiUrl, {
     method: 'POST',
