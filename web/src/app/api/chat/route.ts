@@ -92,7 +92,9 @@ export async function POST(request: NextRequest) {
       userMessages[0].content.includes('请用中文') ||
       userMessages[0].content.includes('Please continue') ||
       userMessages[0].content.includes('Please restart') ||
-      userMessages[0].content.includes('in English')
+      userMessages[0].content.includes('in English') ||
+      userMessages[0].content.includes('Begin the Act I opening scene') ||
+      userMessages[0].content.includes('开始第一幕')
     );
 
     if (currentPhase === 'character_creation' && userMessages.length <= 1 && !isLanguageSwitch) {
