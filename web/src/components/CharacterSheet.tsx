@@ -206,7 +206,7 @@ export default function CharacterSheet({ character, language, phase, npcRelation
               <div key={npc.name} className="bg-slate-900/40 rounded-lg p-2">
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-amber-200/80 text-sm font-medium capitalize">
-                    {npc.name === 'yu' ? '雨' : npc.name === 'huan' ? '焕' : npc.name === 'licht' ? '利希特' : npc.name}
+                    {npc.name === 'yu' ? (language === 'en' ? 'Yu' : '雨') : npc.name === 'huan' ? (language === 'en' ? 'Huan' : '焕') : npc.name === 'licht' ? (language === 'en' ? 'Licht' : '利希特') : npc.name}
                   </span>
                   <span className={`text-xs px-1.5 py-0.5 rounded ${
                     npc.status === 'active'
