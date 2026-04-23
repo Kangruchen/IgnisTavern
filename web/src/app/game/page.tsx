@@ -399,8 +399,9 @@ function GamePageContent() {
       
       // For opening phase player's first choice, don't send full history
       // to prevent DM from repeating the opening scene
-      const userMessages = state.messages.filter(m => m.role === 'user');
-      const isOpeningFirstChoice = state.currentScene === 'opening' && userMessages.length === 1;
+      // Note: Check state.messages BEFORE the current message is added
+      const previousUserMessages = state.messages.filter(m => m.role === 'user');
+      const isOpeningFirstChoice = state.currentScene === 'opening' && previousUserMessages.length === 0;
       
       const contextMessages = isOpeningFirstChoice
         ? [{ role: 'user' as const, content: text }]
