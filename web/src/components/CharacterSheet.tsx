@@ -236,46 +236,7 @@ export default function CharacterSheet({ character, language, phase, npcRelation
         </div>
       )}
 
-      {/* Game Mechanics */}
-      {mechanics && (
-        <div>
-          <h4 className="text-amber-400/80 text-xs font-bold mb-2 uppercase tracking-wider">
-            📊 {t.day} {mechanics.dayNumber}
-          </h4>
-          <div className="grid grid-cols-2 gap-2">
-            {/* Revenue */}
-            <div className="bg-slate-900/40 rounded-lg p-2 text-center">
-              <div className="text-amber-500/60 text-xs mb-0.5">{t.revenue}</div>
-              <div className={`text-lg font-bold ${
-                mechanics.todayRevenue >= mechanics.revenueTarget
-                  ? 'text-green-400'
-                  : 'text-amber-100'
-              }`}>
-                {mechanics.todayRevenue}
-              </div>
-              <div className="text-amber-400/30 text-xs">{t.revenueTarget}: {mechanics.revenueTarget}</div>
-            </div>
 
-            {/* XP */}
-            <div className="bg-slate-900/40 rounded-lg p-2 text-center">
-              <div className="text-amber-500/60 text-xs mb-0.5">{t.xp}</div>
-              <div className="text-amber-100 text-lg font-bold">{mechanics.xp}</div>
-              {mechanics.inspectionPassed && (
-                <div className="text-green-400/60 text-xs">✓ {t.inspection}: {t.passed}</div>
-              )}
-            </div>
-          </div>
-
-          {/* Consecutive revenue days */}
-          {mechanics.consecutiveRevenueDays > 0 && (
-            <div className="mt-2 text-center">
-              <span className="text-xs text-amber-300/50">
-                🔥 {mechanics.consecutiveRevenueDays}x {language === 'zh' ? '连续达标' : 'streak'}
-              </span>
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 }
